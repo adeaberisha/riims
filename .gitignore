@@ -1,0 +1,39 @@
+# Visual Studio files
+.vs/
+*.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.log
+*.ipch/
+*.cache/
+*.zip
+*.rar
+/obj/
+
+# NuGet Packages
+packages/
+
+# MSTest test Results
+TestResults/
+
+# User-specific files
+*.userprefs
+*.usertasks
+
+# Other files
+_ReSharper*/
+*.resharper
+*.resharper.user
+*.resharper.user.lock
+*.DotSettings.user
+*.dbmdl
+*.jfm
+*.pfx

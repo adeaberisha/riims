@@ -1,0 +1,6 @@
+@riims_HostAddress = http://localhost:5133
+
+GET {{riims_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
