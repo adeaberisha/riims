@@ -37,3 +37,6 @@ _ReSharper*/
 *.dbmdl
 *.jfm
 *.pfx
+
+riims-front/node-modules/
+/riims/obj
