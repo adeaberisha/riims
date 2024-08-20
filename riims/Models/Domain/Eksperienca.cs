@@ -8,8 +8,6 @@
 
         public string LlojiPunesimit { get; set; }
 
-        public string EmriKompanise { get; set; }
-
         public string Lokacioni { get; set; }
 
         public string LlojiLokacionit { get; set; }
@@ -20,10 +18,10 @@
 
         public String? Pershkrimi { get; set; }
 
-        public string UserId { get; set; }
-
-        //[ForeignKey("UserId")]
+        public Guid UserId { get; set; }
         public User User { get; set; }
+        public Guid InstitucioniId { get; set; }
+        public Institucioni Institucioni { get; set; }
 
     }
 }

@@ -1,10 +1,8 @@
 ﻿namespace riims.Models.Domain
 {
-    public class Specializimet
+    public class Specializimi
     {
         public Guid Id { get; set; }
-
-        public string emriIinstitucionit { get; set; }
 
         public string llojiIspecializimit { get; set; }
 
@@ -20,10 +18,11 @@
 
         public int? nrKredive { get; set; }
         
-        public string UserId { get; set; }
-
-        //[ForeignKey("UserId")]
+        public Guid UserId { get; set; }
         public User User { get; set; }
+
+        public Guid InstitucioniId { get; set; }
+        public Institucioni Institucioni { get; set; }
 
     }
 }
