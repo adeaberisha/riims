@@ -1,6 +1,6 @@
 ﻿namespace riims.Models.Domain
 {
-    public class Aftesia
+    public class Aftesite
     {
         public Guid Id { get; set; }
         

@@ -1,6 +1,6 @@
 ﻿namespace riims.Models.Domain
 {
-    public class Specializimi
+    public class Specializimet
     {
         public Guid Id { get; set; }
 

@@ -8,7 +8,7 @@
         public User User { get; set; }
 
         public Guid GjuhaId { get; set; }
-        public Gjuha Gjuha { get; set; }
+        public Gjuhet Gjuha { get; set; }
 
         public Guid NiveliGjuhesorId { get; set; }
         public NiveliGjuhesor NiveliGjuhesor { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace riims.Models.Domain
 {
-    public class Licensa
+    public class Licensat
     {
         public Guid Id { get; set; }
 

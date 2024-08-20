@@ -19,14 +19,14 @@
         //public string? PhotoFileName { get; set; }
 
         //Foreign Key
-        public Guid NiveliAkademikId { get; set; }
+       // public Guid NiveliAkademikId { get; set; }
 
         //Navigation Property
-        public NiveliAkademik NiveliAkademik { get; set; }
+        //public NiveliAkademik NiveliAkademik { get; set; }
 
 
         //[InverseProperty("User")]
-        public ICollection<Specializimi> Specializimet { get; set; } = new HashSet<Specializimi>();
+        public ICollection<Specializimet> Specializimet { get; set; } = new HashSet<Specializimet>();
 
         //[InverseProperty("User")]
         public ICollection<UserGjuhet> Gjuhet { get; set; } = new HashSet<UserGjuhet>();
@@ -41,7 +41,7 @@
         public ICollection<MbikqyresITemave> MbiKqyresitETemave { get; set; } = new HashSet<MbikqyresITemave>();
 
         //[InverseProperty("User")]
-        public ICollection<Aftesia> Aftesite { get; set; } = new HashSet<Aftesia>();
+        public ICollection<Aftesite> Aftesite { get; set; } = new HashSet<Aftesite>();
 
         //[InverseProperty("User")]
         public ICollection<PunaVullnetare> PunetVullnetare { get; set; } = new HashSet<PunaVullnetare>();
@@ -50,7 +50,7 @@
         public ICollection<Publikimi> Publikimet { get; set; } = new HashSet<Publikimi>();
 
         //[InverseProperty("User")]
-        public ICollection<Licensa> Licensat { get; set; } = new HashSet<Licensa>();
+        public ICollection<Licensat> Licensat { get; set; } = new HashSet<Licensat>();
 
         //[InverseProperty("User")]
         public ICollection<Eksperienca> Eksperiencat { get; set; } = new HashSet<Eksperienca>();

@@ -1,6 +1,6 @@
 ﻿namespace riims.Models.Domain
 {
-    public class Gjuha
+    public class Gjuhet
     {
         public Guid Id { get; set; }
 
