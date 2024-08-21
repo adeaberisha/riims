@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using riims.Data;
+using riims.Mappings;
+using riims.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,10 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<RiimsDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("RiimsConnectionString")));
+
+builder.Services.AddScoped<IEksperiencaRepository, SQLEksperiencaRepository>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
