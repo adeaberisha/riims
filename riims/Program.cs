@@ -29,6 +29,8 @@ builder.Services.AddScoped<IEksperiencaRepository, SQLEksperiencaRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+builder.Services.AddScoped<IHonorsAndAwardsRepository, SQLHonorsAndAwardsRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

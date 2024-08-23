@@ -12,6 +12,11 @@ namespace riims.Mappings
             CreateMap<EksperiencaDto, Eksperienca>();
             CreateMap<AddEksperiencaRequestDto, Eksperienca>();
             CreateMap<UpdateEksperiencaRequestDto, Eksperienca>();
+
+            CreateMap<HonorsAndAwards, HonorsAndAwardsDto>();
+            CreateMap<HonorsAndAwardsDto, HonorsAndAwards>();
+            CreateMap<AddHonorsAndAwardsRequestDto, HonorsAndAwards>();
+            CreateMap<UpdateHonorsAndAwardsRequestDto, HonorsAndAwards>();
         }
     }
 }
