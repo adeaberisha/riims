@@ -3,6 +3,7 @@ using riims.Models.Domain;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.LicensatDto;
+using riims.Models.DTO.ProjektiDto;
 
 namespace riims.Mappings
 {
@@ -27,6 +28,13 @@ namespace riims.Mappings
             CreateMap<LicensatDto, Licensat>();
             CreateMap<AddLicensatRequestDto, Licensat>();
             CreateMap<UpdateLicensatRequestDto, Licensat>();
+
+            //Projekti
+            CreateMap<Projekti, ProjektiDto>();
+            CreateMap<ProjektiDto, Projekti>();
+            CreateMap<AddProjektiRequestDto, Projekti>();
+            CreateMap<UpdateProjektiRequestDto, Projekti>();
+
         }
     }
 }

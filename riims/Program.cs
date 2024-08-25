@@ -28,6 +28,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("RiimsConnectionS
 builder.Services.AddScoped<IEksperiencaRepository, SQLEksperiencaRepository>();
 builder.Services.AddScoped<IHonorsAndAwardsRepository, SQLHonorsAndAwardsRepository>();
 builder.Services.AddScoped<ILicensatRepository, SQLLicensatRepository>();
+builder.Services.AddScoped<IProjektiRepository, SQLProjektiRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
