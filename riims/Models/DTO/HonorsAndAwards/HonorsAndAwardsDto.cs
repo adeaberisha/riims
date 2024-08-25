@@ -1,6 +1,6 @@
 ﻿using riims.Models.Domain;
 
-namespace riims.Models.DTO
+namespace riims.Models.DTO.HonorsAndAwards
 {
     public class HonorsAndAwardsDto
     {

@@ -1,4 +1,4 @@
-﻿namespace riims.Models.DTO
+﻿namespace riims.Models.DTO.HonorsAndAwards
 {
     public class UpdateHonorsAndAwardsRequestDto
     {

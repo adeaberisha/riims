@@ -1,9 +1,7 @@
-﻿namespace riims.Models.DTO
+﻿namespace riims.Models.DTO.EksperiencDto
 {
-    public class EksperiencaDto
+    public class UpdateEksperiencaRequestDto
     {
-        public Guid Id { get; set; }
-
         public string Titulli { get; set; }
 
         public string LlojiPunesimit { get; set; }
@@ -16,7 +14,7 @@
 
         public DateTime? DataMbarimit { get; set; }
 
-        public String? Pershkrimi { get; set; }
+        public string? Pershkrimi { get; set; }
 
     }
 }

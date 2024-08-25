@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
-using riims.Models.DTO;
+using riims.Models.DTO.HonorsAndAwards;
 using riims.Repositories;
 namespace riims.Controllers
 {

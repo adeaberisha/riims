@@ -26,10 +26,10 @@ builder.Services.AddDbContext<RiimsDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("RiimsConnectionString")));
 
 builder.Services.AddScoped<IEksperiencaRepository, SQLEksperiencaRepository>();
+builder.Services.AddScoped<IHonorsAndAwardsRepository, SQLHonorsAndAwardsRepository>();
+builder.Services.AddScoped<ILicensatRepository, SQLLicensatRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
-
-builder.Services.AddScoped<IHonorsAndAwardsRepository, SQLHonorsAndAwardsRepository>();
 
 var app = builder.Build();
 
