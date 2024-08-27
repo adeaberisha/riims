@@ -19,7 +19,7 @@
         //public string? PhotoFileName { get; set; }
 
         //Foreign Key
-       // public Guid NiveliAkademikId { get; set; }
+        //public Guid NiveliAkademikId { get; set; }
 
         //Navigation Property
         //public NiveliAkademik NiveliAkademik { get; set; }

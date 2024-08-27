@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using riims.Models.Domain;
+using riims.Models.DTO;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.LicensatDto;
@@ -34,6 +35,12 @@ namespace riims.Mappings
             CreateMap<ProjektiDto, Projekti>();
             CreateMap<AddProjektiRequestDto, Projekti>();
             CreateMap<UpdateProjektiRequestDto, Projekti>();
+
+            //Edukimi
+            CreateMap<Edukimi, EdukimiDTO>().ReverseMap();
+            CreateMap<AddEdukimiRequestDTO, Edukimi>().ReverseMap();
+            CreateMap<UpdateEdukimiRequestDTO, Edukimi>().ReverseMap();
+
 
         }
     }
