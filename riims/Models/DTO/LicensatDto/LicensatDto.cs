@@ -13,6 +13,7 @@
         public string? CredentialId { get; set; }
 
         public string? CredentialUrl { get; set; }
+        public Guid InstitucioniId { get; set; }
 
     }
 }

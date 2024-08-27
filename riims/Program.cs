@@ -30,6 +30,7 @@ builder.Services.AddScoped<IHonorsAndAwardsRepository, SQLHonorsAndAwardsReposit
 builder.Services.AddScoped<ILicensatRepository, SQLLicensatRepository>();
 builder.Services.AddScoped<IProjektiRepository, SQLProjektiRepository>();
 builder.Services.AddScoped<IEdukimiRepository, SQLEdukimiRepository>();
+builder.Services.AddScoped<IInstitucioniRepository, SQLInstitucioniRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

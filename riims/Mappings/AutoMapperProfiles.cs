@@ -3,6 +3,7 @@ using riims.Models.Domain;
 using riims.Models.DTO;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.HonorsAndAwards;
+using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
 using riims.Models.DTO.ProjektiDto;
 
@@ -40,6 +41,11 @@ namespace riims.Mappings
             CreateMap<Edukimi, EdukimiDTO>().ReverseMap();
             CreateMap<AddEdukimiRequestDTO, Edukimi>().ReverseMap();
             CreateMap<UpdateEdukimiRequestDTO, Edukimi>().ReverseMap();
+
+            //Institucioni
+            CreateMap<Institucioni, InstitucioniDto>().ReverseMap();
+            CreateMap<AddInstitucioniRequestDto, Institucioni>().ReverseMap();
+            CreateMap<UpdateInstitucioniRequestDTO, Institucioni>().ReverseMap();
 
 
         }
