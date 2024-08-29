@@ -4,6 +4,7 @@ using riims.Models.DTO;
 using riims.Models.DTO.AftesiteDto;
 using riims.Models.DTO.EdukimiDto;
 using riims.Models.DTO.EksperiencDto;
+using riims.Models.DTO.GjuhetDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
@@ -60,6 +61,10 @@ namespace riims.Mappings
             CreateMap<AddAftesiteRequestDTO, Aftesite>().ReverseMap();
             CreateMap<UpdateAftesiteRequestDTO, Aftesite>().ReverseMap();
 
+            //Gjuhet
+            CreateMap<Gjuhet, GjuhetDto>().ReverseMap();
+            CreateMap<AddGjuhetDto, Gjuhet>().ReverseMap();
+            CreateMap<UpdateGjuhetDto, Gjuhet>().ReverseMap();
 
         }
     }
