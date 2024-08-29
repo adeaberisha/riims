@@ -1,4 +1,4 @@
-﻿namespace riims.Models.DTO
+﻿namespace riims.Models.DTO.EdukimiDto
 {
     public class AddEdukimiRequestDTO
     {
@@ -17,6 +17,5 @@
         public Guid InstitucioniId { get; set; }
 
         public Guid NiveliAkademikId { get; set; }
-
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
+using riims.Models.DTO.EdukimiDto;
 using riims.Repositories;
 
 namespace riims.Controllers
@@ -13,14 +14,12 @@ namespace riims.Controllers
     [ApiController]
     public class EdukimiController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IEdukimiRepository edukimiRepository;
         private readonly IMapper mapper;
 
-        public EdukimiController(RiimsDbContext dbContext, IEdukimiRepository edukimiRepository,
+        public EdukimiController(IEdukimiRepository edukimiRepository,
             IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.edukimiRepository = edukimiRepository;
             this.mapper = mapper;
         }

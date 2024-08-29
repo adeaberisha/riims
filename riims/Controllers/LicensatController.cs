@@ -12,14 +12,11 @@ namespace riims.Controllers
     [ApiController]
     public class LicensatController : ControllerBase
     {
-
-        private readonly RiimsDbContext dbContext;
         private readonly ILicensatRepository licensatRepository;
         private readonly IMapper mapper;
 
-        public LicensatController(RiimsDbContext dbContext, ILicensatRepository licensatRepository, IMapper mapper)
+        public LicensatController(ILicensatRepository licensatRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.licensatRepository=licensatRepository;
             this.mapper=mapper;
         }

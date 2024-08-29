@@ -44,7 +44,7 @@ namespace riims.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Edukimi> GetByIdAsync(Guid id)
+        public async Task<Edukimi?> GetByIdAsync(Guid id)
         {
             return await dbcontext.Edukimi.FirstOrDefaultAsync(x => x.Id == id);
         }

@@ -1,4 +1,4 @@
-﻿namespace riims.Models.DTO
+﻿namespace riims.Models.DTO.EdukimiDto
 {
     public class UpdateEdukimiRequestDTO
     {

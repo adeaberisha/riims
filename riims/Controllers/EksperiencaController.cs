@@ -13,14 +13,11 @@ namespace riims.Controllers
     [ApiController]
     public class EksperiencaController : ControllerBase
     {
-
-        private readonly RiimsDbContext dbContext;
         private readonly IEksperiencaRepository eksperiencaRepository;
         private readonly IMapper mapper;
 
-        public EksperiencaController(RiimsDbContext dbContext, IEksperiencaRepository eksperiencaRepository, IMapper mapper)
+        public EksperiencaController(IEksperiencaRepository eksperiencaRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.eksperiencaRepository=eksperiencaRepository;
             this.mapper=mapper;
         }

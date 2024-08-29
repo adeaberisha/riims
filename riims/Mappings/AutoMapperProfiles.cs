@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using riims.Models.Domain;
 using riims.Models.DTO;
+using riims.Models.DTO.EdukimiDto;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
 using riims.Models.DTO.ProjektiDto;
+using riims.Models.DTO.PunaVullnetareDto;
 
 namespace riims.Mappings
 {
@@ -46,6 +48,11 @@ namespace riims.Mappings
             CreateMap<Institucioni, InstitucioniDto>().ReverseMap();
             CreateMap<AddInstitucioniRequestDto, Institucioni>().ReverseMap();
             CreateMap<UpdateInstitucioniRequestDTO, Institucioni>().ReverseMap();
+
+            //PunaVullnetare
+            CreateMap<PunaVullnetare, PunaVullnetareDTO>().ReverseMap();
+            CreateMap<AddPunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
+            CreateMap<UpdatePunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
 
 
         }

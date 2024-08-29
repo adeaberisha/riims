@@ -1,12 +1,8 @@
-﻿namespace riims.Models.DTO.EdukimiDto
+﻿namespace riims.Models.DTO.PunaVullnetareDto
 {
-    public class EdukimiDTO
+    public class AddPunaVullnetareRequestDTO
     {
-        public Guid Id { get; set; }
-
-        public string FushaStudimit { get; set; }
-
-        public string Lokacioni { get; set; }
+        public string Roli { get; set; }
 
         public DateTime DataFillimit { get; set; }
 
@@ -17,7 +13,5 @@
         public Guid UserId { get; set; }
 
         public Guid InstitucioniId { get; set; }
-
-        public Guid NiveliAkademikId { get; set; }
     }
 }

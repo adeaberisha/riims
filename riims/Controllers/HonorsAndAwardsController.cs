@@ -12,14 +12,11 @@ namespace riims.Controllers
     [ApiController]
     public class HonorsAndAwardsController : ControllerBase
     {
-
-        private readonly RiimsDbContext dbContext;
         private readonly IHonorsAndAwardsRepository honorsandawardsRepository;
         private readonly IMapper mapper;
 
-        public HonorsAndAwardsController(RiimsDbContext dbContext, IHonorsAndAwardsRepository honorsandawardsRepository, IMapper mapper)
+        public HonorsAndAwardsController(IHonorsAndAwardsRepository honorsandawardsRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.honorsandawardsRepository = honorsandawardsRepository;
             this.mapper = mapper;
         }

@@ -13,14 +13,12 @@ namespace riims.Controllers
     [ApiController]
     public class InstitucioniController : ControllerBase
     {
-            private readonly RiimsDbContext dbContext;
             private readonly IInstitucioniRepository institucioniRepository;
             private readonly IMapper mapper;
 
-            public InstitucioniController(RiimsDbContext dbContext, IInstitucioniRepository institucioniRepository,
+            public InstitucioniController(IInstitucioniRepository institucioniRepository,
                 IMapper mapper)
             {
-                this.dbContext = dbContext;
                 this.institucioniRepository = institucioniRepository;
                 this.mapper = mapper;
             }

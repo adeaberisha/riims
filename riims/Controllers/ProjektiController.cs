@@ -13,13 +13,11 @@ namespace riims.Controllers
     [ApiController]
     public class ProjektiController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IProjektiRepository projektiRepository;
         private readonly IMapper mapper;
 
-        public ProjektiController(RiimsDbContext dbContext, IProjektiRepository projektiRepository, IMapper mapper)
+        public ProjektiController(IProjektiRepository projektiRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.projektiRepository = projektiRepository;
             this.mapper = mapper;
         }
