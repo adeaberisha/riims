@@ -10,6 +10,7 @@ using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
 using riims.Models.DTO.ProjektiDto;
 using riims.Models.DTO.PunaVullnetareDto;
+using riims.Models.DTO.SpecializimiDto;
 
 namespace riims.Mappings
 {
@@ -65,6 +66,11 @@ namespace riims.Mappings
             CreateMap<Gjuhet, GjuhetDto>().ReverseMap();
             CreateMap<AddGjuhetDto, Gjuhet>().ReverseMap();
             CreateMap<UpdateGjuhetDto, Gjuhet>().ReverseMap();
+
+            //Specializimet
+            CreateMap<Specializimet, SpecializimetDTO>().ReverseMap();
+            CreateMap<AddSpecializimetRequestDTO, Specializimet>().ReverseMap();
+            CreateMap<UpdateSpecializimetRequestDTO, Specializimet>().ReverseMap();
 
         }
     }
