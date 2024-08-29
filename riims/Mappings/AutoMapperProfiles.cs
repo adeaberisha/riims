@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using riims.Models.Domain;
 using riims.Models.DTO;
+using riims.Models.DTO.AftesiteDto;
 using riims.Models.DTO.EdukimiDto;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.HonorsAndAwards;
@@ -53,6 +54,11 @@ namespace riims.Mappings
             CreateMap<PunaVullnetare, PunaVullnetareDTO>().ReverseMap();
             CreateMap<AddPunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
             CreateMap<UpdatePunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
+
+            //Aftesite
+            CreateMap<Aftesite, AftesiteDTO>().ReverseMap();
+            CreateMap<AddAftesiteRequestDTO, Aftesite>().ReverseMap();
+            CreateMap<UpdateAftesiteRequestDTO, Aftesite>().ReverseMap();
 
 
         }
