@@ -1,11 +1,12 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
-using riims.Models.DTO.PublikimiDto;
+using riims.Models.DTO;
+using riims.Models.DTO.Publikimi;
 using riims.Repositories;
+using System.Diagnostics.Contracts;
 
 namespace riims.Controllers
 {
@@ -13,80 +14,106 @@ namespace riims.Controllers
     [ApiController]
     public class PublikimiController : ControllerBase
     {
-
         private readonly RiimsDbContext dbContext;
         private readonly IPublikimiRepository publikimiRepository;
         private readonly IMapper mapper;
 
-        public PublikimiController(RiimsDbContext dbContext, IPublikimiRepository publikimiRepository, IMapper mapper)
+        public PublikimiController(RiimsDbContext dbContext, IPublikimiRepository publikimiRepository,
+            IMapper mapper)
         {
             this.dbContext = dbContext;
-            this.publikimiRepository=publikimiRepository;
-            this.mapper=mapper;
+            this.publikimiRepository = publikimiRepository;
+            this.mapper = mapper;
         }
 
-        [HttpGet("user/{userId:guid}")]
+        //GET ALL Publikimet
+        [HttpGet]
+        [Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
+            // Getting the data from database - domain models
             var publikimetDomain = await publikimiRepository.GetAllAsync(userId);
-            return Ok(mapper.Map<List<PublikimiDto>>(publikimetDomain));
+
+            // Mapping domain models to DTOs
+            var publikimiDtoList = mapper.Map<List<PublikimiDTO>>(publikimetDomain);
+
+            // Returning DTOs
+            return Ok(publikimiDtoList);
         }
 
-        [HttpGet("id/{id:guid}")]
+
+        //GET Publikimi BY ID
+        [HttpGet]
+        [Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var publikimiDomain = await publikimiRepository.GetByIdAsync(id);
+            //Getting the publikimi domain model from the database
+            var publikimetDomain = await publikimiRepository.GetByIdAsync(id);
 
-            if (publikimiDomain == null)
+            if (publikimetDomain == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<PublikimiDto>(publikimiDomain));
+            //Mapping the Publikimi domain model to PublikimiDto
+            //Returning DTO back to the client
+            return Ok(mapper.Map<PublikimiDTO>(publikimetDomain));
         }
 
-        [HttpPost("user/{userId:guid}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddPublikimiRequestDto addPublikimiRequestDto)
-        {         
-            var publikimiDomainModel = mapper.Map<Publikimi>(addPublikimiRequestDto);
-            
-            publikimiDomainModel = await publikimiRepository.CreateAsync(userId, publikimiDomainModel);
-         
-            var publikimiDto = mapper.Map<PublikimiDto>(publikimiDomainModel);
-           
-            return CreatedAtAction(nameof(GetById), new { id = publikimiDto.Id }, publikimiDto);
-        }
-
-        [HttpPut]
-        [Route("{id:guid}")]
-
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDto updatePublikimiRequestDto) 
+        //CREATE Publikimi
+        [HttpPost]
+        [Route("{userId:Guid}")]
+        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
         {
+            //Converting DTO to domain model
+            var publikimetDomain = mapper.Map<Publikimi>(addPublikimiRequestDTO);
 
-            var publikimiDomainModel = mapper.Map<Publikimi>(updatePublikimiRequestDto);
+            //Using domain model to create edukimi
+            publikimetDomain = await publikimiRepository.CreateAsync(userId, publikimetDomain);
 
-            //check nese publikimi ekziston
-            publikimiDomainModel = await publikimiRepository.UpdateAsync(id, publikimiDomainModel);
+            //Mapping the domain model back to DTO
+            var publikimiDTO = mapper.Map<PublikimiDTO>(publikimetDomain);
 
-            if (publikimiDomainModel == null) {
+            return CreatedAtAction(nameof(GetById), new { id = publikimiDTO.Id }, publikimiDTO);
+        }
+
+
+        //UPDATE Publikimi
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDTO updatePublikimiRequestDTO)
+        {
+            //Mapping DTO to domain model 
+            var publikimetDomain = mapper.Map<Publikimi>(updatePublikimiRequestDTO);
+
+            publikimetDomain = await publikimiRepository.UpdateAsync(id, publikimetDomain);
+
+            if (publikimetDomain == null)
+            {
                 return NotFound();
             }
- 
-            return Ok(mapper.Map<Publikimi>(publikimiDomainModel));
+
+            //Converting domain model back to DTOs
+            //Returning the DTO
+            return Ok(mapper.Map<PublikimiDTO>(publikimetDomain));
         }
 
+
+        //DELETE Publikimi
         [HttpDelete]
-        [Route("{id:guid}")]
+        [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var publikimiDomainModel = await publikimiRepository.DeleteAsync(id);
+            var publikimetDomain = await publikimiRepository.DeleteAsync(id);
 
-            if (publikimiDomainModel == null)
+            if (publikimetDomain == null)
             {
                 return NotFound();
             }
 
-            return Ok(mapper.Map<Publikimi>(publikimiDomainModel));
+            //Mapping the domain model to DTOs
+            //Returning the deleted publikimi back
+            return Ok(mapper.Map<PublikimiDTO>(publikimetDomain));
         }
     }
 }

@@ -9,6 +9,7 @@ using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
 using riims.Models.DTO.ProjektiDto;
+using riims.Models.DTO.Publikimi;
 using riims.Models.DTO.PunaVullnetareDto;
 using riims.Models.DTO.SpecializimiDto;
 
@@ -51,6 +52,12 @@ namespace riims.Mappings
             CreateMap<Institucioni, InstitucioniDto>().ReverseMap();
             CreateMap<AddInstitucioniRequestDto, Institucioni>().ReverseMap();
             CreateMap<UpdateInstitucioniRequestDTO, Institucioni>().ReverseMap();
+
+            //Publikimi
+            CreateMap<Publikimi, PublikimiDTO>();
+            CreateMap<PublikimiDTO, Publikimi>();
+            CreateMap<AddPublikimiRequestDTO, Publikimi>();
+            CreateMap<UpdatePublikimiRequestDTO, Publikimi>();
 
             //PunaVullnetare
             CreateMap<PunaVullnetare, PunaVullnetareDTO>().ReverseMap();
