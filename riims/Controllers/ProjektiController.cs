@@ -6,8 +6,8 @@ using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.ProjektiDto;
 using riims.Repositories;
-namespace riims.Controllers
 
+namespace riims.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

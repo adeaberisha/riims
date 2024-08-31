@@ -15,5 +15,9 @@
         public string description { get; set; }
 
         public string asocohet { get; set; }
+
+        public Guid UserId { get; set; }
+
+        public Guid InstitucioniId { get; set; }
     }
 }

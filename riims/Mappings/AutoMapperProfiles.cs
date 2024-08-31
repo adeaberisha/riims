@@ -2,6 +2,7 @@
 using riims.Models.Domain;
 using riims.Models.DTO;
 using riims.Models.DTO.AftesiteDto;
+using riims.Models.DTO.DepartamentiDto;
 using riims.Models.DTO.EdukimiDto;
 using riims.Models.DTO.EksperiencDto;
 using riims.Models.DTO.GjuhetDto;
@@ -78,6 +79,11 @@ namespace riims.Mappings
             CreateMap<Specializimet, SpecializimetDTO>().ReverseMap();
             CreateMap<AddSpecializimetRequestDTO, Specializimet>().ReverseMap();
             CreateMap<UpdateSpecializimetRequestDTO, Specializimet>().ReverseMap();
+
+            //Departamenti
+            CreateMap<Departamenti, DepartamentiDto>().ReverseMap();
+            CreateMap<AddDepartamentiRequestDto, Departamenti>().ReverseMap();
+            CreateMap<UpdateDepartamentiRequestDto, Departamenti>().ReverseMap();
 
         }
     }
