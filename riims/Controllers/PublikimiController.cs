@@ -14,14 +14,12 @@ namespace riims.Controllers
     [ApiController]
     public class PublikimiController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IPublikimiRepository publikimiRepository;
         private readonly IMapper mapper;
 
-        public PublikimiController(RiimsDbContext dbContext, IPublikimiRepository publikimiRepository,
+        public PublikimiController(IPublikimiRepository publikimiRepository,
             IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.publikimiRepository = publikimiRepository;
             this.mapper = mapper;
         }

@@ -13,6 +13,7 @@ using riims.Models.DTO.ProjektiDto;
 using riims.Models.DTO.Publikimi;
 using riims.Models.DTO.PunaVullnetareDto;
 using riims.Models.DTO.SpecializimiDto;
+using riims.Models.DTO.UserDTO;
 
 namespace riims.Mappings
 {
@@ -84,6 +85,11 @@ namespace riims.Mappings
             CreateMap<Departamenti, DepartamentiDto>().ReverseMap();
             CreateMap<AddDepartamentiRequestDto, Departamenti>().ReverseMap();
             CreateMap<UpdateDepartamentiRequestDto, Departamenti>().ReverseMap();
+
+            //User
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<AddUserRequestDTO, User>().ReverseMap();
+            CreateMap<UpdateUserRequestDTO, User>().ReverseMap();
 
         }
     }

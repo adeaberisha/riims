@@ -37,6 +37,7 @@ builder.Services.AddScoped<IAftesiteRepository, SQLAftesiteRepository>();
 builder.Services.AddScoped<IGjuhetRepostory, SQLGjuhetRepository>();
 builder.Services.AddScoped<ISpecializimetRepository, SQLSpecializimetRepository>();
 builder.Services.AddScoped<IDepartamentiRepository, SQLDepartamentiRepository>();
+builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
