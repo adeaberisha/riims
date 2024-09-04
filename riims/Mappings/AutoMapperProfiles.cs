@@ -9,6 +9,7 @@ using riims.Models.DTO.GjuhetDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
+using riims.Models.DTO.NiveliGjuhesorDto;
 using riims.Models.DTO.ProjektiDto;
 using riims.Models.DTO.Publikimi;
 using riims.Models.DTO.PunaVullnetareDto;
@@ -90,6 +91,11 @@ namespace riims.Mappings
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<AddUserRequestDTO, User>().ReverseMap();
             CreateMap<UpdateUserRequestDTO, User>().ReverseMap();
+
+            //NiveliGjuhesor
+            CreateMap<NiveliGjuhesor, NiveliGjuhesorDTO>().ReverseMap();
+            CreateMap<AddNiveliGjuhesorRequestDTO, NiveliGjuhesor>().ReverseMap();
+            CreateMap<UpdateNiveliGjuhesorRequestDto, NiveliGjuhesor>().ReverseMap();
 
         }
     }
