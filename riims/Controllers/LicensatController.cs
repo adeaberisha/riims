@@ -21,14 +21,14 @@ namespace riims.Controllers
             this.mapper=mapper;
         }
 
-        [HttpGet("user/{userId:guid}")]
+        [HttpGet("get-licensat-by-person-id/{userId}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             var licensatDomain = await licensatRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<LicensatDto>>(licensatDomain));
         }
 
-        [HttpGet("id/{id:guid}")]
+        [HttpGet("get-licensa-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var licensatDomain = await licensatRepository.GetByIdAsync(id);
@@ -41,7 +41,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<LicensatDto>(licensatDomain));
         }
 
-        [HttpPost("user/{userId:guid}")]
+        [HttpPost("add-licensa")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddLicensatRequestDto addLicensatRequestDto)
         {
             var licensatDomainModel = mapper.Map<Licensat>(addLicensatRequestDto);
@@ -53,8 +53,8 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = licensatDto.Id }, licensatDto);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("update-licensa-by-id/{id}")]
+        //[Route("{id:guid}")]
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLicensatRequestDto updateLicensatRequestDto)
         {
@@ -72,8 +72,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<Licensat>(licensatDomainModel));
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("delete-licensa-by-id/{id}")]
+        //[Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var licensatDomainModel = await licensatRepository.DeleteAsync(id);

@@ -25,8 +25,8 @@ namespace riims.Controllers
         }
 
         //GET ALL EDUKIMET
-        [HttpGet]
-        [Route("users/{userId:Guid}")]
+        [HttpGet("get-edukimet-by-person-id/{userId}")]
+        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             //Getting the data from database - domain models
@@ -39,8 +39,8 @@ namespace riims.Controllers
         }
 
         //GET EDUKIMI BY ID
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-edukimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Getting the edukimi domain model from the database
@@ -57,8 +57,8 @@ namespace riims.Controllers
         }
 
         //CREATE EDUKIMI
-        [HttpPost]
-        [Route("{userId:Guid}")]
+        [HttpPost("add-edukimi")]
+        //[Route("{userId:Guid}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEdukimiRequestDTO addEdukimi)
         {
             //Converting DTO to domain model
@@ -75,8 +75,8 @@ namespace riims.Controllers
 
 
         //UPDATE EDUKIMI
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-edukimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEdukimiRequestDTO updateEdukimi)
         {
             //Mapping DTO to domain model 
@@ -96,8 +96,8 @@ namespace riims.Controllers
 
 
         //DELETE EDUKIMI
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-edukimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var edukimiDomain = await edukimiRepository.DeleteAsync(id);

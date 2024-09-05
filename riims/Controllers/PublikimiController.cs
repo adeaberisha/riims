@@ -25,8 +25,8 @@ namespace riims.Controllers
         }
 
         //GET ALL Publikimet
-        [HttpGet]
-        [Route("users/{userId:Guid}")]
+        [HttpGet("get-publikimi-by-person-id/{userId}")]
+        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             // Getting the data from database - domain models
@@ -41,8 +41,8 @@ namespace riims.Controllers
 
 
         //GET Publikimi BY ID
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-publikimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Getting the publikimi domain model from the database
@@ -59,8 +59,8 @@ namespace riims.Controllers
         }
 
         //CREATE Publikimi
-        [HttpPost]
-        [Route("{userId:Guid}")]
+        [HttpPost("add-publikimi")]
+        //[Route("{userId:Guid}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
         {
             //Converting DTO to domain model
@@ -77,8 +77,8 @@ namespace riims.Controllers
 
 
         //UPDATE Publikimi
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-publikimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDTO updatePublikimiRequestDTO)
         {
             //Mapping DTO to domain model 
@@ -98,8 +98,8 @@ namespace riims.Controllers
 
 
         //DELETE Publikimi
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-publikimi-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var publikimetDomain = await publikimiRepository.DeleteAsync(id);

@@ -26,8 +26,8 @@ namespace riims.Controllers
         }
 
         //GET ALL AFTESITE
-        [HttpGet]
-        [Route("users/{userId:Guid}")]
+        [HttpGet("get-aftesite-by-person-id/{userId}")]
+        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             //Getting the data from database - domain models
@@ -40,8 +40,8 @@ namespace riims.Controllers
         }
 
         //GET AFTESIA BY ID
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-aftesia-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Getting the aftesia domain model from the database
@@ -58,8 +58,8 @@ namespace riims.Controllers
         }
 
         //CREATE AFTESIA
-        [HttpPost]
-        [Route("{userId:Guid}")]
+        [HttpPost("add-aftesia")]
+        //[Route("{userId:Guid}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddAftesiteRequestDTO addAftesite)
         {
             //Converting DTO to domain model
@@ -76,8 +76,8 @@ namespace riims.Controllers
 
 
         //UPDATE AFTESIA
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-aftesia-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAftesiteRequestDTO updateAftesite)
         {
             //Mapping DTO to domain model 
@@ -97,8 +97,8 @@ namespace riims.Controllers
 
 
         //DELETE AFTESIA
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-aftesia-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var aftesiteDomain = await aftesiteRepository.DeleteAsync(id);

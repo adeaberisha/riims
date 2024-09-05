@@ -24,8 +24,8 @@ namespace riims.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
-        [Route("users/{userId:Guid}")]
+        [HttpGet("get-punet-vullnetare-by-person-id/{userId}")]
+        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             var punetVullnetareDomain = await punaVullnetareRepository.GetAllAsync(userId);
@@ -33,8 +33,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<List<PunaVullnetareDTO>>(punetVullnetareDomain));
         }
 
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-puna-vullnetare-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var punaVullnetareDomain = await punaVullnetareRepository.GetByIdAsync(id);
@@ -47,8 +47,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<PunaVullnetareDTO>(punaVullnetareDomain));
         }
 
-        [HttpPost]
-        [Route("{userId:Guid}")]
+        [HttpPost("add-puna-vullnetare")]
+        //[Route("{userId:Guid}")]
 
         public async Task<IActionResult> Create([FromRoute] Guid userId,
             [FromBody] AddPunaVullnetareRequestDTO addPunaVullnetare)
@@ -66,8 +66,8 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = punaVullnetareDto.Id }, punaVullnetareDto);
         }
 
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-puna-vullnetare-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, 
             UpdatePunaVullnetareRequestDTO  updatePunaVullnetare)
         {
@@ -83,8 +83,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<PunaVullnetareDTO>(punaVullnetareDomain));
         }
 
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-puna-vullnetare-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var punaVullnetareDomain = await punaVullnetareRepository.DeleteAsync(id);

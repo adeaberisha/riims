@@ -22,14 +22,14 @@ namespace riims.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("user/{userId:guid}")]
+        [HttpGet("get-honors-by-person-id/{userId}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             var honorsandawardsDomain = await honorsandawardsRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<HonorsAndAwardsDto>>(honorsandawardsDomain));
         }
 
-        [HttpGet("id/{id:guid}")]
+        [HttpGet("get-honor-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var honorsandawardsDomain = await honorsandawardsRepository.GetByIdAsync(id);
@@ -42,7 +42,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<HonorsAndAwardsDto>(honorsandawardsDomain));
         }
 
-        [HttpPost("user/{userId:guid}")]
+        [HttpPost("add-honor")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwardsRequestDto)
         {
             var honorsandawardsDomainModel = mapper.Map<HonorsAndAwards>(addHonorsAndAwardsRequestDto);
@@ -54,8 +54,8 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = honorsandawardsDto.Id }, honorsandawardsDto);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("update-honor-by-id/{id}")]
+        //[Route("{id:guid}")]
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateHonorsAndAwardsRequestDto updateHonorsAndAwardsRequestDto)
         {
@@ -73,8 +73,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<HonorsAndAwards>(honorsandawardsDomainModel));
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("delete-honor-by-id/{id}")]
+        //[Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var honorsandawardsDomainModel = await honorsandawardsRepository.DeleteAsync(id);

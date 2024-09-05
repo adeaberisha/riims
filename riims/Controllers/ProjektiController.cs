@@ -22,14 +22,14 @@ namespace riims.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("user/{userId:guid}")]
+        [HttpGet("get-projekti-by-person-id/{userId}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             var projektiDomain = await projektiRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<ProjektiDto>>(projektiDomain));
         }
 
-        [HttpGet("id/{id:guid}")]
+        [HttpGet("get-projekti-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var projektiDomain = await projektiRepository.GetByIdAsync(id);
@@ -42,7 +42,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<ProjektiDto>(projektiDomain));
         }
 
-        [HttpPost("user/{userId:guid}")]
+        [HttpPost("add-projekti")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddProjektiRequestDto addProjektiRequestDto)
         {
             var projektiDomainModel = mapper.Map<Projekti>(addProjektiRequestDto);
@@ -54,8 +54,8 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = projektiDto.Id }, projektiDto);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("update-projekti-by-id/{id}")]
+        //[Route("{id:guid}")]
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProjektiRequestDto updateProjektiRequestDto)
         {
@@ -73,8 +73,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<Projekti>(projektiDomainModel));
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("delete-projekti-by-id/{id}")]
+        //[Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var projektiDomainModel = await projektiRepository.DeleteAsync(id);

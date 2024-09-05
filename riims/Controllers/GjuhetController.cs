@@ -33,8 +33,8 @@ namespace riims.Controllers
         }
 
 
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-gjuhet")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var gjuhetDomain = await gjuhetRepository.GetByIdAsync (id);
@@ -48,7 +48,7 @@ namespace riims.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("add-gjuha")]
         public async Task<IActionResult> Create([FromBody] AddGjuhetDto addGjuhetDto)
         {
             var gjuhetDomain = mapper.Map<Gjuhet>(addGjuhetDto);
@@ -61,8 +61,8 @@ namespace riims.Controllers
         }
 
 
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-gjuha-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute]Guid id, [FromBody] UpdateGjuhetDto updateGjuhetDto)
         {
 
@@ -80,8 +80,8 @@ namespace riims.Controllers
             return Ok(gjuhetDto);
         }
 
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-gjuha-by-id/{id}")]
+        //[Route("{id:Guid}")]
 
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {

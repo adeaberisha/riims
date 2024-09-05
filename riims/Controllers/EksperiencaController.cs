@@ -22,14 +22,14 @@ namespace riims.Controllers
             this.mapper=mapper;
         }
 
-        [HttpGet("user/{userId:guid}")]
+        [HttpGet("get-eksperiencat-by-person-id/{userId}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
             var eksperiencatDomain = await eksperiencaRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<EksperiencaDto>>(eksperiencatDomain));
         }
 
-        [HttpGet("id/{id:guid}")]
+        [HttpGet("get-eksperienca-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var eksperiencaDomain = await eksperiencaRepository.GetByIdAsync(id);
@@ -42,7 +42,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<EksperiencaDto>(eksperiencaDomain));
         }
 
-        [HttpPost("user/{userId:guid}")]
+        [HttpPost("add-eksperienca")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEksperiencaRequestDto addEksperiencaRequestDto)
         {         
             var eksperiencaDomainModel = mapper.Map<Eksperienca>(addEksperiencaRequestDto);
@@ -54,8 +54,8 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = eksperiencaDto.Id }, eksperiencaDto);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("update-eksperienca-by-id/{id}")]
+        //[Route("{id:guid}")]
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEksperiencaRequestDto updateEksperiencaRequestDto) 
         {
@@ -72,8 +72,8 @@ namespace riims.Controllers
             return Ok(mapper.Map<Eksperienca>(eksperiencaDomainModel));
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("delete-eksperienca-by-id/{id}")]
+        //[Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var eksperiencaDomainModel = await eksperiencaRepository.DeleteAsync(id);

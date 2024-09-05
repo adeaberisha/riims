@@ -22,8 +22,8 @@ namespace riims.Controllers
             this.mapper = mapper;
         }
 
-        //GET ALL Userat
-        [HttpGet]
+        //GET ALL USERS
+        [HttpGet("get-all-persons")]
         public async Task<IActionResult> GetAll()
         {
             //Getting the data from database - domain models
@@ -35,9 +35,9 @@ namespace riims.Controllers
 
         }
 
-        //GET INSTITUCIONI BY ID
-        [HttpGet]
-        [Route("{id:Guid}")]
+        //GET USER BY ID
+        [HttpGet("get-person-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Getting the userat domain model from the database
@@ -48,19 +48,19 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            //Mapping the institucioni domain model to EdukimiDTO
+            //Mapping the institucioni domain model to UserDTO
             //Returning DTO back to the client
             return Ok(mapper.Map<UserDTO>(userDomain));
         }
 
-        //CREATE INSTITUCIONI
-        [HttpPost]
+        //CREATE USER
+        [HttpPost("add-person")]
         public async Task<IActionResult> Create([FromBody] AddUserRequestDTO addUserRequestDTO)
         {
             //Converting DTO to domain model
             var userDomain = mapper.Map<User>(addUserRequestDTO);
 
-            //Using domain model to create edukimi
+            //Using domain model to create USER
             userDomain = await userRepository.CreateAsync(userDomain);
 
             //Mapping the domain model back to DTO
@@ -69,9 +69,9 @@ namespace riims.Controllers
             return CreatedAtAction(nameof(GetById), new { id = userDTO.Id }, userDTO);
         }
 
-
-        [HttpPut]
-        [Route("{id:Guid}")]
+        //UPDATE USER
+        [HttpPut("update-person-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
         {
             //Mapping DTO to domain model 
@@ -90,9 +90,9 @@ namespace riims.Controllers
         }
 
 
-        //DELETE Institucioni
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        //DELETE USER
+        [HttpDelete("delete-person-by-id/{id}")]
+        //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var userDomain = await userRepository.DeleteAsync(id);
@@ -103,7 +103,7 @@ namespace riims.Controllers
             }
 
             //Mapping the domain model to DTOs
-            //Returning the deleted institucioni back
+            //Returning the deleted USER back
             return Ok(mapper.Map<UserDTO>(userDomain));
         }
     }
