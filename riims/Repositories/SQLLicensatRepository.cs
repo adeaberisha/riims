@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
-using riims.Models.DTO;
 
 namespace riims.Repositories
 {
@@ -10,16 +9,11 @@ namespace riims.Repositories
         private readonly RiimsDbContext dbContext;
         public SQLLicensatRepository(RiimsDbContext dbContext) => this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-        public RiimsDbContext DbContext { get; }
-
         public async Task<Licensat> CreateAsync(Guid userId, Licensat licensat)
         {
             licensat.UserId = userId;
-
             await dbContext.Licensat.AddAsync(licensat);
-
             await dbContext.SaveChangesAsync();
-
             return licensat;
         }
 
@@ -40,13 +34,16 @@ namespace riims.Repositories
         public async Task<List<Licensat>> GetAllAsync(Guid userId)
         {
             return await dbContext.Licensat
-             .Where(x => x.UserId == userId)
-             .ToListAsync();
+               .Include(x => x.Institucioni)
+               .Where(x => x.UserId == userId)
+               .ToListAsync();
         }
 
         public async Task<Licensat?> GetByIdAsync(Guid id)
         {
-            return await dbContext.Licensat.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Licensat
+                .Include(x => x.Institucioni) // Include the Institucioni navigation property
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Licensat?> UpdateAsync(Guid id, Licensat licensat)
@@ -63,7 +60,8 @@ namespace riims.Repositories
             existingLicensat.DataSkadimit = licensat.DataSkadimit;
             existingLicensat.CredentialId = licensat.CredentialId;
             existingLicensat.CredentialUrl = licensat.CredentialUrl;
-            
+            existingLicensat.Institucioni = licensat.Institucioni;
+
             await dbContext.SaveChangesAsync();
             return existingLicensat;
         }

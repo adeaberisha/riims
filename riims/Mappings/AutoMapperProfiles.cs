@@ -24,9 +24,10 @@ namespace riims.Mappings
         {
             //Eksperienca
             CreateMap<Eksperienca, EksperiencaDto>();
-            CreateMap<EksperiencaDto, Eksperienca>();
             CreateMap<AddEksperiencaRequestDto, Eksperienca>();
             CreateMap<UpdateEksperiencaRequestDto, Eksperienca>();
+            CreateMap<Eksperienca, EksperiencaDto>()
+           .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //HonorsAndAwards
             CreateMap<HonorsAndAwards, HonorsAndAwardsDto>();
@@ -39,6 +40,8 @@ namespace riims.Mappings
             CreateMap<LicensatDto, Licensat>();
             CreateMap<AddLicensatRequestDto, Licensat>();
             CreateMap<UpdateLicensatRequestDto, Licensat>();
+            CreateMap<Licensat, LicensatDto>()
+           .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //Projekti
             CreateMap<Projekti, ProjektiDto>();

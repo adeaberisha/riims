@@ -7,51 +7,51 @@ namespace riims.Repositories
 {
     public class SQLEksperiencaRepository : IEksperiencaRepository
     {
-        private readonly RiimsDbContext dbContext;
-        public SQLEksperiencaRepository(RiimsDbContext dbContext) => this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        private readonly RiimsDbContext _dbContext;
 
-        public RiimsDbContext DbContext { get; }
+        public SQLEksperiencaRepository(RiimsDbContext dbContext)
+            => _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
         public async Task<Eksperienca> CreateAsync(Guid userId, Eksperienca eksperienca)
-        {           
+        {
             eksperienca.UserId = userId;
-          
-            await dbContext.Eksperienca.AddAsync(eksperienca);
-          
-            await dbContext.SaveChangesAsync();
-           
+            await _dbContext.Eksperienca.AddAsync(eksperienca);
+            await _dbContext.SaveChangesAsync();
             return eksperienca;
         }
 
         public async Task<Eksperienca?> DeleteAsync(Guid id)
         {
-            var existingEksperienca = await dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
+            var existingEksperienca = await _dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingEksperienca == null)
             {
                 return null;
             }
 
-            dbContext.Eksperienca.Remove(existingEksperienca);
-            await dbContext.SaveChangesAsync();
+            _dbContext.Eksperienca.Remove(existingEksperienca);
+            await _dbContext.SaveChangesAsync();
             return existingEksperienca;
         }
 
         public async Task<List<Eksperienca>> GetAllAsync(Guid userId)
         {
-            return await dbContext.Eksperienca
-             .Where(x => x.UserId == userId) 
-             .ToListAsync();  
+            return await _dbContext.Eksperienca
+                .Include(x => x.Institucioni)
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
         }
 
         public async Task<Eksperienca?> GetByIdAsync(Guid id)
         {
-            return await dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Eksperienca
+                .Include(x => x.Institucioni) // Include the Institucioni navigation property
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Eksperienca?> UpdateAsync(Guid id, Eksperienca eksperienca)
         {
-            var existingEksperienca = await dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
+            var existingEksperienca = await _dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingEksperienca == null)
             {
@@ -65,8 +65,9 @@ namespace riims.Repositories
             existingEksperienca.DataFillimit = eksperienca.DataFillimit;
             existingEksperienca.DataMbarimit = eksperienca.DataMbarimit;
             existingEksperienca.Pershkrimi = eksperienca.Pershkrimi;
+            existingEksperienca.Institucioni = eksperienca.Institucioni;
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return existingEksperienca;
         }
     }

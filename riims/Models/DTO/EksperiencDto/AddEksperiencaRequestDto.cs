@@ -14,7 +14,9 @@
 
         public DateTime? DataMbarimit { get; set; }
 
+        public string EmriInstitucionit { get; set; }
+
         public string? Pershkrimi { get; set; }
-        public Guid InstitucioniId { get; set; }
+        //public Guid InstitucioniId { get; set; }
     }
 }
