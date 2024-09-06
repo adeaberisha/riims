@@ -27,6 +27,7 @@ namespace riims.Data
         public DbSet<NiveliAkademik> NiveliAkademik { get; set; }
         public DbSet<NiveliGjuhesor> NiveliGjuhesor { get; set; }
         public DbSet<UserGjuhet> UserGjuhet { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
