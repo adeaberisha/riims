@@ -42,7 +42,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<HonorsAndAwardsDto>(honorsandawardsDomain));
         }
 
-        [HttpPost("add-honor")]
+        [HttpPost("add-honor/{userId}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwardsRequestDto)
         {
             var honorsandawardsDomainModel = mapper.Map<HonorsAndAwards>(addHonorsAndAwardsRequestDto);

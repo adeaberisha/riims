@@ -38,13 +38,17 @@ namespace riims.Repositories
         public async Task<List<Specializimet>> GetAllAsync(Guid userId)
         {
             return await dbcontext.Specializimet
+                .Include(x => x.Institucioni)
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
 
         public async Task<Specializimet?> GetByIdAsync(Guid id)
         {
-            return await dbcontext.Specializimet.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontext.Specializimet
+            .Include(x => x.Institucioni) // Include the Institucioni navigation property
+            .FirstOrDefaultAsync(x => x.Id == id);
+            
         }
 
         public async Task<Specializimet?> UpdateAsync(Guid id, Specializimet specializimi)

@@ -71,6 +71,8 @@ namespace riims.Mappings
             CreateMap<Aftesite, AftesiteDTO>().ReverseMap();
             CreateMap<AddAftesiteRequestDTO, Aftesite>().ReverseMap();
             CreateMap<UpdateAftesiteRequestDTO, Aftesite>().ReverseMap();
+            CreateMap<Aftesite, AftesiteDTO>()
+            .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //Gjuhet
             CreateMap<Gjuhet, GjuhetDto>().ReverseMap();
@@ -81,6 +83,8 @@ namespace riims.Mappings
             CreateMap<Specializimet, SpecializimetDTO>().ReverseMap();
             CreateMap<AddSpecializimetRequestDTO, Specializimet>().ReverseMap();
             CreateMap<UpdateSpecializimetRequestDTO, Specializimet>().ReverseMap();
+            CreateMap<Specializimet, SpecializimetDTO>()
+            .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //Departamenti
             CreateMap<Departamenti, DepartamentiDto>().ReverseMap();

@@ -54,7 +54,7 @@ namespace riims.Controllers
         }
 
         //CREATE USER
-        [HttpPost("add-person")]
+        [HttpPost("add-person/{userId}")]
         public async Task<IActionResult> Create([FromBody] AddUserRequestDTO addUserRequestDTO)
         {
             //Converting DTO to domain model

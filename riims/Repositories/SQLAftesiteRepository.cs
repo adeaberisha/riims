@@ -38,13 +38,17 @@ namespace riims.Repositories
         public async Task<List<Aftesite>> GetAllAsync(Guid userId)
         {
             return await dbcontext.Aftesite
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
+             .Include(a => a.Institucioni) // Include the Institucioni navigation property
+             .Where(a => a.UserId == userId)
+             .ToListAsync();
         }
 
         public async Task<Aftesite?> GetByIdAsync(Guid id)
         {
-            return await dbcontext.Aftesite.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontext.Aftesite
+             .Include(a => a.Institucioni) // Include the Institucioni navigation property
+             .FirstOrDefaultAsync(a => a.Id == id);
+            
         }
 
         public async Task<Aftesite?> UpdateAsync(Guid id, Aftesite aftesite)

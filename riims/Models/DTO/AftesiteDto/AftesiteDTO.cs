@@ -7,6 +7,7 @@ namespace riims.Models.DTO.AftesiteDto
         public Guid Id { get; set; }
 
         public string Emri { get; set; }
+        public string EmriInstitucionit { get; set; }
 
         public Guid UserId { get; set; }
 

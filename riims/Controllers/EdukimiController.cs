@@ -57,7 +57,7 @@ namespace riims.Controllers
         }
 
         //CREATE EDUKIMI
-        [HttpPost("add-edukimi")]
+        [HttpPost("add-edukimi/{userId}")]
         //[Route("{userId:Guid}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEdukimiRequestDTO addEdukimi)
         {

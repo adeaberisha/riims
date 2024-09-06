@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
@@ -27,24 +28,24 @@ namespace riims.Controllers
 
         //GET ALL AFTESITE
         [HttpGet("get-aftesite-by-person-id/{userId}")]
-        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
-            //Getting the data from database - domain models
+            // Getting the data from database - domain models
             var aftesiteDomain = await aftesiteRepository.GetAllAsync(userId);
 
-            //Mapping domain models to DTOs
-            //Returning DTOs
-            return Ok(mapper.Map<List<AftesiteDTO>>(aftesiteDomain));
+            // Mapping domain models to DTOs
+            var aftesiteDTOs = mapper.Map<List<AftesiteDTO>>(aftesiteDomain);
 
+            // Returning DTOs
+            return Ok(aftesiteDTOs);
         }
+
 
         //GET AFTESIA BY ID
         [HttpGet("get-aftesia-by-id/{id}")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            //Getting the aftesia domain model from the database
+            // Getting the aftesia domain model from the database
             var aftesiteDomain = await aftesiteRepository.GetByIdAsync(id);
 
             if (aftesiteDomain == null)
@@ -52,48 +53,92 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            //Mapping the aftesia domain model to AftesiaDTO
-            //Returning DTO back to the client
-            return Ok(mapper.Map<AftesiteDTO>(aftesiteDomain));
+            // Mapping the aftesia domain model to AftesiteDTO
+            var aftesiteDTO = mapper.Map<AftesiteDTO>(aftesiteDomain);
+
+            // Returning DTO back to the client
+            return Ok(aftesiteDTO);
         }
 
         //CREATE AFTESIA
-        [HttpPost("add-aftesia")]
-        //[Route("{userId:Guid}")]
+        [HttpPost("add-aftesia/{userId}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddAftesiteRequestDTO addAftesite)
         {
-            //Converting DTO to domain model
-            var aftesiteDomain = mapper.Map<Aftesite>(addAftesite);
+            // Check if the institution already exists by name
+            var institucion = await dbContext.Institucioni.FirstOrDefaultAsync(i => i.Emri == addAftesite.EmriInstitucionit);
 
-            //Using domain model to create aftesia
+            // If the institution doesn't exist, create it
+            if (institucion == null)
+            {
+                institucion = new Institucioni
+                {
+                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
+                    Emri = addAftesite.EmriInstitucionit
+                };
+
+                // Add the institution to the database
+                await dbContext.Institucioni.AddAsync(institucion);
+                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+            }
+
+            // Converting DTO to domain model (manually set InstitucioniId based on the institution found or created)
+            var aftesiteDomain = new Aftesite
+            {
+                Emri = addAftesite.Emri,
+                UserId = userId,
+                InstitucioniId = institucion.Id // Set the InstitucioniId from the institution
+            };
+
+            // Using domain model to create aftesia
             aftesiteDomain = await aftesiteRepository.CreateAsync(userId, aftesiteDomain);
 
-            //Mapping the domain model back to DTO
+            // Mapping the domain model back to DTO
             var aftesiteDTO = mapper.Map<AftesiteDTO>(aftesiteDomain);
 
             return CreatedAtAction(nameof(GetById), new { id = aftesiteDTO.Id }, aftesiteDTO);
         }
 
 
+
         //UPDATE AFTESIA
         [HttpPut("update-aftesia-by-id/{id}")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAftesiteRequestDTO updateAftesite)
         {
-            //Mapping DTO to domain model 
-            var aftesiteDomain = mapper.Map<Aftesite>(updateAftesite);
+            // Check if the institution already exists by name
+            var institucion = await dbContext.Institucioni.FirstOrDefaultAsync(i => i.Emri == updateAftesite.EmriInstitucionit);
 
-            aftesiteDomain = await aftesiteRepository.UpdateAsync(id, aftesiteDomain);
+            // If the institution doesn't exist, create it
+            if (institucion == null)
+            {
+                institucion = new Institucioni
+                {
+                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
+                    Emri = updateAftesite.EmriInstitucionit
+                };
 
-            if (aftesiteDomain == null)
+                // Add the institution to the database
+                await dbContext.Institucioni.AddAsync(institucion);
+                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+            }
+
+            // Fetch the existing aftesia
+            var aftesiaDomain = await aftesiteRepository.GetByIdAsync(id);
+            if (aftesiaDomain == null)
             {
                 return NotFound();
             }
 
-            //Converting domain model back to DTOs
-            //Returning the DTO
-            return Ok(mapper.Map<AftesiteDTO>(aftesiteDomain));
+            // Update the aftesia domain model with new data
+            aftesiaDomain.Emri = updateAftesite.Emri;
+            aftesiaDomain.InstitucioniId = institucion.Id; // Update the institution
+
+            // Update aftesia in the database
+            aftesiaDomain = await aftesiteRepository.UpdateAsync(id, aftesiaDomain);
+
+            // Convert back to DTO and return
+            return Ok(mapper.Map<AftesiteDTO>(aftesiaDomain));
         }
+
 
 
         //DELETE AFTESIA

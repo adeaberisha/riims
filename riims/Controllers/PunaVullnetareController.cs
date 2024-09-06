@@ -47,7 +47,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<PunaVullnetareDTO>(punaVullnetareDomain));
         }
 
-        [HttpPost("add-puna-vullnetare")]
+        [HttpPost("add-puna-vullnetare/{userId}")]
         //[Route("{userId:Guid}")]
 
         public async Task<IActionResult> Create([FromRoute] Guid userId,

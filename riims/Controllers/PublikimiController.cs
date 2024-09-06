@@ -59,7 +59,7 @@ namespace riims.Controllers
         }
 
         //CREATE Publikimi
-        [HttpPost("add-publikimi")]
+        [HttpPost("add-publikimi/{userId}")]
         //[Route("{userId:Guid}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
         {

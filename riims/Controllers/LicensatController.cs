@@ -41,7 +41,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<LicensatDto>(licensatDomain));
         }
 
-        [HttpPost("add-licensa")]
+        [HttpPost("add-licensa/{userId}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddLicensatRequestDto addLicensatRequestDto)
         {
             var licensatDomainModel = mapper.Map<Licensat>(addLicensatRequestDto);

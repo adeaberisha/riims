@@ -42,7 +42,7 @@ namespace riims.Controllers
             return Ok(mapper.Map<EksperiencaDto>(eksperiencaDomain));
         }
 
-        [HttpPost("add-eksperienca")]
+        [HttpPost("add-eksperienca/{userId}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEksperiencaRequestDto addEksperiencaRequestDto)
         {         
             var eksperiencaDomainModel = mapper.Map<Eksperienca>(addEksperiencaRequestDto);

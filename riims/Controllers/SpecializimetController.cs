@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
@@ -28,24 +29,23 @@ namespace riims.Controllers
 
         //GET ALL SPECIALIZIMET
         [HttpGet("get-specializimet-by-person-id/{userId}")]
-        //[Route("users/{userId:Guid}")]
         public async Task<IActionResult> GetAll([FromRoute] Guid userId)
         {
-            //Getting the data from database - domain models
+            // Getting the data from database - domain models
             var specializimiDomain = await specializimetRepository.GetAllAsync(userId);
 
-            //Mapping domain models to DTOs
-            //Returning DTOs
-            return Ok(mapper.Map<List<SpecializimetDTO>>(specializimiDomain));
+            // Mapping domain models to DTOs
+            var specializimetDTOs = mapper.Map<List<SpecializimetDTO>>(specializimiDomain);
 
+            // Returning DTOs
+            return Ok(specializimetDTOs);
         }
 
         //GET SPECIALIZIMI BY ID
         [HttpGet("get-specializim-by-id/{id}")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            //Getting the specializimi domain model from the database
+            // Getting the specializimi domain model from the database
             var specializimiDomain = await specializimetRepository.GetByIdAsync(id);
 
             if (specializimiDomain == null)
@@ -53,23 +53,43 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            //Mapping the specializimi domain model to SpecializimetDTO
-            //Returning DTO back to the client
-            return Ok(mapper.Map<SpecializimetDTO>(specializimiDomain));
+            // Mapping the specializimi domain model to SpecializimetDTO
+            var specializimetDTO = mapper.Map<SpecializimetDTO>(specializimiDomain);
+
+            // Returning DTO back to the client
+            return Ok(specializimetDTO);
         }
 
         //CREATE Specializimi
-        [HttpPost("add-specializim")]
-        //[Route("{userId:Guid}")]
+        [HttpPost("add-specializim/{userId}")]
         public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddSpecializimetRequestDTO addSpecializimi)
         {
-            //Converting DTO to domain model
-            var specializimiDomain = mapper.Map<Specializimet>(addSpecializimi);
+            // Check if the institution already exists by name
+            var institucion = await dbContext.Institucioni
+                .FirstOrDefaultAsync(i => i.Emri == addSpecializimi.EmriInstitucionit);
 
-            //Using domain model to create specializimi
+            // If the institution doesn't exist, create it
+            if (institucion == null)
+            {
+                institucion = new Institucioni
+                {
+                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
+                    Emri = addSpecializimi.EmriInstitucionit
+                };
+
+                // Add the institution to the database
+                await dbContext.Institucioni.AddAsync(institucion);
+                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+            }
+
+            // Convert DTO to domain model and set the InstitucioniId
+            var specializimiDomain = mapper.Map<Specializimet>(addSpecializimi);
+            specializimiDomain.InstitucioniId = institucion.Id;
+
+            // Use domain model to create specializimi
             specializimiDomain = await specializimetRepository.CreateAsync(userId, specializimiDomain);
 
-            //Mapping the domain model back to DTO
+            // Map the domain model back to DTO
             var specializimiDTO = mapper.Map<SpecializimetDTO>(specializimiDomain);
 
             return CreatedAtAction(nameof(GetById), new { id = specializimiDTO.Id }, specializimiDTO);
@@ -78,22 +98,51 @@ namespace riims.Controllers
 
         //UPDATE SPECIALIZIMI
         [HttpPut("update-specializim-by-id/{id}")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSpecializimetRequestDTO updateSpecializimi)
         {
-            //Mapping DTO to domain model 
-            var specializimiDomain = mapper.Map<Specializimet>(updateSpecializimi);
+            // Check if the institution already exists by name
+            var institucion = await dbContext.Institucioni
+                .FirstOrDefaultAsync(i => i.Emri == updateSpecializimi.EmriInstitucionit);
 
-            specializimiDomain = await specializimetRepository.UpdateAsync(id, specializimiDomain);
+            // If the institution doesn't exist, create it
+            if (institucion == null)
+            {
+                institucion = new Institucioni
+                {
+                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
+                    Emri = updateSpecializimi.EmriInstitucionit
+                };
 
-            if (specializimiDomain == null)
+                // Add the institution to the database
+                await dbContext.Institucioni.AddAsync(institucion);
+                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+            }
+
+            // Get the existing Specializimet from the database
+            var existingSpecializimi = await specializimetRepository.GetByIdAsync(id);
+
+            if (existingSpecializimi == null)
             {
                 return NotFound();
             }
 
-            //Converting domain model back to DTOs
-            //Returning the DTO
-            return Ok(mapper.Map<SpecializimetDTO>(specializimiDomain));
+            // Update the existing domain model with the new values
+            existingSpecializimi.llojiIspecializimit = updateSpecializimi.llojiIspecializimit;
+            existingSpecializimi.lokacionit = updateSpecializimi.lokacionit;
+            existingSpecializimi.dataEFillimit = updateSpecializimi.dataEFillimit;
+            existingSpecializimi.dataEMbarimit = updateSpecializimi.dataEMbarimit;
+            existingSpecializimi.aftesiteEfituara = updateSpecializimi.aftesiteEfituara;
+            existingSpecializimi.pershkrimi = updateSpecializimi.pershkrimi;
+            existingSpecializimi.nrKredive = updateSpecializimi.nrKredive;
+            existingSpecializimi.InstitucioniId = institucion.Id;
+
+            // Save the changes to the repository
+            var updatedSpecializimi = await specializimetRepository.UpdateAsync(id, existingSpecializimi);
+
+            // Map the updated domain model back to DTO
+            var specializimiDTO = mapper.Map<SpecializimetDTO>(updatedSpecializimi);
+
+            return Ok(specializimiDTO);
         }
 
 
