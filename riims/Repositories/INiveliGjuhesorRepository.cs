@@ -1,14 +1,17 @@
 ﻿using riims.Models.Domain;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace riims.Repositories
 {
     public interface INiveliGjuhesorRepository
     {
-        Task<List<NiveliGjuhesor>> GetAllAsync(string userId);
+        Task<List<NiveliGjuhesor>> GetAllAsync();
 
         Task<NiveliGjuhesor?> GetByIdAsync(Guid id);
 
-        Task<NiveliGjuhesor> CreateAsync(string userId, NiveliGjuhesor niveliGjuhesor);
+        Task<NiveliGjuhesor> CreateAsync(NiveliGjuhesor niveliGjuhesor);
 
         Task<NiveliGjuhesor?> UpdateAsync(Guid id, NiveliGjuhesor niveliGjuhesor);
 

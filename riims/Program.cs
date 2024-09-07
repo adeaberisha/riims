@@ -44,6 +44,7 @@ builder.Services.AddScoped<IDepartamentiRepository, SQLDepartamentiRepository>()
 builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<INiveliGjuhesorRepository, SQLNiveliGjuhesorRepository>();
 builder.Services.AddScoped<IUserGjuhetRepository, SQLUserGjuhetRepository>();
+builder.Services.AddScoped<INiveliAkademikRepository, SQLNiveliAkademikRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

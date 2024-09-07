@@ -9,6 +9,7 @@ using riims.Models.DTO.GjuhetDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
+using riims.Models.DTO.NiveliAkademikDto;
 using riims.Models.DTO.NiveliGjuhesorDto;
 using riims.Models.DTO.ProjektiDto;
 using riims.Models.DTO.Publikimi;
@@ -136,6 +137,11 @@ namespace riims.Mappings
             CreateMap<UserGjuhet, UserGjuhetDTO>()
             .ForMember(dest => dest.EmriGjuhes, opt => opt.MapFrom(src => src.Gjuha.EmriGjuhes))
             .ForMember(dest => dest.NiveliGjuhesor, opt => opt.MapFrom(src => src.NiveliGjuhesor.Niveli));
+
+            //NiveliAkademik
+            CreateMap<NiveliAkademik, NiveliAkademikDto>().ReverseMap();
+            CreateMap<AddNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
+            CreateMap<UpdateNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
 
         }
     }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
 using riims.Models.DTO.NiveliGjuhesorDto;
 using riims.Repositories;
+
 
 namespace riims.Controllers
 {
@@ -22,12 +24,11 @@ namespace riims.Controllers
             _mapper = mapper;
         }
 
-        // GET ALL NIVELI GJUHESOR FOR A USER
+        // GET ALL NIVELI GJUHESOR
         [HttpGet]
-        [Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        public async Task<IActionResult> GetAll()
         {
-            var niveliGjuhesorDomain = await _niveliGjuhesorRepository.GetAllAsync(userId);
+            var niveliGjuhesorDomain = await _niveliGjuhesorRepository.GetAllAsync();
             return Ok(_mapper.Map<List<NiveliGjuhesorDTO>>(niveliGjuhesorDomain));
         }
 
@@ -48,12 +49,11 @@ namespace riims.Controllers
 
         // CREATE NIVELI GJUHESOR
         [HttpPost]
-        [Route("users/{userId:Guid}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddNiveliGjuhesorRequestDTO addNiveliGjuhesor)
+        public async Task<IActionResult> Create([FromBody] AddNiveliGjuhesorRequestDTO addNiveliGjuhesor)
         {
             var niveliGjuhesorDomain = _mapper.Map<NiveliGjuhesor>(addNiveliGjuhesor);
 
-            niveliGjuhesorDomain = await _niveliGjuhesorRepository.CreateAsync(userId, niveliGjuhesorDomain);
+            niveliGjuhesorDomain = await _niveliGjuhesorRepository.CreateAsync(niveliGjuhesorDomain);
 
             var niveliGjuhesorDTO = _mapper.Map<NiveliGjuhesorDTO>(niveliGjuhesorDomain);
 
