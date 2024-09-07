@@ -51,9 +51,17 @@ namespace riims.Mappings
             CreateMap<UpdateProjektiRequestDto, Projekti>();
 
             //Edukimi
-            CreateMap<Edukimi, EdukimiDTO>().ReverseMap();
-            CreateMap<AddEdukimiRequestDTO, Edukimi>().ReverseMap();
-            CreateMap<UpdateEdukimiRequestDTO, Edukimi>().ReverseMap();
+            CreateMap<Edukimi, EdukimiDTO>()
+                .ForMember(dest => dest.Institucioni, opt => opt.MapFrom(src => src.Institucioni.Emri))
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.MapFrom(src => src.NiveliAkademik.lvl));
+
+            CreateMap<AddEdukimiRequestDTO, Edukimi>()
+                .ForMember(dest => dest.Institucioni, opt => opt.Ignore())
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.Ignore());
+
+            CreateMap<UpdateEdukimiRequestDTO, Edukimi>()
+                .ForMember(dest => dest.Institucioni, opt => opt.Ignore())
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.Ignore());
 
             //Institucioni
             CreateMap<Institucioni, InstitucioniDto>().ReverseMap();

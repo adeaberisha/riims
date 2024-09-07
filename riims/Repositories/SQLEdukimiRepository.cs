@@ -40,13 +40,18 @@ namespace riims.Repositories
         public async Task<List<Edukimi>> GetAllAsync(string userId)
         {
             return await dbcontext.Edukimi
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
+             .Where(e => e.UserId == userId)
+             .Include(e => e.Institucioni)
+             .Include(e => e.NiveliAkademik)
+             .ToListAsync();
         }
 
         public async Task<Edukimi?> GetByIdAsync(Guid id)
         {
-            return await dbcontext.Edukimi.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontext.Edukimi
+            .Include(e => e.Institucioni)
+            .Include(e => e.NiveliAkademik)
+            .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Edukimi?> UpdateAsync(Guid id, Edukimi edukimi)
