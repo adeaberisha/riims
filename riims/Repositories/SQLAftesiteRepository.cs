@@ -12,7 +12,7 @@ namespace riims.Repositories
         {
             this.dbcontext = dbcontext;
         }
-        public async Task<Aftesite> CreateAsync(Guid userId, Aftesite aftesite)
+        public async Task<Aftesite> CreateAsync(string userId, Aftesite aftesite)
         {
             aftesite.UserId = userId;
             await dbcontext.Aftesite.AddAsync(aftesite);
@@ -35,7 +35,7 @@ namespace riims.Repositories
             return existingAftesia;
         }
 
-        public async Task<List<Aftesite>> GetAllAsync(Guid userId)
+        public async Task<List<Aftesite>> GetAllAsync(string userId)
         {
             return await dbcontext.Aftesite
              .Include(a => a.Institucioni) // Include the Institucioni navigation property

@@ -27,7 +27,7 @@ namespace riims.Controllers
         }
 
         [HttpGet("get-licensat-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var licensatDomain = await licensatRepository.GetAllAsync(userId);
             var licensatDTO = mapper.Map<List<LicensatDto>>(licensatDomain);
@@ -50,7 +50,7 @@ namespace riims.Controllers
         }
 
         [HttpPost("add-licensa/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddLicensatRequestDto addLicensatRequestDto)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddLicensatRequestDto addLicensatRequestDto)
         {
             var institucion = await dbContext.Institucioni
                 .FirstOrDefaultAsync(i => i.Emri == addLicensatRequestDto.EmriInstitucionit);

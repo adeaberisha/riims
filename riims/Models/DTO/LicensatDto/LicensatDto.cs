@@ -14,6 +14,7 @@
 
         public string? CredentialUrl { get; set; }
         public string EmriInstitucionit { get; set; }
+        public string UserId { get; set; }
         public Guid InstitucioniId { get; set; }
 
     }

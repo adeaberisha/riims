@@ -27,7 +27,7 @@ namespace riims.Controllers
         //GET ALL EDUKIMET
         [HttpGet("get-edukimet-by-person-id/{userId}")]
         //[Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             //Getting the data from database - domain models
             var edukimetDomain = await edukimiRepository.GetAllAsync(userId);
@@ -59,7 +59,7 @@ namespace riims.Controllers
         //CREATE EDUKIMI
         [HttpPost("add-edukimi/{userId}")]
         //[Route("{userId:Guid}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEdukimiRequestDTO addEdukimi)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddEdukimiRequestDTO addEdukimi)
         {
             //Converting DTO to domain model
             var edukimiDomain = mapper.Map<Edukimi>(addEdukimi);

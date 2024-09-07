@@ -38,7 +38,7 @@ namespace riims.Controllers
         //GET USER BY ID
         [HttpGet("get-person-by-id/{id}")]
         //[Route("{id:Guid}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] string id)
         {
             //Getting the userat domain model from the database
             var userDomain = await userRepository.GetByIdAsync(id);
@@ -72,7 +72,7 @@ namespace riims.Controllers
         //UPDATE USER
         [HttpPut("update-person-by-id/{id}")]
         //[Route("{id:Guid}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
         {
             //Mapping DTO to domain model 
             var userDomain = mapper.Map<User>(updateUserRequestDTO);
@@ -93,7 +93,7 @@ namespace riims.Controllers
         //DELETE USER
         [HttpDelete("delete-person-by-id/{id}")]
         //[Route("{id:Guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] string id)
         {
             var userDomain = await userRepository.DeleteAsync(id);
 

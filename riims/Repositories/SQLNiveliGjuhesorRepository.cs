@@ -13,7 +13,7 @@ namespace riims.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<NiveliGjuhesor> CreateAsync(Guid userId, NiveliGjuhesor niveliGjuhesor)
+        public async Task<NiveliGjuhesor> CreateAsync(string userId, NiveliGjuhesor niveliGjuhesor)
         {
             // Assuming you want to associate this level with a specific user
             var userGjuhet = new UserGjuhet
@@ -44,7 +44,7 @@ namespace riims.Repositories
             return existingNiveliGjuhesor;
         }
 
-        public async Task<List<NiveliGjuhesor>> GetAllAsync(Guid userId)
+        public async Task<List<NiveliGjuhesor>> GetAllAsync(string userId)
         {
             return await _dbContext.NiveliGjuhesor
                 .Where(x => x.UserGjuhet.Any(ug => ug.UserId == userId))

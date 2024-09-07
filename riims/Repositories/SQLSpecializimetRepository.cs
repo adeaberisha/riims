@@ -12,7 +12,7 @@ namespace riims.Repositories
         {
             this.dbcontext = dbcontext;
         }
-        public async Task<Specializimet> CreateAsync(Guid userId, Specializimet specializimi)
+        public async Task<Specializimet> CreateAsync(string userId, Specializimet specializimi)
         {
             specializimi.UserId = userId;
             await dbcontext.Specializimet.AddAsync(specializimi);
@@ -35,7 +35,7 @@ namespace riims.Repositories
             return existingSpecializimi;
         }
 
-        public async Task<List<Specializimet>> GetAllAsync(Guid userId)
+        public async Task<List<Specializimet>> GetAllAsync(string userId)
         {
             return await dbcontext.Specializimet
                 .Include(x => x.Institucioni)

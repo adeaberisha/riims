@@ -4,11 +4,11 @@ namespace riims.Repositories
 {
     public interface IEksperiencaRepository
     {
-        Task<List<Eksperienca>> GetAllAsync(Guid userId);
+        Task<List<Eksperienca>> GetAllAsync(string userId);
 
         Task<Eksperienca?> GetByIdAsync(Guid id);
 
-        Task<Eksperienca> CreateAsync(Guid userId, Eksperienca eksperienca);
+        Task<Eksperienca> CreateAsync(string userId, Eksperienca eksperienca);
 
         Task<Eksperienca?> UpdateAsync(Guid id, Eksperienca eksperienca);
 

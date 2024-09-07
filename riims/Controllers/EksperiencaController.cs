@@ -26,7 +26,7 @@ namespace riims.Controllers
         }
 
         [HttpGet("get-eksperiencat-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var eksperiencatDomain = await eksperiencaRepository.GetAllAsync(userId);
             var eksperiencaDTOs = mapper.Map<List<EksperiencaDto>>(eksperiencatDomain);
@@ -48,7 +48,7 @@ namespace riims.Controllers
         }
 
         [HttpPost("add-eksperienca/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddEksperiencaRequestDto addEksperiencaRequestDto)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddEksperiencaRequestDto addEksperiencaRequestDto)
         {
             var institucion = await dbContext.Institucioni
                .FirstOrDefaultAsync(i => i.Emri == addEksperiencaRequestDto.EmriInstitucionit);

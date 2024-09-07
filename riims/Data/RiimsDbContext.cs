@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using riims.Models.Domain;
 using System.Linq.Expressions;
 
 namespace riims.Data
 {
-    public class RiimsDbContext : DbContext
+    public class RiimsDbContext : IdentityDbContext<User>
     {
-        public RiimsDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public RiimsDbContext(DbContextOptions<RiimsDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
@@ -692,6 +694,32 @@ namespace riims.Data
             //Seed Gjuhet into the database
 
             modelBuilder.Entity<Gjuhet>().HasData(gjuhet);
+
+            //Seeding the Roles
+            var userRoleId = "3dca8f33-ecf0-484f-a28b-ebd04e7247b6";
+            var adminRoleId = "745b9f24-a569-4f1c-bc34-5d9911b2d644";
+
+            var roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Id = userRoleId,
+                    ConcurrencyStamp = userRoleId,
+                    Name = "User",
+                    NormalizedName = "User".ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = adminRoleId,
+                    ConcurrencyStamp = adminRoleId,
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper()
+                },
+            };
+
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
+
         }
     }
 }

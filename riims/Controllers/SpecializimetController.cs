@@ -29,7 +29,7 @@ namespace riims.Controllers
 
         //GET ALL SPECIALIZIMET
         [HttpGet("get-specializimet-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             // Getting the data from database - domain models
             var specializimiDomain = await specializimetRepository.GetAllAsync(userId);
@@ -62,7 +62,7 @@ namespace riims.Controllers
 
         //CREATE Specializimi
         [HttpPost("add-specializim/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddSpecializimetRequestDTO addSpecializimi)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddSpecializimetRequestDTO addSpecializimi)
         {
             // Check if the institution already exists by name
             var institucion = await dbContext.Institucioni

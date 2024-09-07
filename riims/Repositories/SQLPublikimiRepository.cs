@@ -13,7 +13,7 @@ namespace riims.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<Publikimi> CreateAsync(Guid userId, Publikimi publikimi)
+        public async Task<Publikimi> CreateAsync(string userId, Publikimi publikimi)
         {
             publikimi.UserId = userId;
             await dbContext.Publikimi.AddAsync(publikimi);
@@ -36,7 +36,7 @@ namespace riims.Repositories
             return existingPublikimi;
         }
 
-        public async Task<List<Publikimi>> GetAllAsync(Guid userId)
+        public async Task<List<Publikimi>> GetAllAsync(string userId)
         {
             return await dbContext.Publikimi
                 .Where(x => x.UserId == userId)

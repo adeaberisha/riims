@@ -14,7 +14,7 @@ namespace riims.Repositories
             this.dbcontext = dbcontext;
         }
 
-        public async Task<Edukimi> CreateAsync(Guid userId, Edukimi edukimi)
+        public async Task<Edukimi> CreateAsync(string userId, Edukimi edukimi)
         {
             edukimi.UserId = userId;
             await dbcontext.Edukimi.AddAsync(edukimi);
@@ -37,7 +37,7 @@ namespace riims.Repositories
             return existingEdukimi;
         }
 
-        public async Task<List<Edukimi>> GetAllAsync(Guid userId)
+        public async Task<List<Edukimi>> GetAllAsync(string userId)
         {
             return await dbcontext.Edukimi
                 .Where(x => x.UserId == userId)

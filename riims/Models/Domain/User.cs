@@ -1,9 +1,9 @@
-﻿namespace riims.Models.Domain
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace riims.Models.Domain
 {
-    public class User
+    public class User : IdentityUser
     {
-        public Guid Id { get; set; }
-        //[MaxLength(50)]
         public string emri { get; set; } = "";
 
         public string mbiemri { get; set; } = "";

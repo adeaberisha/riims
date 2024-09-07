@@ -26,7 +26,7 @@ namespace riims.Controllers
 
         [HttpGet("get-punet-vullnetare-by-person-id/{userId}")]
         //[Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var punetVullnetareDomain = await punaVullnetareRepository.GetAllAsync(userId);
 
@@ -50,7 +50,7 @@ namespace riims.Controllers
         [HttpPost("add-puna-vullnetare/{userId}")]
         //[Route("{userId:Guid}")]
 
-        public async Task<IActionResult> Create([FromRoute] Guid userId,
+        public async Task<IActionResult> Create([FromRoute] string userId,
             [FromBody] AddPunaVullnetareRequestDTO addPunaVullnetare)
         {
             //Converting the DTO to a domain model

@@ -23,7 +23,7 @@ namespace riims.Controllers
         }
 
         [HttpGet("get-honors-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var honorsandawardsDomain = await honorsandawardsRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<HonorsAndAwardsDto>>(honorsandawardsDomain));
@@ -43,7 +43,7 @@ namespace riims.Controllers
         }
 
         [HttpPost("add-honor/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwardsRequestDto)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwardsRequestDto)
         {
             var honorsandawardsDomainModel = mapper.Map<HonorsAndAwards>(addHonorsAndAwardsRequestDto);
 

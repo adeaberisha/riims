@@ -25,7 +25,7 @@ namespace riims.Controllers
         // GET ALL NIVELI GJUHESOR FOR A USER
         [HttpGet]
         [Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var niveliGjuhesorDomain = await _niveliGjuhesorRepository.GetAllAsync(userId);
             return Ok(_mapper.Map<List<NiveliGjuhesorDTO>>(niveliGjuhesorDomain));
@@ -49,7 +49,7 @@ namespace riims.Controllers
         // CREATE NIVELI GJUHESOR
         [HttpPost]
         [Route("users/{userId:Guid}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddNiveliGjuhesorRequestDTO addNiveliGjuhesor)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddNiveliGjuhesorRequestDTO addNiveliGjuhesor)
         {
             var niveliGjuhesorDomain = _mapper.Map<NiveliGjuhesor>(addNiveliGjuhesor);
 

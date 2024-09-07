@@ -13,7 +13,7 @@ namespace riims.Repositories
 
         public RiimsDbContext DbContext { get; }
 
-        public async Task<HonorsAndAwards> CreateAsync(Guid userId, HonorsAndAwards honorsandawards)
+        public async Task<HonorsAndAwards> CreateAsync(string userId, HonorsAndAwards honorsandawards)
         {
             honorsandawards.UserId = userId;
 
@@ -38,7 +38,7 @@ namespace riims.Repositories
             return existingHonorsAndAwards;
         }
 
-        public async Task<List<HonorsAndAwards>> GetAllAsync(Guid userId)
+        public async Task<List<HonorsAndAwards>> GetAllAsync(string userId)
         {
             return await dbContext.HonorsAndAwards
              .Where(x => x.UserId == userId)

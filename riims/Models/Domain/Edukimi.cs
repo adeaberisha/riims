@@ -14,7 +14,7 @@
 
         public string? Pershkrimi { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
         public Guid InstitucioniId { get; set; }
         public Institucioni Institucioni { get; set; }

@@ -23,7 +23,7 @@ namespace riims.Controllers
         }
 
         [HttpGet("get-projekti-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             var projektiDomain = await projektiRepository.GetAllAsync(userId);
             return Ok(mapper.Map<List<ProjektiDto>>(projektiDomain));
@@ -43,7 +43,7 @@ namespace riims.Controllers
         }
 
         [HttpPost("add-projekti/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddProjektiRequestDto addProjektiRequestDto)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddProjektiRequestDto addProjektiRequestDto)
         {
             var projektiDomainModel = mapper.Map<Projekti>(addProjektiRequestDto);
 

@@ -9,7 +9,7 @@ namespace riims.Repositories
         private readonly RiimsDbContext dbContext;
         public SQLLicensatRepository(RiimsDbContext dbContext) => this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-        public async Task<Licensat> CreateAsync(Guid userId, Licensat licensat)
+        public async Task<Licensat> CreateAsync(string userId, Licensat licensat)
         {
             licensat.UserId = userId;
             await dbContext.Licensat.AddAsync(licensat);
@@ -31,7 +31,7 @@ namespace riims.Repositories
             return existingLicensat;
         }
 
-        public async Task<List<Licensat>> GetAllAsync(Guid userId)
+        public async Task<List<Licensat>> GetAllAsync(string userId)
         {
             return await dbContext.Licensat
                .Include(x => x.Institucioni)

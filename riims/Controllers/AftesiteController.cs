@@ -28,7 +28,7 @@ namespace riims.Controllers
 
         //GET ALL AFTESITE
         [HttpGet("get-aftesite-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             // Getting the data from database - domain models
             var aftesiteDomain = await aftesiteRepository.GetAllAsync(userId);
@@ -62,7 +62,7 @@ namespace riims.Controllers
 
         //CREATE AFTESIA
         [HttpPost("add-aftesia/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddAftesiteRequestDTO addAftesite)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddAftesiteRequestDTO addAftesite)
         {
             // Check if the institution already exists by name
             var institucion = await dbContext.Institucioni.FirstOrDefaultAsync(i => i.Emri == addAftesite.EmriInstitucionit);

@@ -23,7 +23,7 @@ namespace riims.Repositories
             return user;
         }
 
-        public async Task<User?> DeleteAsync(Guid id)
+        public async Task<User?> DeleteAsync(string id)
         {
             var existingUser = await dbcontext.User.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -43,12 +43,12 @@ namespace riims.Repositories
             return await dbcontext.User.ToListAsync();
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
+        public async Task<User?> GetByIdAsync(string id)
         {
             return await dbcontext.User.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<User?> UpdateAsync(Guid id, User user)
+        public async Task<User?> UpdateAsync(string id, User user)
         {
             var existingUser = await dbcontext.User.FirstOrDefaultAsync(x => x.Id == id);
 

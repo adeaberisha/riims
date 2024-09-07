@@ -12,7 +12,7 @@ namespace riims.Repositories
         public SQLEksperiencaRepository(RiimsDbContext dbContext)
             => _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
-        public async Task<Eksperienca> CreateAsync(Guid userId, Eksperienca eksperienca)
+        public async Task<Eksperienca> CreateAsync(string userId, Eksperienca eksperienca)
         {
             eksperienca.UserId = userId;
             await _dbContext.Eksperienca.AddAsync(eksperienca);
@@ -34,7 +34,7 @@ namespace riims.Repositories
             return existingEksperienca;
         }
 
-        public async Task<List<Eksperienca>> GetAllAsync(Guid userId)
+        public async Task<List<Eksperienca>> GetAllAsync(string userId)
         {
             return await _dbContext.Eksperienca
                 .Include(x => x.Institucioni)

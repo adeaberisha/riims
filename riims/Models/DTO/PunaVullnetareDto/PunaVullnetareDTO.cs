@@ -14,7 +14,7 @@ namespace riims.Models.DTO.PunaVullnetareDto
 
         public string? Pershkrimi { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public Guid InstitucioniId { get; set; }
     }

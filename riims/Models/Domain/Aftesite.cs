@@ -7,7 +7,7 @@
         public string Emri { get; set; }
 
         //Foreign Key
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         //Navigation Property
         public User User { get; set; }

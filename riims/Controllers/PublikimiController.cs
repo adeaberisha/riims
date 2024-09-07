@@ -27,7 +27,7 @@ namespace riims.Controllers
         //GET ALL Publikimet
         [HttpGet("get-publikimi-by-person-id/{userId}")]
         //[Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll([FromRoute] string userId)
         {
             // Getting the data from database - domain models
             var publikimetDomain = await publikimiRepository.GetAllAsync(userId);
@@ -61,7 +61,7 @@ namespace riims.Controllers
         //CREATE Publikimi
         [HttpPost("add-publikimi/{userId}")]
         //[Route("{userId:Guid}")]
-        public async Task<IActionResult> Create([FromRoute] Guid userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
         {
             //Converting DTO to domain model
             var publikimetDomain = mapper.Map<Publikimi>(addPublikimiRequestDTO);

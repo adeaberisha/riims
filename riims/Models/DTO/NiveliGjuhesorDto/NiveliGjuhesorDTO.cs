@@ -6,7 +6,6 @@
 
         public string Niveli { get; set; }
 
-        public List<Guid> UserIds { get; set; } = new List<Guid>();
-
+        public string UserId { get; set; }
     }
 }

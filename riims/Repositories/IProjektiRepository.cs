@@ -4,11 +4,11 @@ namespace riims.Repositories
 {
     public interface IProjektiRepository
     {
-        Task<List<Projekti>> GetAllAsync(Guid userId);
+        Task<List<Projekti>> GetAllAsync(string userId);
 
         Task<Projekti?> GetByIdAsync(Guid id);
 
-        Task<Projekti> CreateAsync(Guid userId, Projekti projekti);
+        Task<Projekti> CreateAsync(string userId, Projekti projekti);
 
         Task<Projekti?> UpdateAsync(Guid id, Projekti projekti);
 
