@@ -16,6 +16,10 @@
 
         public string UserId { get; set; }
 
+        public string Institucioni { get; set; }
+
+        public string NiveliAkademik { get; set; }
+
         public Guid InstitucioniId { get; set; }
 
         public Guid NiveliAkademikId { get; set; }

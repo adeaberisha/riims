@@ -40,12 +40,16 @@ namespace riims.Repositories
 
         public async Task<List<User>> GetAllAsync()
         {
-            return await dbcontext.User.ToListAsync();
+            return await dbcontext.User
+              .Include(u => u.NiveliAkademik) 
+              .ToListAsync();
         }
 
         public async Task<User?> GetByIdAsync(string id)
         {
-            return await dbcontext.User.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontext.User
+               .Include(u => u.NiveliAkademik) 
+               .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User?> UpdateAsync(string id, User user)
@@ -63,7 +67,7 @@ namespace riims.Repositories
             existingUser.gjinia = user.gjinia;
             existingUser.dataELindjes = user.dataELindjes;
             existingUser.numriTelefonit = user.numriTelefonit;
-            //existingUser.NiveliAkademikId = user.NiveliAkademikId;
+            existingUser.NiveliAkademik = user.NiveliAkademik;
 
             await dbcontext.SaveChangesAsync();
             return existingUser;

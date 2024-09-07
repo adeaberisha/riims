@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.UserDTO;
@@ -12,12 +14,14 @@ namespace riims.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly RiimsDbContext dbContext;
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
 
-        public UserController(IUserRepository userRepository,
+        public UserController(RiimsDbContext dbContext, IUserRepository userRepository,
             IMapper mapper)
         {
+            this.dbContext = dbContext;
             this.userRepository = userRepository;
             this.mapper = mapper;
         }
@@ -55,15 +59,35 @@ namespace riims.Controllers
 
         //CREATE USER
         [HttpPost("add-person/{userId}")]
-        public async Task<IActionResult> Create([FromBody] AddUserRequestDTO addUserRequestDTO)
+        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddUserRequestDTO addUserRequestDTO)
         {
-            //Converting DTO to domain model
-            var userDomain = mapper.Map<User>(addUserRequestDTO);
+            // Find or create the NiveliAkademik entity
+            var niveliAkademik = await dbContext.NiveliAkademik
+                .FirstOrDefaultAsync(n => n.lvl == addUserRequestDTO.NiveliAkademik);
 
-            //Using domain model to create USER
+            if (niveliAkademik == null)
+            {
+                niveliAkademik = new NiveliAkademik
+                {
+                    Id = Guid.NewGuid(),
+                    lvl = addUserRequestDTO.NiveliAkademik
+                };
+
+                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
+                await dbContext.SaveChangesAsync();
+            }
+
+            // Convert DTO to domain model
+            var userDomain = mapper.Map<User>(addUserRequestDTO);
+            userDomain.NiveliAkademik = niveliAkademik;
+
+            // Set UserId from route parameter
+            userDomain.Id = userId;
+
+            // Create the user
             userDomain = await userRepository.CreateAsync(userDomain);
 
-            //Mapping the domain model back to DTO
+            // Map the domain model back to DTO
             var userDTO = mapper.Map<UserDTO>(userDomain);
 
             return CreatedAtAction(nameof(GetById), new { id = userDTO.Id }, userDTO);
@@ -71,22 +95,42 @@ namespace riims.Controllers
 
         //UPDATE USER
         [HttpPut("update-person-by-id/{id}")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
         {
-            //Mapping DTO to domain model 
-            var userDomain = mapper.Map<User>(updateUserRequestDTO);
+            // Find or create the NiveliAkademik entity
+            var niveliAkademik = await dbContext.NiveliAkademik
+                .FirstOrDefaultAsync(n => n.lvl == updateUserRequestDTO.NiveliAkademik);
 
-            userDomain = await userRepository.UpdateAsync(id, userDomain);
+            if (niveliAkademik == null)
+            {
+                niveliAkademik = new NiveliAkademik
+                {
+                    Id = Guid.NewGuid(),
+                    lvl = updateUserRequestDTO.NiveliAkademik
+                };
 
-            if (userDomain == null)
+                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
+                await dbContext.SaveChangesAsync();
+            }
+
+            // Fetch the existing user
+            var existingUser = await userRepository.GetByIdAsync(id);
+            if (existingUser == null)
             {
                 return NotFound();
             }
 
-            //Converting domain model back to DTOs
-            //Returning the DTO
-            return Ok(mapper.Map<UserDTO>(userDomain));
+            // Update the user entity with new data
+            existingUser = mapper.Map(updateUserRequestDTO, existingUser);
+            existingUser.NiveliAkademik = niveliAkademik;
+
+            // Update user in the database
+            existingUser = await userRepository.UpdateAsync(id, existingUser);
+
+            // Convert the domain model back to DTO
+            var userDTO = mapper.Map<UserDTO>(existingUser);
+
+            return Ok(userDTO);
         }
 
 

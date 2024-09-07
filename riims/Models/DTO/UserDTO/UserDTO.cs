@@ -2,7 +2,7 @@
 {
     public class UserDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         //[MaxLength(50)]
         public string emri { get; set; } = "";
 
@@ -15,6 +15,9 @@
         public DateTime? dataELindjes { get; set; }
 
         public string? numriTelefonit { get; set; }
+
+        public string NiveliAkademik { get; set; }
+
         public Guid NiveliAkademikId { get; set; }
     }
 }

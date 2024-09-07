@@ -13,6 +13,7 @@
         public DateTime? dataELindjes { get; set; }
 
         public string? numriTelefonit { get; set; }
-        public Guid NiveliAkademikId { get; set; }
+
+        public string NiveliAkademik { get; set; }
     }
 }

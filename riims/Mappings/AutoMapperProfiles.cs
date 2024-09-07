@@ -96,9 +96,19 @@ namespace riims.Mappings
             CreateMap<UpdateDepartamentiRequestDto, Departamenti>().ReverseMap();
 
             //User
-            CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<AddUserRequestDTO, User>().ReverseMap();
-            CreateMap<UpdateUserRequestDTO, User>().ReverseMap();
+            CreateMap<User, UserDTO>()
+            .ForMember(dest => dest.NiveliAkademik, opt => opt.MapFrom(src => src.NiveliAkademik.lvl))
+            .ForMember(dest => dest.NiveliAkademikId, opt => opt.MapFrom(src => src.NiveliAkademik.Id))
+            .ReverseMap();
+            CreateMap<AddUserRequestDTO, User>()
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.Ignore())
+                .ReverseMap();
+            CreateMap<UpdateUserRequestDTO, User>()
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.Ignore()) // Handle separately
+                .ReverseMap();
+            CreateMap<NiveliAkademik, UserDTO>()
+                .ForMember(dest => dest.NiveliAkademik, opt => opt.MapFrom(src => src.lvl))
+                .ReverseMap();
 
             //NiveliGjuhesor
             CreateMap<NiveliGjuhesor, NiveliGjuhesorDTO>().ReverseMap();
@@ -112,14 +122,6 @@ namespace riims.Mappings
             CreateMap<UserGjuhet, UserGjuhetDTO>()
             .ForMember(dest => dest.EmriGjuhes, opt => opt.MapFrom(src => src.Gjuha.EmriGjuhes))
             .ForMember(dest => dest.NiveliGjuhesor, opt => opt.MapFrom(src => src.NiveliGjuhesor.Niveli));
-
-            CreateMap<AddUserGjuhetRequestDTO, UserGjuhet>()
-                .ForMember(dest => dest.Gjuha, opt => opt.Ignore()) // Set manually
-                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore()); // Set manually
-
-            CreateMap<UpdateUserGjuhetRequestDTO, UserGjuhet>()
-                .ForMember(dest => dest.Gjuha, opt => opt.Ignore())
-                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore());
 
         }
     }
