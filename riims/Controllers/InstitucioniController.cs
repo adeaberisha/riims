@@ -23,9 +23,9 @@ namespace riims.Controllers
                 this.mapper = mapper;
             }
 
-            //GET ALL INSTITUCIONET
-            [HttpGet]
-            public async Task<IActionResult> GetAll()
+        //GET ALL INSTITUCIONET
+        [HttpGet("get-all-Institucionet")]
+        public async Task<IActionResult> GetAll()
             {
                 //Getting the data from database - domain models
                 var institucioniDomain = await institucioniRepository.GetAllAsync();
@@ -36,10 +36,9 @@ namespace riims.Controllers
 
             }
 
-            //GET INSTITUCIONI BY ID
-            [HttpGet]
-            [Route("{id:Guid}")]
-            public async Task<IActionResult> GetById([FromRoute] Guid id)
+        //GET INSTITUCIONI BY ID
+        [HttpGet("get-Institucionet-by-id/{id}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
             {
                 //Getting the institucioni domain model from the database
                 var institucioniDomain = await institucioniRepository.GetByIdAsync(id);
@@ -49,30 +48,29 @@ namespace riims.Controllers
                     return NotFound();
                 }
 
-            //Mapping the institucioni domain model to EdukimiDTO
-            //Returning DTO back to the client
-            return Ok(mapper.Map<InstitucioniDto>(institucioniDomain));
-            }
+         //Mapping the institucioni domain model to EdukimiDTO
+         //Returning DTO back to the client
+         return Ok(mapper.Map<InstitucioniDto>(institucioniDomain));
+         }
 
-            //CREATE INSTITUCIONI
-            [HttpPost]
-            public async Task<IActionResult> Create([FromBody] AddInstitucioniRequestDto addInstitucioniRequestDto)
-            {
-                //Converting DTO to domain model
-                var institucioniDomain = mapper.Map<Institucioni>(addInstitucioniRequestDto);
+        //CREATE INSTITUCIONI
+        [HttpPost("add-Institucionin")]
+        public async Task<IActionResult> Create([FromBody] AddInstitucioniRequestDto addInstitucioniRequestDto)
+         {
+            //Converting DTO to domain model
+            var institucioniDomain = mapper.Map<Institucioni>(addInstitucioniRequestDto);
 
-                //Using domain model to create edukimi
-                institucioniDomain = await institucioniRepository.CreateAsync(institucioniDomain);
+            //Using domain model to create edukimi
+            institucioniDomain = await institucioniRepository.CreateAsync(institucioniDomain);
 
-                //Mapping the domain model back to DTO
-                var institucioniDto = mapper.Map<InstitucioniDto>(institucioniDomain);
+             //Mapping the domain model back to DTO
+             var institucioniDto = mapper.Map<InstitucioniDto>(institucioniDomain);
 
-                return CreatedAtAction(nameof(GetById), new { id = institucioniDto.Id }, institucioniDto);
-            }
+             return CreatedAtAction(nameof(GetById), new { id = institucioniDto.Id }, institucioniDto);
+        }
 
 
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-Institucionin-by-id/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateInstitucioniRequestDTO updateInstitucioniRequestDTO)
         {
             //Mapping DTO to domain model 
@@ -92,10 +90,9 @@ namespace riims.Controllers
 
 
         //DELETE Institucioni
-        [HttpDelete]
-            [Route("{id:Guid}")]
-            public async Task<IActionResult> Delete([FromRoute] Guid id)
-            {
+        [HttpDelete("delete-Institucionin-by-id/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
                 var institucioniDomain = await institucioniRepository.DeleteAsync(id);
 
                 if (institucioniDomain == null)

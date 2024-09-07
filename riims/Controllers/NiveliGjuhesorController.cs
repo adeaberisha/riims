@@ -25,7 +25,7 @@ namespace riims.Controllers
         }
 
         // GET ALL NIVELI GJUHESOR
-        [HttpGet]
+        [HttpGet("get-all-NiveletGjuhesore")]
         public async Task<IActionResult> GetAll()
         {
             var niveliGjuhesorDomain = await _niveliGjuhesorRepository.GetAllAsync();
@@ -33,8 +33,7 @@ namespace riims.Controllers
         }
 
         // GET NIVELI GJUHESOR BY ID
-        [HttpGet]
-        [Route("{id:Guid}")]
+        [HttpGet("get-NiveletGjuhesore-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var niveliGjuhesorDomain = await _niveliGjuhesorRepository.GetByIdAsync(id);
@@ -48,7 +47,7 @@ namespace riims.Controllers
         }
 
         // CREATE NIVELI GJUHESOR
-        [HttpPost]
+        [HttpPost("add-NivelinGjuhesore")]
         public async Task<IActionResult> Create([FromBody] AddNiveliGjuhesorRequestDTO addNiveliGjuhesor)
         {
             var niveliGjuhesorDomain = _mapper.Map<NiveliGjuhesor>(addNiveliGjuhesor);
@@ -61,8 +60,7 @@ namespace riims.Controllers
         }
 
         // UPDATE NIVELI GJUHESOR
-        [HttpPut]
-        [Route("{id:Guid}")]
+        [HttpPut("update-NivelinGjuhesore-by-id/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateNiveliGjuhesorRequestDto updateNiveliGjuhesor)
         {
             var niveliGjuhesorDomain = _mapper.Map<NiveliGjuhesor>(updateNiveliGjuhesor);
@@ -78,8 +76,7 @@ namespace riims.Controllers
         }
 
         // DELETE NIVELI GJUHESOR
-        [HttpDelete]
-        [Route("{id:Guid}")]
+        [HttpDelete("delete-NivelinGjuhesore-by-id/{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var niveliGjuhesorDomain = await _niveliGjuhesorRepository.DeleteAsync(id);

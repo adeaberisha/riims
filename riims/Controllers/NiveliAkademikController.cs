@@ -25,7 +25,7 @@ namespace riims.Controllers
         }
 
         // GET ALL NIVELI AKADEMIK
-        [HttpGet]
+        [HttpGet("get-all-NiveletAkademike")]
         public async Task<IActionResult> GetAll()
         {
             var niveliAkademikDomain = await _niveliAkademikRepository.GetAllAsync();
@@ -33,7 +33,7 @@ namespace riims.Controllers
         }
 
         // GET NIVELI AKADEMIK BY ID
-        [HttpGet("{id:Guid}")]
+        [HttpGet("get-niveletAkademike-by-id/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var niveliAkademikDomain = await _niveliAkademikRepository.GetByIdAsync(id);
@@ -47,7 +47,7 @@ namespace riims.Controllers
         }
 
         // CREATE NIVELI AKADEMIK
-        [HttpPost]
+        [HttpPost("add-nivelinAkademik")]
         public async Task<IActionResult> Create([FromBody] AddNiveliAkademikRequestDto addNiveliAkademik)
         {
             var niveliAkademikDomain = _mapper.Map<NiveliAkademik>(addNiveliAkademik);
@@ -60,7 +60,7 @@ namespace riims.Controllers
         }
 
         // UPDATE NIVELI AKADEMIK
-        [HttpPut("{id:Guid}")]
+        [HttpPut("update-niveliAkademik-by-id/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateNiveliAkademikRequestDto updateNiveliAkademik)
         {
             var niveliAkademikDomain = _mapper.Map<NiveliAkademik>(updateNiveliAkademik);
@@ -76,7 +76,7 @@ namespace riims.Controllers
         }
 
         // DELETE NIVELI AKADEMIK
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("delete-niveliAkademik-by-id/{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var niveliAkademikDomain = await _niveliAkademikRepository.DeleteAsync(id);

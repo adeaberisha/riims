@@ -6,46 +6,50 @@ namespace riims.Repositories
 {
     public class SQLNiveliAkademikRepository : INiveliAkademikRepository
     {
-        private readonly RiimsDbContext _dbContext;
 
-        public SQLNiveliAkademikRepository(RiimsDbContext dbContext)
+        private readonly RiimsDbContext dbcontext;
+
+        public SQLNiveliAkademikRepository(RiimsDbContext dbcontext)
         {
-            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            this.dbcontext = dbcontext;
         }
 
-        // Retrieve all NiveliAkademik records
-        public async Task<List<NiveliAkademik>> GetAllAsync()
-        {
-            return await _dbContext.NiveliAkademik.ToListAsync();
-        }
-
-        // Retrieve a specific NiveliAkademik by its Id
-        public async Task<NiveliAkademik?> GetByIdAsync(Guid id)
-        {
-            return await _dbContext.NiveliAkademik
-                .Include(n => n.Users)  // If you want to include related data
-                .Include(n => n.Edukimet)  // If you want to include related data
-                .FirstOrDefaultAsync(n => n.Id == id);
-        }
-
-        // Create a new NiveliAkademik
         public async Task<NiveliAkademik> CreateAsync(NiveliAkademik niveliAkademik)
         {
-            if (niveliAkademik == null)
-            {
-                throw new ArgumentNullException(nameof(niveliAkademik));
-            }
-
-            await _dbContext.NiveliAkademik.AddAsync(niveliAkademik);
-            await _dbContext.SaveChangesAsync();
+            await dbcontext.NiveliAkademik.AddAsync(niveliAkademik); 
+            await dbcontext.SaveChangesAsync();
             return niveliAkademik;
         }
 
-        // Update an existing NiveliAkademik
+
+        public async Task<NiveliAkademik?> DeleteAsync(Guid id)
+        {
+            var existingNiveliAkademik = await dbcontext.NiveliAkademik.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingNiveliAkademik == null)
+            {
+                return null;
+            }
+
+            dbcontext.NiveliAkademik.Remove(existingNiveliAkademik);
+            await dbcontext.SaveChangesAsync();
+
+            return existingNiveliAkademik;
+        }
+
+        public async Task<List<NiveliAkademik>> GetAllAsync()
+        {
+            return await dbcontext.NiveliAkademik.ToListAsync();
+        }
+
+        public async Task<NiveliAkademik?> GetByIdAsync(Guid id)
+        {
+            return await dbcontext.NiveliAkademik.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<NiveliAkademik?> UpdateAsync(Guid id, NiveliAkademik niveliAkademik)
         {
-            var existingNiveliAkademik = await _dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.Id == id);
+            var existingNiveliAkademik = await dbcontext.NiveliAkademik.FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingNiveliAkademik == null)
             {
@@ -53,25 +57,8 @@ namespace riims.Repositories
             }
 
             existingNiveliAkademik.lvl = niveliAkademik.lvl;
-            // Update other necessary properties if needed
 
-            await _dbContext.SaveChangesAsync();
-            return existingNiveliAkademik;
-        }
-
-        // Delete a specific NiveliAkademik by its Id
-        public async Task<NiveliAkademik?> DeleteAsync(Guid id)
-        {
-            var existingNiveliAkademik = await _dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.Id == id);
-
-            if (existingNiveliAkademik == null)
-            {
-                return null;
-            }
-
-            _dbContext.NiveliAkademik.Remove(existingNiveliAkademik);
-            await _dbContext.SaveChangesAsync();
+            await dbcontext.SaveChangesAsync();
             return existingNiveliAkademik;
         }
     }
