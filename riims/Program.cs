@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using riims.Data;
 using riims.Mappings;
+using riims.Models.Domain;
 using riims.Repositories;
 using System.Text;
 
@@ -45,13 +46,14 @@ builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<INiveliGjuhesorRepository, SQLNiveliGjuhesorRepository>();
 builder.Services.AddScoped<IUserGjuhetRepository, SQLUserGjuhetRepository>();
 builder.Services.AddScoped<INiveliAkademikRepository, SQLNiveliAkademikRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
-builder.Services.AddIdentityCore<IdentityUser>()
+builder.Services.AddIdentityCore<User>()
     .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("Riims")
+    .AddTokenProvider<DataProtectorTokenProvider<User>>("Riims")
     .AddEntityFrameworkStores<RiimsDbContext>()
     .AddDefaultTokenProviders();
 
