@@ -15,6 +15,7 @@ using riims.Models.DTO.Publikimi;
 using riims.Models.DTO.PunaVullnetareDto;
 using riims.Models.DTO.SpecializimiDto;
 using riims.Models.DTO.UserDTO;
+using riims.Models.DTO.UserGjuhetDto;
 
 namespace riims.Mappings
 {
@@ -103,6 +104,22 @@ namespace riims.Mappings
             CreateMap<NiveliGjuhesor, NiveliGjuhesorDTO>().ReverseMap();
             CreateMap<AddNiveliGjuhesorRequestDTO, NiveliGjuhesor>().ReverseMap();
             CreateMap<UpdateNiveliGjuhesorRequestDto, NiveliGjuhesor>().ReverseMap();
+
+            //UserGjuhet
+            CreateMap<UserGjuhet, UserGjuhetDTO>().ReverseMap();
+            CreateMap<AddUserGjuhetRequestDTO, UserGjuhet>().ReverseMap();
+            CreateMap<UpdateUserGjuhetRequestDTO, UserGjuhet>().ReverseMap();
+            CreateMap<UserGjuhet, UserGjuhetDTO>()
+            .ForMember(dest => dest.EmriGjuhes, opt => opt.MapFrom(src => src.Gjuha.EmriGjuhes))
+            .ForMember(dest => dest.NiveliGjuhesor, opt => opt.MapFrom(src => src.NiveliGjuhesor.Niveli));
+
+            CreateMap<AddUserGjuhetRequestDTO, UserGjuhet>()
+                .ForMember(dest => dest.Gjuha, opt => opt.Ignore()) // Set manually
+                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore()); // Set manually
+
+            CreateMap<UpdateUserGjuhetRequestDTO, UserGjuhet>()
+                .ForMember(dest => dest.Gjuha, opt => opt.Ignore())
+                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore());
 
         }
     }
