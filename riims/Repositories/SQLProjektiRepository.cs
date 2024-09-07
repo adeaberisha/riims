@@ -2,6 +2,8 @@
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
+using riims.Models.DTO.ProjektiDto;
+using System.ComponentModel;
 
 namespace riims.Repositories
 {
@@ -40,13 +42,16 @@ namespace riims.Repositories
         public async Task<List<Projekti>> GetAllAsync(string userId)
         {
             return await dbContext.Projekti
+              .Include(x => x.Institucioni)
              .Where(x => x.UserId == userId)
              .ToListAsync();
         }
 
         public async Task<Projekti?> GetByIdAsync(Guid id)
         {
-            return await dbContext.Projekti.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Projekti
+             .Include(x => x.Institucioni) // Include the Institucioni navigation property
+             .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Projekti?> UpdateAsync(Guid id, Projekti projekti)
@@ -64,6 +69,7 @@ namespace riims.Repositories
             existingProjekti.collaborators = projekti.collaborators;
             existingProjekti.description = projekti.description;
             existingProjekti.asocohet = projekti.asocohet;
+            existingProjekti.Institucioni = projekti.Institucioni;
 
 
             await dbContext.SaveChangesAsync();

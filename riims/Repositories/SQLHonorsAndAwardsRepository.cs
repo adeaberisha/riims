@@ -41,13 +41,16 @@ namespace riims.Repositories
         public async Task<List<HonorsAndAwards>> GetAllAsync(string userId)
         {
             return await dbContext.HonorsAndAwards
+              .Include(x => x.Institucioni)
              .Where(x => x.UserId == userId)
              .ToListAsync();
         }
 
         public async Task<HonorsAndAwards?> GetByIdAsync(Guid id)
         {
-            return await dbContext.HonorsAndAwards.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.HonorsAndAwards
+             .Include(x => x.Institucioni) // Include the Institucioni navigation property
+             .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<HonorsAndAwards?> UpdateAsync(Guid id, HonorsAndAwards honorsandawards)
@@ -63,6 +66,7 @@ namespace riims.Repositories
             existingHonorsAndAwards.issuer = honorsandawards.issuer;
             existingHonorsAndAwards.dataEleshimit = honorsandawards.dataEleshimit;
             existingHonorsAndAwards.pershkrimi = honorsandawards.pershkrimi;
+            existingHonorsAndAwards.Institucioni = honorsandawards.Institucioni;
 
 
             await dbContext.SaveChangesAsync();

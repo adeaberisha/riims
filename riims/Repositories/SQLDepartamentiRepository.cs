@@ -32,12 +32,16 @@ namespace riims.Repositories
 
         public async Task<List<Departamenti>> GetAllAsync()
         {
-            return await dbcontext.Departamenti.ToListAsync();
+            return await dbcontext.Departamenti
+            .Include(d => d.Institucioni) // Eager load për Institucioni
+            .ToListAsync();
         }
 
         public async Task<Departamenti?> GetByIdAsync(Guid id)
         {
-            return await dbcontext.Departamenti.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontext.Departamenti
+             .Include(x => x.Institucioni) // Include the Institucioni navigation property
+             .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Departamenti?> UpdateAsync(Guid id, Departamenti departamenti)
@@ -50,6 +54,7 @@ namespace riims.Repositories
             }
 
             existingDepartamenti.Emri = departamenti.Emri;
+            existingDepartamenti.Institucioni = departamenti.Institucioni;
 
             await dbcontext.SaveChangesAsync();
             return existingDepartamenti;

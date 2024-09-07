@@ -35,6 +35,8 @@ namespace riims.Mappings
             CreateMap<HonorsAndAwardsDto, HonorsAndAwards>();
             CreateMap<AddHonorsAndAwardsRequestDto, HonorsAndAwards>();
             CreateMap<UpdateHonorsAndAwardsRequestDto, HonorsAndAwards>();
+            CreateMap<HonorsAndAwards, HonorsAndAwardsDto>()
+         .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //licensat
             CreateMap<Licensat, LicensatDto>();
@@ -49,6 +51,8 @@ namespace riims.Mappings
             CreateMap<ProjektiDto, Projekti>();
             CreateMap<AddProjektiRequestDto, Projekti>();
             CreateMap<UpdateProjektiRequestDto, Projekti>();
+            CreateMap<Projekti, ProjektiDto>()
+          .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //Edukimi
             CreateMap<Edukimi, EdukimiDTO>()
@@ -102,6 +106,8 @@ namespace riims.Mappings
             CreateMap<Departamenti, DepartamentiDto>().ReverseMap();
             CreateMap<AddDepartamentiRequestDto, Departamenti>().ReverseMap();
             CreateMap<UpdateDepartamentiRequestDto, Departamenti>().ReverseMap();
+            CreateMap<Departamenti, DepartamentiDto>()
+           .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //User
             CreateMap<User, UserDTO>()

@@ -14,6 +14,8 @@ namespace riims.Models.DTO.HonorsAndAwards
 
         public string pershkrimi { get; set; }
 
+        public string EmriInstitucionit { get; set; }
+
         public string UserId { get; set; }
 
         public Guid InstitucioniId { get; set; }

@@ -4,6 +4,6 @@
     {
         public string Emri { get; set; }
 
-        public Guid InstitucioniId { get; set; }
+        public string EmriInstitucionit { get; set; }
     }
 }
