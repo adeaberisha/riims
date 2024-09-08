@@ -27,7 +27,9 @@ namespace riims.Repositories
 
         public async Task<Projekti?> DeleteAsync(Guid id)
         {
-            var existingProjekti = await dbContext.Projekti.FirstOrDefaultAsync(x => x.Id == id);
+            var existingProjekti = await dbContext.Projekti
+                 .Include(p => p.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id); 
 
             if (existingProjekti == null)
             {

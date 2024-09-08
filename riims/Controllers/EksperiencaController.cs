@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.EksperiencDto;
+using riims.Models.DTO.PunaVullnetareDto;
 using riims.Models.DTO.SpecializimiDto;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -14,23 +16,30 @@ namespace riims.Controllers
     [ApiController]
     public class EksperiencaController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
+        private readonly IInstitucioniRepository institucioniRepository;
         private readonly IEksperiencaRepository eksperiencaRepository;
         private readonly IMapper mapper;
 
-        public EksperiencaController(RiimsDbContext dbContext, IEksperiencaRepository eksperiencaRepository, IMapper mapper)
+        public EksperiencaController(IInstitucioniRepository institucioniRepository, IEksperiencaRepository eksperiencaRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.institucioniRepository = institucioniRepository;
             this.eksperiencaRepository=eksperiencaRepository;
             this.mapper=mapper;
         }
 
-        [HttpGet("get-eksperiencat-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-eksperiencat-by-person-id")]
+        public async Task<IActionResult> GetAll()
         {
+            // Extract user ID from the token
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            } 
             var eksperiencatDomain = await eksperiencaRepository.GetAllAsync(userId);
-            var eksperiencaDTOs = mapper.Map<List<EksperiencaDto>>(eksperiencatDomain);
-            return Ok(eksperiencaDTOs);
+            
+            return Ok(mapper.Map<List<EksperiencaDto>>(eksperiencatDomain));
         }
 
         [HttpGet("get-eksperienca-by-id/{id}")]
@@ -43,82 +52,81 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            var eksperiencaDTOs = mapper.Map<EksperiencaDto>(eksperiencaDomain);
-            return Ok(eksperiencaDTOs);
+            
+            return Ok(mapper.Map<EksperiencaDto>(eksperiencaDomain));
         }
 
-        [HttpPost("add-eksperienca/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddEksperiencaRequestDto addEksperiencaRequestDto)
+        [HttpPost("add-eksperienca")]
+        public async Task<IActionResult> Create([FromBody] AddEksperiencaRequestDto addEksperiencaRequest)
         {
-            var institucion = await dbContext.Institucioni
-               .FirstOrDefaultAsync(i => i.Emri == addEksperiencaRequestDto.EmriInstitucionit);
+            // Extract user ID from the token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
 
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(addEksperiencaRequest.EmriInstitucionit);
+
+            // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = addEksperiencaRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = addEksperiencaRequest.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
+            // Convert the DTO to a domain model
+            var eksperiencaDomain = mapper.Map<Eksperienca>(addEksperiencaRequest);
+            eksperiencaDomain.UserId = userId;
+            eksperiencaDomain.InstitucioniId = institucion.Id;
 
-            var eksperiencaDomainModel = mapper.Map<Eksperienca>(addEksperiencaRequestDto);
-            eksperiencaDomainModel.InstitucioniId = institucion.Id;
+            // Use the domain model to create a Eksperienca
+            eksperiencaDomain = await eksperiencaRepository.CreateAsync(userId, eksperiencaDomain);
 
-            eksperiencaDomainModel = await eksperiencaRepository.CreateAsync(userId, eksperiencaDomainModel);
-         
-            var eksperiencaDto = mapper.Map<EksperiencaDto>(eksperiencaDomainModel);
-           
+            // Map the domain model back to DTO
+            var eksperiencaDto = mapper.Map<EksperiencaDto>(eksperiencaDomain);
+
             return CreatedAtAction(nameof(GetById), new { id = eksperiencaDto.Id }, eksperiencaDto);
         }
 
         [HttpPut("update-eksperienca-by-id/{id}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEksperiencaRequestDto updateEksperiencaRequestDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEksperiencaRequestDto updateEksperienca)
         {
-            var institucion = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == updateEksperiencaRequestDto.EmriInstitucionit);
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(updateEksperienca.EmriInstitucionit);
 
+            // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = updateEksperiencaRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = updateEksperienca.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
-            var existingEksperienca = await eksperiencaRepository.GetByIdAsync(id);
-
-            if (existingEksperienca == null)
+            // Fetch the existing PunaVullnetare
+            var eksperiencaDomain = await eksperiencaRepository.GetByIdAsync(id);
+            if (eksperiencaDomain == null)
             {
                 return NotFound();
             }
 
-            // Update the existing domain model with the new values
-            existingEksperienca.Titulli = updateEksperiencaRequestDto.Titulli;
-            existingEksperienca.LlojiPunesimit = updateEksperiencaRequestDto.LlojiPunesimit;
-            existingEksperienca.Lokacioni = updateEksperiencaRequestDto.Lokacioni;
-            existingEksperienca.LlojiLokacionit = updateEksperiencaRequestDto.LlojiLokacionit;
-            existingEksperienca.DataFillimit = updateEksperiencaRequestDto.DataFillimit;
-            existingEksperienca.DataMbarimit = updateEksperiencaRequestDto.DataMbarimit;
-            existingEksperienca.Pershkrimi = updateEksperiencaRequestDto.Pershkrimi;
-            existingEksperienca.InstitucioniId = institucion.Id;
+            // Update the PunaVullnetare domain model with new data
+            eksperiencaDomain = mapper.Map(updateEksperienca, eksperiencaDomain);
+            eksperiencaDomain.InstitucioniId = institucion.Id;
 
-            // Save the changes to the repository
-            var updatedEksperienca = await eksperiencaRepository.UpdateAsync(id, existingEksperienca);
+            // Update PunaVullnetare in the database
+            eksperiencaDomain = await eksperiencaRepository.UpdateAsync(id, eksperiencaDomain);
 
-            // Map the updated domain model back to DTO
-            var eksperiencaDTO = mapper.Map<EksperiencaDto>(updatedEksperienca);
-
-            return Ok(eksperiencaDTO);
+            return Ok(mapper.Map<EksperiencaDto>(eksperiencaDomain));
         }
 
 

@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.ProjektiDto;
+using riims.Models.DTO.PunaVullnetareDto;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -13,28 +15,31 @@ namespace riims.Controllers
     [ApiController]
     public class ProjektiController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
+        private readonly IInstitucioniRepository institucioniRepository;
         private readonly IProjektiRepository projektiRepository;
         private readonly IMapper mapper;
 
-        public ProjektiController(RiimsDbContext dbContext, IProjektiRepository projektiRepository, IMapper mapper)
+        public ProjektiController(IInstitucioniRepository institucioniRepository, IProjektiRepository projektiRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.institucioniRepository = institucioniRepository;
             this.projektiRepository = projektiRepository;
             this.mapper = mapper;
         }
         //GET ALL PROJECTS
-        [HttpGet("get-projekti-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-projekti-by-person-id")]
+        public async Task<IActionResult> GetAll()
         {
             // Getting the data from database - domain models
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
             var projektiDomain = await projektiRepository.GetAllAsync(userId);
 
-            // Mapping domain models to DTOs
-            var projektiDTOs = mapper.Map<List<ProjektiDto>>(projektiDomain);
-
             // Returning DTOs
-            return Ok(projektiDTOs);
+            return Ok(mapper.Map<List<ProjektiDto>>(projektiDomain));
         }
 
         //GET projekti BY ID
@@ -57,28 +62,34 @@ namespace riims.Controllers
         }
 
         //CREATE PROJEKTI
-        [HttpPost("add-projekti/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddProjektiRequestDto addProjektiRequestDto)
+        [HttpPost("add-projekti")]
+        public async Task<IActionResult> Create([FromBody] AddProjektiRequestDto addProjekti)
         {
-            // Check if the institution already exists by name
-            var institucion = await dbContext.Institucioni.FirstOrDefaultAsync(i => i.Emri == addProjektiRequestDto.EmriInstitucionit);
+            // Extract user ID from the token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
+
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(addProjekti.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = addProjektiRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = addProjekti.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
             // Convert DTO to domain model and set the InstitucioniId
-            var projektiDomain = mapper.Map<Projekti>(addProjektiRequestDto);
+            var projektiDomain = mapper.Map<Projekti>(addProjekti);
+            projektiDomain.UserId = userId;
             projektiDomain.InstitucioniId = institucion.Id;
 
             // Use domain model to create specializimi
@@ -96,51 +107,39 @@ namespace riims.Controllers
         [HttpPut("update-projekti-by-id/{id}")]
         //[Route("{id:guid}")]
 
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProjektiRequestDto updateProjektiRequestDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProjektiRequestDto updateProjekti)
         {
-
-            // Check if the institution already exists by name
-            var institucion = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == updateProjektiRequestDto.EmriInstitucionit);
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(updateProjekti.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = updateProjektiRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = updateProjekti.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
             // Get the existing Projektet from the database
-            var existingProjekti = await projektiRepository.GetByIdAsync(id);
+            var projektiDomain = await projektiRepository.GetByIdAsync(id);
 
-            if (existingProjekti == null)
+            if (projektiDomain == null)
             {
                 return NotFound();
             }
 
-            // Update the existing domain model with the new values
-            existingProjekti.emriProjektit = updateProjektiRequestDto.emriProjektit;
-            existingProjekti.startDate = updateProjektiRequestDto.startDate;
-            existingProjekti.endDate = updateProjektiRequestDto.endDate;
-            existingProjekti.collaborators = updateProjektiRequestDto.collaborators;
-            existingProjekti.description = updateProjektiRequestDto.description;
-            existingProjekti.asocohet = updateProjektiRequestDto.asocohet;
-            existingProjekti.InstitucioniId = institucion.Id;
+            // Update the PunaVullnetare domain model with new data
+            projektiDomain = mapper.Map(updateProjekti, projektiDomain);
+            projektiDomain.InstitucioniId = institucion.Id;
 
-            // Save the changes to the repository
-            var updatedProjekti = await projektiRepository.UpdateAsync(id, existingProjekti);
+            // Update PunaVullnetare in the database
+            projektiDomain = await projektiRepository.UpdateAsync(id, projektiDomain);
 
-            // Map the updated domain model back to DTO
-            var projektiDto = mapper.Map<ProjektiDto>(updatedProjekti);
-
-            return Ok(projektiDto);
+            return Ok(mapper.Map<ProjektiDto>(projektiDomain));
         }
 
         //Deelete Projekti

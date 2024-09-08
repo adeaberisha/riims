@@ -22,7 +22,10 @@ namespace riims.Repositories
 
         public async Task<Aftesite?> DeleteAsync(Guid id)
         {
-            var existingAftesia = await dbcontext.Aftesite.FirstOrDefaultAsync(x => x.Id == id);
+
+            var existingAftesia = await dbcontext.Aftesite
+                .Include(a => a.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingAftesia == null)
             {

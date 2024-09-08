@@ -26,7 +26,9 @@ namespace riims.Repositories
 
         public async Task<HonorsAndAwards?> DeleteAsync(Guid id)
         {
-            var existingHonorsAndAwards = await dbContext.HonorsAndAwards.FirstOrDefaultAsync(x => x.Id == id);
+            var existingHonorsAndAwards = await dbContext.HonorsAndAwards
+                 .Include(h => h.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id); 
 
             if (existingHonorsAndAwards == null)
             {

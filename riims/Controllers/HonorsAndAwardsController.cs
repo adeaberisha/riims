@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.HonorsAndAwards;
+using riims.Models.DTO.PunaVullnetareDto;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -13,29 +15,32 @@ namespace riims.Controllers
     [ApiController]
     public class HonorsAndAwardsController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
+        private readonly IInstitucioniRepository institucioniRepository;
         private readonly IHonorsAndAwardsRepository honorsandawardsRepository;
         private readonly IMapper mapper;
 
-        public HonorsAndAwardsController(RiimsDbContext dbContext, IHonorsAndAwardsRepository honorsandawardsRepository, IMapper mapper)
+        public HonorsAndAwardsController(IInstitucioniRepository institucioniRepository, IHonorsAndAwardsRepository honorsandawardsRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.institucioniRepository = institucioniRepository;
             this.honorsandawardsRepository = honorsandawardsRepository;
             this.mapper = mapper;
         }
 
         //GET ALL HONORS
-        [HttpGet("get-honors-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-honors-by-person-id")]
+        public async Task<IActionResult> GetAll()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
             // Getting the data from database - domain models
             var honorsandawardsDomain = await honorsandawardsRepository.GetAllAsync(userId);
 
-            // Mapping domain models to DTOs
-            var honorsandawardsDTOs = mapper.Map<List<HonorsAndAwardsDto>>(honorsandawardsDomain);
-
             // Returning DTOs
-            return Ok(honorsandawardsDTOs);
+            return Ok(mapper.Map<List<HonorsAndAwardsDto>>(honorsandawardsDomain));
         }
 
         ////GET honor BY ID
@@ -49,36 +54,39 @@ namespace riims.Controllers
             {
                 return NotFound();
             }
-
-            // Mapping the projekti domain model to ProjektiDto
-            var honorsandawardsDto = mapper.Map<HonorsAndAwardsDto>(honorsandawardsDomain);
-
             // Returning DTO back to the client
-            return Ok(honorsandawardsDto);
+            return Ok(mapper.Map<HonorsAndAwardsDto>(honorsandawardsDomain));
         }
 
         //Add honors
-        [HttpPost("add-honor/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwardsRequestDto)
-        { // Check if the institution already exists by name
-            var institucion = await dbContext.Institucioni.FirstOrDefaultAsync(i => i.Emri == addHonorsAndAwardsRequestDto.EmriInstitucionit);
+        [HttpPost("add-honor")]
+        public async Task<IActionResult> Create([FromBody] AddHonorsAndAwardsRequestDto addHonorsAndAwards)
+        {
+            // Extract user ID from the token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
+
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(addHonorsAndAwards.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = addHonorsAndAwardsRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = addHonorsAndAwards.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
             // Convert DTO to domain model and set the InstitucioniId
-            var honorsandawardsDomain = mapper.Map<HonorsAndAwards>(addHonorsAndAwardsRequestDto);
+            var honorsandawardsDomain = mapper.Map<HonorsAndAwards>(addHonorsAndAwards);
+            honorsandawardsDomain.UserId = userId;
             honorsandawardsDomain.InstitucioniId = institucion.Id;
 
             // Use domain model to create specializimi
@@ -92,56 +100,39 @@ namespace riims.Controllers
 
         //UPDATE HONORS
         [HttpPut("update-honor-by-id/{id}")]
-        //[Route("{id:guid}")]
-
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateHonorsAndAwardsRequestDto updateHonorsAndAwardsRequestDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateHonorsAndAwardsRequestDto updateHonorsAndAwards)
         {
-
-            // Check if the institution already exists by name
-            var institucion = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == updateHonorsAndAwardsRequestDto.EmriInstitucionit);
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(updateHonorsAndAwards.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = updateHonorsAndAwardsRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = updateHonorsAndAwards.EmriInstitucionit
                 };
-
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
-
-            // Get the existing Honors from the database
-            var existingHonorsAndAwards = await honorsandawardsRepository.GetByIdAsync(id);
-
-            if (existingHonorsAndAwards == null)
+            var honorsAndAwardsDomain = await honorsandawardsRepository.GetByIdAsync(id);
+            if (honorsAndAwardsDomain == null)
             {
                 return NotFound();
             }
 
-            // Update the existing domain model with the new values
-            existingHonorsAndAwards.titulli = updateHonorsAndAwardsRequestDto.titulli;
-            existingHonorsAndAwards.issuer = updateHonorsAndAwardsRequestDto.issuer;
-            existingHonorsAndAwards.dataEleshimit = updateHonorsAndAwardsRequestDto.dataEleshimit;
-            existingHonorsAndAwards.pershkrimi = updateHonorsAndAwardsRequestDto.pershkrimi;
-            existingHonorsAndAwards.InstitucioniId = institucion.Id;
+            // Update the PunaVullnetare domain model with new data
+            honorsAndAwardsDomain = mapper.Map(updateHonorsAndAwards, honorsAndAwardsDomain);
+            honorsAndAwardsDomain.InstitucioniId = institucion.Id;
 
-            // Save the changes to the repository
-            var updatedHonorsAndAwards = await honorsandawardsRepository.UpdateAsync(id, existingHonorsAndAwards);
+            // Update PunaVullnetare in the database
+            honorsAndAwardsDomain = await honorsandawardsRepository.UpdateAsync(id, honorsAndAwardsDomain);
 
-            // Map the updated domain model back to DTO
-            var honorsandawardsDto = mapper.Map<HonorsAndAwardsDto>(updatedHonorsAndAwards);
-
-            return Ok(honorsandawardsDto);
+            return Ok(mapper.Map<HonorsAndAwardsDto>(honorsAndAwardsDomain));
         }
 
         //DELETE HONORS
         [HttpDelete("delete-honor-by-id/{id}")]
-        //[Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var honorsandawardsDomain = await honorsandawardsRepository.DeleteAsync(id);

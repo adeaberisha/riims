@@ -22,7 +22,9 @@ namespace riims.Repositories
 
         public async Task<Specializimet?> DeleteAsync(Guid id)
         {
-            var existingSpecializimi = await dbcontext.Specializimet.FirstOrDefaultAsync(x => x.Id == id);
+            var existingSpecializimi = await dbcontext.Specializimet
+                 .Include(s => s.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id); 
 
             if (existingSpecializimi == null)
             {

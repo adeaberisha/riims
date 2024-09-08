@@ -22,7 +22,9 @@ namespace riims.Repositories
 
         public async Task<Eksperienca?> DeleteAsync(Guid id)
         {
-            var existingEksperienca = await _dbContext.Eksperienca.FirstOrDefaultAsync(x => x.Id == id);
+            var existingEksperienca = await _dbContext.Eksperienca
+                 .Include(e => e.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id); 
 
             if (existingEksperienca == null)
             {
