@@ -23,8 +23,9 @@ namespace riims.Repositories
 
         public async Task<PunaVullnetare?> DeleteAsync(Guid id)
         {
-            var existingPunaVullnetare = await dbcontext.PunaVullnetare.
-                FirstOrDefaultAsync(x => x.Id == id);
+            var existingPunaVullnetare = await dbcontext.PunaVullnetare
+                .Include(pv => pv.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if(existingPunaVullnetare == null)
             {
@@ -39,14 +40,19 @@ namespace riims.Repositories
 
         public async Task<List<PunaVullnetare>> GetAllAsync(string userId)
         {
+            // Retrieve all PunaVullnetare records for the given userId
             return await dbcontext.PunaVullnetare
-                .Where(x => x.UserId == userId)
+                .Include(pv => pv.Institucioni) // Include the Institucioni navigation property
+                .Where(pv => pv.UserId == userId)
                 .ToListAsync();
         }
 
         public async Task<PunaVullnetare?> GetByIdAsync(Guid id)
         {
-            return await dbcontext.PunaVullnetare.FirstOrDefaultAsync(x => x.Id == id);
+            // Retrieve the PunaVullnetare record by its Id
+            return await dbcontext.PunaVullnetare
+                .Include(pv => pv.Institucioni) // Include the Institucioni navigation property
+                .FirstOrDefaultAsync(pv => pv.Id == id);
         }
 
         public async Task<PunaVullnetare?> UpdateAsync(Guid id, PunaVullnetare punaVullnetare)
@@ -63,6 +69,7 @@ namespace riims.Repositories
             existingPunaVullnetare.DataFillimit = punaVullnetare.DataFillimit;
             existingPunaVullnetare.DataMbarimit = punaVullnetare.DataMbarimit;
             existingPunaVullnetare.Pershkrimi = punaVullnetare.Pershkrimi;
+            existingPunaVullnetare.Institucioni = punaVullnetare.Institucioni;
 
             await dbcontext.SaveChangesAsync();
             return existingPunaVullnetare;

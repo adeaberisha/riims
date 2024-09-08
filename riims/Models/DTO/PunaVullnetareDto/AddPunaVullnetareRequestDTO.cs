@@ -10,8 +10,6 @@
 
         public string? Pershkrimi { get; set; }
 
-        public string UserId { get; set; }
-
-        public Guid InstitucioniId { get; set; }
+        public string EmriInstitucionit { get; set; }
     }
 }

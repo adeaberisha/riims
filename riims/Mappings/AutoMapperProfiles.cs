@@ -83,6 +83,8 @@ namespace riims.Mappings
             CreateMap<PunaVullnetare, PunaVullnetareDTO>().ReverseMap();
             CreateMap<AddPunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
             CreateMap<UpdatePunaVullnetareRequestDTO, PunaVullnetare>().ReverseMap();
+            CreateMap<PunaVullnetare, PunaVullnetareDTO>()
+            .ForMember(dest => dest.EmriInstitucionit, opt => opt.MapFrom(src => src.Institucioni.Emri));
 
             //Aftesite
             CreateMap<Aftesite, AftesiteDTO>().ReverseMap();
