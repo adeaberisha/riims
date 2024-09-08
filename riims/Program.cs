@@ -75,6 +75,7 @@ builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<INiveliGjuhesorRepository, SQLNiveliGjuhesorRepository>();
 builder.Services.AddScoped<IUserGjuhetRepository, SQLUserGjuhetRepository>();
 builder.Services.AddScoped<INiveliAkademikRepository, SQLNiveliAkademikRepository>();
+builder.Services.AddScoped<IMbikqyresRepository, SQLMbikqyresRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 

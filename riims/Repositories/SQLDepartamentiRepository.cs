@@ -66,5 +66,11 @@ namespace riims.Repositories
             await dbcontext.SaveChangesAsync();
             return departamenti;
         }
+
+        public async Task<Departamenti?> GetByNameAsync(string name)
+        {
+            return await dbcontext.Departamenti
+                .FirstOrDefaultAsync(i => i.Emri == name);
+        }
     }
 }

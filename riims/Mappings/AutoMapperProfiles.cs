@@ -9,6 +9,7 @@ using riims.Models.DTO.GjuhetDto;
 using riims.Models.DTO.HonorsAndAwards;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.LicensatDto;
+using riims.Models.DTO.MbikqyresITemaveDto;
 using riims.Models.DTO.NiveliAkademikDto;
 using riims.Models.DTO.NiveliGjuhesorDto;
 using riims.Models.DTO.ProjektiDto;
@@ -144,6 +145,13 @@ namespace riims.Mappings
             CreateMap<NiveliAkademik, NiveliAkademikDto>().ReverseMap();
             CreateMap<AddNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
             CreateMap<UpdateNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
+
+            //MbikqyresITemave
+            CreateMap<MbikqyresITemave, MbikqyresITemaveDTO>().ReverseMap();
+            CreateMap<AddMbikqyresRequestDTO, MbikqyresITemave>().ReverseMap();
+            CreateMap<UpdateMbikqyresRequestDTO, MbikqyresITemave>().ReverseMap();
+            CreateMap<MbikqyresITemave, MbikqyresITemaveDTO>()
+           .ForMember(dest => dest.EmriDepartamentit, opt => opt.MapFrom(src => src.Departamenti.Emri));
 
         }
     }

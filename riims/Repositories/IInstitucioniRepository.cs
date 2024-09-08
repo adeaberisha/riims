@@ -9,7 +9,6 @@ namespace riims.Repositories
         Task<Institucioni> CreateAsync(Institucioni institucioni);
         Task<Institucioni?> UpdateAsync(Guid id, Institucioni institucioni);
         Task<Institucioni?> DeleteAsync(Guid id);
-
         Task<Institucioni?> GetByNameAsync(string name);
     }
 }

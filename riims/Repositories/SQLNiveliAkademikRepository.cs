@@ -61,5 +61,11 @@ namespace riims.Repositories
             await dbcontext.SaveChangesAsync();
             return existingNiveliAkademik;
         }
+
+        public async Task<NiveliAkademik?> GetByNameAsync(string level)
+        {
+            return await dbcontext.NiveliAkademik
+                .FirstOrDefaultAsync(i => i.lvl == level);
+        }
     }
 }

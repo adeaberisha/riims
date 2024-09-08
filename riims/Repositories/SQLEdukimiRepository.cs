@@ -24,7 +24,10 @@ namespace riims.Repositories
 
         public async Task<Edukimi?> DeleteAsync(Guid id)
         {
-            var existingEdukimi = await dbcontext.Edukimi.FirstOrDefaultAsync(x => x.Id == id);
+            var existingEdukimi = await dbcontext.Edukimi
+                .Include(pv => pv.Institucioni)
+                .Include(e => e.NiveliAkademik)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingEdukimi == null)
             {
@@ -68,6 +71,8 @@ namespace riims.Repositories
             existingEdukimi.DataFillimit = edukimi.DataFillimit;
             existingEdukimi.DataMbarimit = edukimi.DataMbarimit;
             existingEdukimi.Pershkrimi = edukimi.Pershkrimi;
+            existingEdukimi.Institucioni = edukimi.Institucioni;
+            existingEdukimi.NiveliAkademik = edukimi.NiveliAkademik;
 
             await dbcontext.SaveChangesAsync();
             return existingEdukimi;
