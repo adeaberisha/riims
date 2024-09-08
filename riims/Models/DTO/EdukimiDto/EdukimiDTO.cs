@@ -14,11 +14,11 @@
 
         public string? Pershkrimi { get; set; }
 
-        public string UserId { get; set; }
-
         public string Institucioni { get; set; }
 
         public string NiveliAkademik { get; set; }
+
+        public string UserId { get; set; }
 
         public Guid InstitucioniId { get; set; }
 

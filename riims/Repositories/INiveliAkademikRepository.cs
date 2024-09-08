@@ -9,5 +9,6 @@ namespace riims.Repositories
         Task<NiveliAkademik> CreateAsync(NiveliAkademik niveliAkademik);
         Task<NiveliAkademik?> UpdateAsync(Guid id, NiveliAkademik niveliAkademik);
         Task<NiveliAkademik?> DeleteAsync(Guid id);
+        Task<NiveliAkademik?> GetByNameAsync(string lvl);
     }
 }

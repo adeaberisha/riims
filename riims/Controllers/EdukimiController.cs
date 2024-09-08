@@ -6,7 +6,9 @@ using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
 using riims.Models.DTO.EdukimiDto;
+using riims.Models.DTO.PunaVullnetareDto;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -16,21 +18,34 @@ namespace riims.Controllers
     {
         private readonly RiimsDbContext dbContext;
         private readonly IEdukimiRepository edukimiRepository;
+        private readonly IInstitucioniRepository institucioniRepository;
+        private readonly INiveliAkademikRepository niveliAkademikRepository;
         private readonly IMapper mapper;
 
         public EdukimiController( RiimsDbContext dbContext, IEdukimiRepository edukimiRepository,
+            IInstitucioniRepository institucioniRepository,
+            INiveliAkademikRepository niveliAkademikRepository,
             IMapper mapper)
         {
             this.dbContext = dbContext;
             this.edukimiRepository = edukimiRepository;
+            this.institucioniRepository = institucioniRepository;
+            this.niveliAkademikRepository = niveliAkademikRepository;
             this.mapper = mapper;
         }
 
         //GET ALL EDUKIMET
-        [HttpGet("get-edukimet-by-person-id/{userId}")]
-        //[Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-edukimet-by-person-id")]
+        public async Task<IActionResult> GetAll()
         {
+            // Extract user ID from the token
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+
             //Getting the data from database - domain models
             var edukimetDomain = await edukimiRepository.GetAllAsync(userId);
 
@@ -59,53 +74,46 @@ namespace riims.Controllers
         }
 
         //CREATE EDUKIMI
-        [HttpPost("add-edukimi/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddEdukimiRequestDTO addEdukimiRequestDTO)
+        [HttpPost("add-edukimi")]
+        public async Task<IActionResult> Create([FromBody] AddEdukimiRequestDTO addEdukimiRequestDTO)
         {
-            // Find or create NiveliAkademik
-            var niveliAkademik = await dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.lvl == addEdukimiRequestDTO.NiveliAkademik);
-
-            if (niveliAkademik == null)
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
-                niveliAkademik = new NiveliAkademik
-                {
-                    Id = Guid.NewGuid(),
-                    lvl = addEdukimiRequestDTO.NiveliAkademik
-                };
-
-                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
-                await dbContext.SaveChangesAsync();
+                return Unauthorized(); // Or handle as appropriate
             }
 
-            // Find or create Institucioni
-            var institucioni = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == addEdukimiRequestDTO.Institucioni);
+            // Find NiveliAkademik
+            var niveliAkademik = await niveliAkademikRepository.GetByNameAsync(addEdukimiRequestDTO.NiveliAkademik);
 
-            if (institucioni == null)
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(addEdukimiRequestDTO.Institucioni);
+
+            // If the institution doesn't exist, create it
+            if (institucion == null)
             {
-                institucioni = new Institucioni
+                institucion = new Institucioni
                 {
                     Id = Guid.NewGuid(),
                     Emri = addEdukimiRequestDTO.Institucioni
                 };
 
-                await dbContext.Institucioni.AddAsync(institucioni);
-                await dbContext.SaveChangesAsync();
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
-            // Convert DTO to domain model
+            // Convert the DTO to a domain model
             var edukimiDomain = mapper.Map<Edukimi>(addEdukimiRequestDTO);
-            edukimiDomain.InstitucioniId = institucioni.Id;
+            edukimiDomain.UserId = userId;
+            edukimiDomain.InstitucioniId = institucion.Id;
             edukimiDomain.NiveliAkademikId = niveliAkademik.Id;
 
-            // Create the edukimi, passing userId
+            // Use the domain model to create a Edukim
             edukimiDomain = await edukimiRepository.CreateAsync(userId, edukimiDomain);
 
-            // Map domain model back to DTO
-            var edukimiDTO = mapper.Map<EdukimiDTO>(edukimiDomain);
+            // Map the domain model back to DTO
+            var edukimiDto = mapper.Map<EdukimiDTO>(edukimiDomain);
 
-            return CreatedAtAction(nameof(GetById), new { id = edukimiDTO.Id }, edukimiDTO);
+            return CreatedAtAction(nameof(GetById), new { id = edukimiDto.Id }, edukimiDto);
         }
 
 
@@ -120,56 +128,40 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            // Find or create NiveliAkademik
-            var niveliAkademik = await dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.lvl == updateEdukimiRequestDTO.NiveliAkademik);
+            // Find NiveliAkademik
+            var niveliAkademik = await niveliAkademikRepository.GetByNameAsync(updateEdukimiRequestDTO.NiveliAkademik);
 
-            if (niveliAkademik == null)
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(updateEdukimiRequestDTO.Institucioni);
+
+            // If the institution doesn't exist, create it
+            if (institucion == null)
             {
-                niveliAkademik = new NiveliAkademik
-                {
-                    Id = Guid.NewGuid(),
-                    lvl = updateEdukimiRequestDTO.NiveliAkademik
-                };
-
-                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
-                await dbContext.SaveChangesAsync();
-            }
-
-            // Find or create Institucioni
-            var institucioni = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == updateEdukimiRequestDTO.Institucioni);
-
-            if (institucioni == null)
-            {
-                institucioni = new Institucioni
+                institucion = new Institucioni
                 {
                     Id = Guid.NewGuid(),
                     Emri = updateEdukimiRequestDTO.Institucioni
                 };
 
-                await dbContext.Institucioni.AddAsync(institucioni);
-                await dbContext.SaveChangesAsync();
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
-            // Map the updated values from DTO to the existing domain model
-            existingEdukimi = mapper.Map(updateEdukimiRequestDTO, existingEdukimi);
-            existingEdukimi.InstitucioniId = institucioni.Id;
-            existingEdukimi.NiveliAkademikId = niveliAkademik.Id;
-
-            // Update the edukimi entry
-            existingEdukimi = await edukimiRepository.UpdateAsync(id, existingEdukimi);
-
-            // Check if update was successful
-            if (existingEdukimi == null)
+            // Fetch the existing Edukimi
+            var edukimiDomain = await edukimiRepository.GetByIdAsync(id);
+            if (edukimiDomain == null)
             {
                 return NotFound();
             }
 
-            // Map the updated domain model back to DTO
-            var edukimiDTO = mapper.Map<EdukimiDTO>(existingEdukimi);
+            // Update the PunaVullnetare domain model with new data
+            edukimiDomain = mapper.Map(updateEdukimiRequestDTO, edukimiDomain);
+            edukimiDomain.InstitucioniId = institucion.Id;
+            edukimiDomain.NiveliAkademikId = niveliAkademik.Id;
 
-            return Ok(edukimiDTO);
+            // Update PunaVullnetare in the database
+            edukimiDomain = await edukimiRepository.UpdateAsync(id, edukimiDomain);
+
+            return Ok(mapper.Map<EdukimiDTO>(edukimiDomain));
         }
 
 

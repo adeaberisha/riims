@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO;
+using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.NiveliAkademikDto;
 using riims.Repositories;
 
@@ -86,6 +87,22 @@ namespace riims.Controllers
                 return NotFound();
             }
 
+            return Ok(_mapper.Map<NiveliAkademikDto>(niveliAkademikDomain));
+        }
+
+        [HttpGet("get-niveliAkademik-by-name/{lvl}")]
+        public async Task<IActionResult> GetByName([FromRoute] string lvl)
+        {
+            // Getting the institucioni domain model from the database by name
+            var niveliAkademikDomain = await _niveliAkademikRepository.GetByNameAsync(lvl);
+
+            if (niveliAkademikDomain == null)
+            {
+                return NotFound();
+            }
+
+            // Mapping the institucioni domain model to DTO
+            // Returning DTO back to the client
             return Ok(_mapper.Map<NiveliAkademikDto>(niveliAkademikDomain));
         }
     }
