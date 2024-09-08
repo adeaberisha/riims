@@ -57,5 +57,8 @@ namespace riims.Models.Domain
 
         //[InverseProperty("User")]
         public ICollection<Edukimi> Edukimet { get; set; } = new HashSet<Edukimi>();
+
+        //[InverseProperty("User")]
+        public ICollection<Image> Images { get; set; } = new HashSet<Image>();
     }
 }
