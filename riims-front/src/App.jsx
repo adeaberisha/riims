@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoggedInNavbar from './components/LoggedInNavbar'; 
 import Login from './components/Login'; 
-// import Register from './components/Register'; 
+import Register from './components/Register'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
           ) : (
             <>
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
-              {/* <Route path="/register" element={<Register />} /> */}
+              <Route path="/register" element={<Register />} />
               <Route path="*" element={<Navigate to="/login" />} />
             </>
           )}

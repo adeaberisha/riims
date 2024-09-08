@@ -1,0 +1,24 @@
+/* Register.css */
+.bg-dark-blue {
+    background-color: #003366; /* Dark blue color */
+  }
+  
+  .bg-light {
+    background-color: #f8f9fa; /* Light color for the form background */
+  }
+  
+  .btn-dark-blue {
+    background-color: #003366;
+    color: white;
+  }
+  
+  .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+  
+  .register-form-container {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  

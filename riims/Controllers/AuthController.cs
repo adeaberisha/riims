@@ -24,6 +24,44 @@ namespace riims.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
         {
+            if (registerRequestDTO == null)
+            {
+                return BadRequest("Request body is null.");
+            }
+
+            var identityUser = new User
+            {
+                UserName = registerRequestDTO.Username,
+                Email = registerRequestDTO.Username
+            };
+
+            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDTO.Password);
+
+            if (!identityResult.Succeeded)
+            {
+                var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
+                return BadRequest($"User creation failed: {errors}");
+            }
+
+            // Add roles to this User
+            if (registerRequestDTO.Roles != null && registerRequestDTO.Roles.Any())
+            {
+                identityResult = await userManager.AddToRolesAsync(identityUser, registerRequestDTO.Roles);
+
+                if (!identityResult.Succeeded)
+                {
+                    var errors = string.Join(", ", identityResult.Errors.Select(e => e.Description));
+                    return BadRequest($"Adding roles failed: {errors}");
+                }
+            }
+
+            return Ok("User was registered!");
+        }
+
+        /*[HttpPost]
+        [Route("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO registerRequestDTO)
+        {
             var identityUser = new User
             {
                 UserName = registerRequestDTO.Username,
@@ -46,7 +84,8 @@ namespace riims.Controllers
             }
 
             return BadRequest("Something went wrong!");
-        }
+        }*/
+
 
         [HttpPost]
         [Route("Login")]
