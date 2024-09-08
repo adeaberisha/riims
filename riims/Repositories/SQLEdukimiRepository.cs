@@ -71,6 +71,8 @@ namespace riims.Repositories
             existingEdukimi.DataFillimit = edukimi.DataFillimit;
             existingEdukimi.DataMbarimit = edukimi.DataMbarimit;
             existingEdukimi.Pershkrimi = edukimi.Pershkrimi;
+            existingEdukimi.Institucioni = edukimi.Institucioni;
+            existingEdukimi.NiveliAkademik = edukimi.NiveliAkademik;
 
             await dbcontext.SaveChangesAsync();
             return existingEdukimi;

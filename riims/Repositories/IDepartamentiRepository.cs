@@ -9,5 +9,6 @@ namespace riims.Repositories
         Task<Departamenti> CreateAsync(Departamenti departamenti);
         Task<Departamenti?> UpdateAsync(Guid id, Departamenti departamenti);
         Task<Departamenti?> DeleteAsync(Guid id);
+        Task<Departamenti?> GetByNameAsync(string name);
     }
 }

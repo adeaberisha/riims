@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,20 +15,19 @@ namespace riims.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EdukimiController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IEdukimiRepository edukimiRepository;
         private readonly IInstitucioniRepository institucioniRepository;
         private readonly INiveliAkademikRepository niveliAkademikRepository;
         private readonly IMapper mapper;
 
-        public EdukimiController( RiimsDbContext dbContext, IEdukimiRepository edukimiRepository,
+        public EdukimiController(IEdukimiRepository edukimiRepository,
             IInstitucioniRepository institucioniRepository,
             INiveliAkademikRepository niveliAkademikRepository,
             IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.edukimiRepository = edukimiRepository;
             this.institucioniRepository = institucioniRepository;
             this.niveliAkademikRepository = niveliAkademikRepository;
