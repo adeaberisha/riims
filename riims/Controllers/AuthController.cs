@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using riims.Models.Domain;
+using riims.Models.DTO;
+using riims.Repositories;
 
 namespace riims.Controllers
 {
