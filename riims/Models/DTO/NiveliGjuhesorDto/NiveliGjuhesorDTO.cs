@@ -6,7 +6,6 @@
 
         public string? Niveli { get; set; }
 
-        //public string UserId { get; set; }
 
     }
 }

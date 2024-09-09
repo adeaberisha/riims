@@ -16,5 +16,8 @@ namespace riims.Repositories
         Task<NiveliGjuhesor?> UpdateAsync(Guid id, NiveliGjuhesor niveliGjuhesor);
 
         Task<NiveliGjuhesor?> DeleteAsync(Guid id);
+
+        Task<NiveliGjuhesor?> GetByNameAsync(string niveli);
+
     }
 }

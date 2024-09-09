@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.GjuhetDto;
+using riims.Models.DTO.InstitucioniDto;
 using riims.Repositories;
 
 namespace riims.Controllers
@@ -34,7 +35,6 @@ namespace riims.Controllers
 
 
         [HttpGet("get-gjuhet")]
-        //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var gjuhetDomain = await gjuhetRepository.GetByIdAsync (id);
@@ -75,14 +75,10 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            var gjuhetDto = mapper.Map<GjuhetDto>(gjuhetDomain);
-
-            return Ok(gjuhetDto);
+            return Ok(mapper.Map<GjuhetDto>(gjuhetDomain));
         }
 
         [HttpDelete("delete-gjuha-by-id/{id}")]
-        //[Route("{id:Guid}")]
-
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var gjuhetDomain = await gjuhetRepository.DeleteAsync(id);
@@ -92,6 +88,23 @@ namespace riims.Controllers
             var gjuhetDto = mapper.Map<GjuhetDto>(gjuhetDomain);
 
             return Ok();
+        }
+
+        // GET GJUHA BY NAME
+        [HttpGet("get-Institucionin-by-name/{name}")]
+        public async Task<IActionResult> GetByName([FromRoute] string name)
+        {
+            // Getting the gjuha domain model from the database by name
+            var gjuhaDomain = await gjuhetRepository.GetByNameAsync(name);
+
+            if (gjuhaDomain == null)
+            {
+                return NotFound();
+            }
+
+            // Mapping the gjuha domain model to DTO
+            // Returning DTO back to the client
+            return Ok(mapper.Map<GjuhetDto>(gjuhaDomain));
         }
     }
 }

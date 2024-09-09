@@ -65,6 +65,12 @@ namespace riims.Repositories
             await dbContext.SaveChangesAsync();
             return existingNiveliGjuhesor;
         }
+
+        public async Task<NiveliGjuhesor?> GetByNameAsync(string niveli)
+        {
+            return await dbContext.NiveliGjuhesor
+                .FirstOrDefaultAsync(i => i.Niveli == niveli);
+        }
     }
 }
 

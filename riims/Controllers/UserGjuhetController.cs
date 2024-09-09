@@ -5,8 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
 using riims.Models.DTO.AftesiteDto;
+using riims.Models.DTO.EdukimiDto;
+using riims.Models.DTO.GjuhetDto;
 using riims.Models.DTO.UserGjuhetDto;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -14,38 +17,38 @@ namespace riims.Controllers
     [ApiController]
     public class UserGjuhetController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IUserGjuhetRepository userGjuhetRepository;
+        private readonly IGjuhetRepostory gjuhetRepostory;
+        private readonly INiveliGjuhesorRepository niveliGjuhesorRepository;
         private readonly IMapper mapper;
 
-        public UserGjuhetController(RiimsDbContext dbContext, IUserGjuhetRepository userGjuhetRepository,
-            IMapper mapper)
+        public UserGjuhetController(IUserGjuhetRepository userGjuhetRepository,IGjuhetRepostory gjuhetRepostory,
+            INiveliGjuhesorRepository niveliGjuhesorRepository,IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.gjuhetRepostory = gjuhetRepostory;
+            this.niveliGjuhesorRepository = niveliGjuhesorRepository;
             this.userGjuhetRepository = userGjuhetRepository;
             this.mapper = mapper;
         }
 
         //GET ALL GJUHET
-        [HttpGet("get-userGjuhet-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-userGjuhet-by-person-id")]
+        public async Task<IActionResult> GetAll()
         {
-            // Getting the data from the database - domain models
-            var userGjuhetDomain = await userGjuhetRepository.GetAllAsync(userId);
+            // Extract user ID from the token
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Manually map domain models to DTOs
-            var userGjuhetDTOs = userGjuhetDomain.Select(ug => new UserGjuhetDTO
+            if (string.IsNullOrEmpty(userId))
             {
-                Id = ug.Id,
-                UserId = ug.UserId,
-                GjuhaId = ug.GjuhaId,
-                EmriGjuhes = ug.Gjuha.EmriGjuhes,  // Map the language name
-                NiveliGjuhesorId = ug.NiveliGjuhesorId,
-                NiveliGjuhesor = ug.NiveliGjuhesor.Niveli  // Map the language level
-            }).ToList();
+                return Unauthorized("User ID not found in the token.");
+            }
 
-            // Returning DTOs
-            return Ok(userGjuhetDTOs);
+            //Getting the data from database - domain models
+            var gjuhetDomain = await userGjuhetRepository.GetAllAsync(userId);
+
+            //Mapping domain models to DTOs
+            //Returning DTOs
+            return Ok(mapper.Map<List<UserGjuhetDTO>>(gjuhetDomain));
         }
 
         //GET USERGJUHET BY ID 
@@ -60,22 +63,27 @@ namespace riims.Controllers
                 return NotFound();
             }
 
-            // Mapping the userGjuhet domain model to UserGjuhetDTO
-            var userGjuhetDTO = mapper.Map<UserGjuhetDTO>(userGjuhetDomain);
-
             // Returning DTO back to the client
-            return Ok(userGjuhetDTO);
+            return Ok(mapper.Map<UserGjuhetDTO>(userGjuhetDomain));
         }
 
 
         //CREATE USER-GJUHET
-        [HttpPost("add-userGjuhet/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddUserGjuhetRequestDTO addUserGjuhet)
+        [HttpPost("add-userGjuhet")]
+        public async Task<IActionResult> Create([FromBody] AddUserGjuhetRequestDTO addUserGjuhet)
         {
-            // Check if the language (Gjuha) already exists by name (EmriGjuhes)
-            var gjuha = await dbContext.Gjuhet.FirstOrDefaultAsync(g => g.EmriGjuhes == addUserGjuhet.EmriGjuhes);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
+            // Find Gjuha
+            var gjuha = await gjuhetRepostory.GetByNameAsync(addUserGjuhet.EmriGjuhes);
 
-            // If the language doesn't exist, create it
+            // Check if the niveli gjyhesor exists by name
+            var niveliGjuhesor = await niveliGjuhesorRepository.GetByNameAsync(addUserGjuhet.NiveliGjuhesor);
+
+            // If the Emri Gjuhes doesn't exist, create it
             if (gjuha == null)
             {
                 gjuha = new Gjuhet
@@ -84,15 +92,9 @@ namespace riims.Controllers
                     EmriGjuhes = addUserGjuhet.EmriGjuhes
                 };
 
-                // Add the language to the database
-                await dbContext.Gjuhet.AddAsync(gjuha);
-                await dbContext.SaveChangesAsync(); // Save the new language to the database
+                gjuha = await gjuhetRepostory.CreateAsync(gjuha);
             }
-
-            // Check if the language level (NiveliGjuhesor) already exists by name
-            var niveliGjuhesor = await dbContext.NiveliGjuhesor.FirstOrDefaultAsync(n => n.Niveli == addUserGjuhet.NiveliGjuhesor);
-
-            // If the level doesn't exist, create it
+            // If the niveliGjuhesor doesn't exist, create it
             if (niveliGjuhesor == null)
             {
                 niveliGjuhesor = new NiveliGjuhesor
@@ -101,36 +103,39 @@ namespace riims.Controllers
                     Niveli = addUserGjuhet.NiveliGjuhesor
                 };
 
-                // Add the level to the database
-                await dbContext.NiveliGjuhesor.AddAsync(niveliGjuhesor);
-                await dbContext.SaveChangesAsync(); // Save the new level to the database
+                niveliGjuhesor = await niveliGjuhesorRepository.CreateAsync(niveliGjuhesor);
             }
+            var userGjuhetDomain = mapper.Map<UserGjuhet>(addUserGjuhet);
+            userGjuhetDomain.UserId = userId;
+            userGjuhetDomain.GjuhaId = gjuha.Id;
+            userGjuhetDomain.NiveliGjuhesorId = niveliGjuhesor.Id;
 
-            // Converting DTO to domain model and manually setting foreign keys for Gjuha and NiveliGjuhesor
-            var userGjuhetDomain = new UserGjuhet
-            {
-                UserId = userId,
-                GjuhaId = gjuha.Id,
-                NiveliGjuhesorId = niveliGjuhesor.Id
-            };
-
-            // Using domain model to create UserGjuhet
+            // Use the domain model to create a Edukim
             userGjuhetDomain = await userGjuhetRepository.CreateAsync(userId, userGjuhetDomain);
 
-            // Mapping the domain model back to DTO
-            var userGjuhetDTO = mapper.Map<UserGjuhetDTO>(userGjuhetDomain);
+            // Map the domain model back to DTO
+            var userGjuhetDto = mapper.Map<UserGjuhetDTO>(userGjuhetDomain);
 
-            return CreatedAtAction(nameof(GetById), new { id = userGjuhetDTO.Id }, userGjuhetDTO);
+            return CreatedAtAction(nameof(GetById), new { id = userGjuhetDto.Id }, userGjuhetDto);
         }
 
         //UPDATE USERGJUHET
         [HttpPut("update-userGjuhet-by-id/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateUserGjuhetRequestDTO updateUserGjuhet)
         {
-            // Check if the language (Gjuha) already exists by name
-            var gjuha = await dbContext.Gjuhet.FirstOrDefaultAsync(g => g.EmriGjuhes == updateUserGjuhet.EmriGjuhes);
+            // Fetch the existing user-gjuha entry
+            var existingUserGjuhet = await userGjuhetRepository.GetByIdAsync(id);
+            if (existingUserGjuhet == null)
+            {
+                return NotFound();
+            }
+            // Find Gjuha
+            var gjuha = await gjuhetRepostory.GetByNameAsync(updateUserGjuhet.EmriGjuhes);
 
-            // If the language doesn't exist, create it
+            // Check if the niveli gjyhesor exists by name
+            var niveliGjuhesor = await niveliGjuhesorRepository.GetByNameAsync(updateUserGjuhet.NiveliGjuhesor);
+
+            // If the Emri Gjuhes doesn't exist, create it
             if (gjuha == null)
             {
                 gjuha = new Gjuhet
@@ -139,15 +144,9 @@ namespace riims.Controllers
                     EmriGjuhes = updateUserGjuhet.EmriGjuhes
                 };
 
-                // Add the language to the database
-                await dbContext.Gjuhet.AddAsync(gjuha);
-                await dbContext.SaveChangesAsync(); // Save the new language to the database
+                gjuha = await gjuhetRepostory.CreateAsync(gjuha);
             }
-
-            // Check if the language level (NiveliGjuhesor) already exists by name
-            var niveliGjuhesor = await dbContext.NiveliGjuhesor.FirstOrDefaultAsync(n => n.Niveli == updateUserGjuhet.NiveliGjuhesor);
-
-            // If the level doesn't exist, create it
+            // If the niveliGjuhesor doesn't exist, create it
             if (niveliGjuhesor == null)
             {
                 niveliGjuhesor = new NiveliGjuhesor
@@ -156,27 +155,25 @@ namespace riims.Controllers
                     Niveli = updateUserGjuhet.NiveliGjuhesor
                 };
 
-                // Add the level to the database
-                await dbContext.NiveliGjuhesor.AddAsync(niveliGjuhesor);
-                await dbContext.SaveChangesAsync(); // Save the new level to the database
+                niveliGjuhesor = await niveliGjuhesorRepository.CreateAsync(niveliGjuhesor);
             }
-
-            // Fetch the existing UserGjuhet
+            // Fetch the existing User-Gjuhe
             var userGjuhetDomain = await userGjuhetRepository.GetByIdAsync(id);
             if (userGjuhetDomain == null)
             {
                 return NotFound();
             }
 
-            // Update the UserGjuhet domain model with new data
-            userGjuhetDomain.GjuhaId = gjuha.Id; // Update the language
-            userGjuhetDomain.NiveliGjuhesorId = niveliGjuhesor.Id; // Update the language level
+            // Update the User-Gjuha domain model with new data
+            userGjuhetDomain = mapper.Map(updateUserGjuhet, userGjuhetDomain);
+            userGjuhetDomain.GjuhaId = gjuha.Id;
+            userGjuhetDomain.NiveliGjuhesorId = niveliGjuhesor.Id;
 
-            // Update UserGjuhet in the database
+            // Update User-Gjuha in the database
             userGjuhetDomain = await userGjuhetRepository.UpdateAsync(id, userGjuhetDomain);
 
-            // Convert back to DTO and return
             return Ok(mapper.Map<UserGjuhetDTO>(userGjuhetDomain));
+
         }
 
         //DELETE USER-GJUHET

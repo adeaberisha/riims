@@ -140,6 +140,17 @@ namespace riims.Mappings
             CreateMap<UserGjuhet, UserGjuhetDTO>()
             .ForMember(dest => dest.EmriGjuhes, opt => opt.MapFrom(src => src.Gjuha.EmriGjuhes))
             .ForMember(dest => dest.NiveliGjuhesor, opt => opt.MapFrom(src => src.NiveliGjuhesor.Niveli));
+            CreateMap<UserGjuhet, UserGjuhetDTO>()
+               .ForMember(dest => dest.EmriGjuhes, opt => opt.MapFrom(src => src.Gjuha.EmriGjuhes))
+               .ForMember(dest => dest.NiveliGjuhesor, opt => opt.MapFrom(src => src.NiveliGjuhesor.Niveli));
+
+            CreateMap<AddUserGjuhetRequestDTO, UserGjuhet>()
+                .ForMember(dest => dest.Gjuha, opt => opt.Ignore())
+                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore());
+
+            CreateMap<UpdateUserGjuhetRequestDTO, UserGjuhet>()
+                .ForMember(dest => dest.Gjuha, opt => opt.Ignore())
+                .ForMember(dest => dest.NiveliGjuhesor, opt => opt.Ignore());
 
             //NiveliAkademik
             CreateMap<NiveliAkademik, NiveliAkademikDto>().ReverseMap();

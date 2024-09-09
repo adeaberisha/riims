@@ -45,6 +45,12 @@ namespace riims.Repositories
             return await dbContext.Gjuhet.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Gjuhet?> GetByNameAsync(string name)
+        {
+            return await dbContext.Gjuhet
+               .FirstOrDefaultAsync(g => g.EmriGjuhes == name);
+        }
+
         public async Task<Gjuhet?> UpdateAsync(Guid id, Gjuhet gjuhet)
         {
             var existingGjuhet = await dbContext.Gjuhet.FirstOrDefaultAsync(x => x.Id == id);
