@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using riims.Models.Domain;
 using riims.Models.DTO;
 using riims.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ImagesController : ControllerBase
     {
         private readonly IImageRepository imageRepository;
@@ -26,6 +29,16 @@ namespace riims.Controllers
 
             if (ModelState.IsValid)
             {
+                // Extract UserId from the claims in the token
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized(); // Or handle as appropriate
+                }
+
+               // var userId = userIdClaim.Value; // Extract UserId as a string
+
                 // Convert DTO to Domain model
                 var imageDomainModel = new Image
                 {
@@ -36,15 +49,14 @@ namespace riims.Controllers
                     FileDescription = request.FileDescription
                 };
 
-                // Use repository to upload image with UserId
-                await imageRepository.Upload(request.UserId, imageDomainModel); // Pass the UserId first
+                // Use repository to upload image with extracted UserId
+                await imageRepository.Upload(userId, imageDomainModel); 
 
                 return Ok(imageDomainModel);
             }
 
             return BadRequest(ModelState);
         }
-
 
         private void ValidateFileUpload(ImageUploadRequestDto request)
         {

@@ -12,7 +12,7 @@ namespace riims.Models.DTO
 
         public string? FileDescription { get; set; }
 
-        [Required] // Ensure the UserId is required to link the image to a user
-        public string UserId { get; set; }
+       // [Required] // Ensure the UserId is required to link the image to a user
+       // public string UserId { get; set; }
     }
 }
