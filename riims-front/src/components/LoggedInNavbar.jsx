@@ -18,6 +18,9 @@ function LoggedInNavbar({ handleLogout }) {
                             <NavDropdown.Item as={Link} to="/cv">CV</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/edit-profile">Edit Profile</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/eksperienca">Eksperienca</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/aftesite">Aftesite</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/specializimet">Specializimet</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/gjuhet">Gjuhet</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/person-details">Details</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/home" className="text-light">Home</Nav.Link>

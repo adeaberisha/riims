@@ -6,7 +6,10 @@ import Register from './components/Register';
 import Footer from './components/Footer';
 import EditProfile from './components/EditProfile';
 import Eksperienca from './components/Eksperienca'; 
+import Aftesite from './components/Aftesite'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Specializimet from './components/Specializimet';
+import Gjuhet from './components/Gjuhet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,6 +63,33 @@ function App() {
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Eksperienca />
+                  </div>
+                </>
+              } />
+               {/* Add the  Aftesia route */}
+              <Route path="/aftesite" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Aftesite />
+                  </div>
+                </>
+              } />
+              {/* Add the  Specializimi route */}
+              <Route path="/specializimet" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Specializimet />
+                  </div>
+                </>
+              } />
+              {/* Add the  Gjuhet route */}
+              <Route path="/gjuhet" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Gjuhet />
                   </div>
                 </>
               } />
