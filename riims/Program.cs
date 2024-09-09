@@ -8,12 +8,15 @@ using riims.Models.Domain;
 using riims.Repositories;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Riims API", Version = "v1" });
@@ -77,6 +80,7 @@ builder.Services.AddScoped<IUserGjuhetRepository, SQLUserGjuhetRepository>();
 builder.Services.AddScoped<INiveliAkademikRepository, SQLNiveliAkademikRepository>();
 builder.Services.AddScoped<IMbikqyresRepository, SQLMbikqyresRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
@@ -128,6 +132,13 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images"
+
+});
 
 app.UseAuthorization();
 
