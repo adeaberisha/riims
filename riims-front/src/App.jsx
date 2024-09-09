@@ -7,9 +7,10 @@ import Footer from './components/Footer';
 import EditProfile from './components/EditProfile';
 import Eksperienca from './components/Eksperienca'; 
 import Aftesite from './components/Aftesite'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Specializimet from './components/Specializimet';
 import Gjuhet from './components/Gjuhet';
+import Licensat from './components/Licensat'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,8 +19,7 @@ function App() {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
     console.log('Logged in status:', loggedInStatus);
     setIsLoggedIn(loggedInStatus === 'true');
-   }, []); 
-
+  }, []); 
 
   const handleLogin = () => {
     setIsLoggedIn(true); 
@@ -47,6 +47,7 @@ function App() {
                       {/* Content after login */}
                     </header>
                   </div>
+                  <Footer /> 
                 </>
               } />
               <Route path="/edit-profile" element={
@@ -55,42 +56,52 @@ function App() {
                   <div className="container mt-4">
                     <EditProfile />
                   </div>
+                  <Footer /> 
                 </>
               } />
-              {/* Add the Eksperienca route */}
               <Route path="/eksperienca" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Eksperienca />
                   </div>
+                  <Footer />
                 </>
               } />
-               {/* Add the  Aftesia route */}
               <Route path="/aftesite" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Aftesite />
                   </div>
+                  <Footer />
                 </>
               } />
-              {/* Add the  Specializimi route */}
               <Route path="/specializimet" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Specializimet />
                   </div>
+                  <Footer /> 
                 </>
               } />
-              {/* Add the  Gjuhet route */}
               <Route path="/gjuhet" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Gjuhet />
                   </div>
+                  <Footer /> 
+                </>
+              } />
+              <Route path="/licensat" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Licensat />
+                  </div>
+                  <Footer /> 
                 </>
               } />
               <Route path="*" element={<Navigate to="/" />} />
@@ -103,7 +114,6 @@ function App() {
             </>
           )}
         </Routes>
-        <Footer />
       </div>
     </Router>
   );

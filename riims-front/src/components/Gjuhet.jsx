@@ -93,45 +93,37 @@ function Gjuhet() {
     };
 
     return (
-        <div className="container-fluid h-100 bg-light">
-            <div className="row mb-5">
-                <div className="col-md-2 col-xl-2 px-0">
-                    {/* Assuming Sidebar is a component in your project */}
-                    
-                </div>
-                <div className="col d-flex justify-content-center align-items-center mb-5 mt-4">
-                    <div className="col-md-6 col-lg-5 col-xl-4">
-                        <h4 className="text-center text-muted fst-italic m-3">Shtoni gjuhën në të cilën jeni i aftë</h4>
-                        <form onSubmit={handleSubmit} className="border p-4 shadow-sm rounded">
-                            <div className="form-group mb-3">
-                                <label htmlFor="EmriGjuhes" className='text-muted m-1'>Emri i gjuhës*</label>
-                                <Select
-                                    id="EmriGjuhes"
-                                    name="EmriGjuhes"
-                                    value={languageOptions.find(option => option.value === formData.EmriGjuhes)}
-                                    onChange={handleLanguageChange}
-                                    options={languageOptions}
-                                    placeholder="Zgjedhni gjuhën"
-                                    isClearable
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="Niveli" className='text-muted m-1'>Niveli gjuhësor</label>
-                                <Select
-                                    id="Niveli"
-                                    name="Niveli"
-                                    value={niveliGjuhesorOptions.find(option => option.value === formData.Niveli)}
-                                    onChange={handleLevelChange}
-                                    options={niveliGjuhesorOptions}
-                                    placeholder="Zgjedhni nivelin"
-                                    isClearable
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary w-100 active mb-2 mt-2">Ruaj</button>
-                        </form>
+        <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 bg-light">
+            <div className="col-md-6 col-lg-5 col-xl-4">
+                <h4 className="text-center text-muted fst-italic m-3">Shtoni gjuhën në të cilën jeni i aftë</h4>
+                <form onSubmit={handleSubmit} className="border p-4 shadow-lg rounded bg-white">
+                    <div className="form-group mb-3">
+                        <label htmlFor="EmriGjuhes" className='form-label fw-bold'>Emri i gjuhës*</label>
+                        <Select
+                            id="EmriGjuhes"
+                            name="EmriGjuhes"
+                            value={languageOptions.find(option => option.value === formData.EmriGjuhes)}
+                            onChange={handleLanguageChange}
+                            options={languageOptions}
+                            placeholder="Zgjedhni gjuhën"
+                            isClearable
+                            required
+                        />
                     </div>
-                </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="Niveli" className='form-label fw-bold'>Niveli gjuhësor</label>
+                        <Select
+                            id="Niveli"
+                            name="Niveli"
+                            value={niveliGjuhesorOptions.find(option => option.value === formData.Niveli)}
+                            onChange={handleLevelChange}
+                            options={niveliGjuhesorOptions}
+                            placeholder="Zgjedhni nivelin"
+                            isClearable
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary w-100 active mb-2 mt-2">Ruaj</button>
+                </form>
             </div>
         </div>
     );
