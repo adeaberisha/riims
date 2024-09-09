@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import LoggedInNavbar from './components/LoggedInNavbar'; 
 import Login from './components/Login'; 
 import Register from './components/Register'; 
+import Footer from './components/Footer';
 import EditProfile from './components/EditProfile';
+import Eksperienca from './components/Eksperienca'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -11,11 +13,10 @@ function App() {
 
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
-    console.log('Logged in status:', loggedInStatus); // Debugging line
-    if (loggedInStatus === 'true') {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    console.log('Logged in status:', loggedInStatus);
+    setIsLoggedIn(loggedInStatus === 'true');
+   }, []); 
+
 
   const handleLogin = () => {
     setIsLoggedIn(true); 
@@ -25,7 +26,7 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn'); 
-    localStorage.removeItem("userId"); 
+    localStorage.removeItem('jwtToken'); 
     window.location.href = "/login"; 
   };
 
@@ -53,6 +54,15 @@ function App() {
                   </div>
                 </>
               } />
+              {/* Add the Eksperienca route */}
+              <Route path="/eksperienca" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Eksperienca />
+                  </div>
+                </>
+              } />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
@@ -63,6 +73,7 @@ function App() {
             </>
           )}
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

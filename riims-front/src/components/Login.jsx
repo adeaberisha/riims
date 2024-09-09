@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import RiimsLogo from '../photos/riims-logo.png';
-import './css/Login.css'; 
+import './css/Login.css';
+import { login } from '../components/AuthService';
 
 const Login = ({ onLogin }) => {
     const [formData, setFormData] = useState({ Username: '', Password: '' });
@@ -22,29 +22,15 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');     
+        setError('');
         setPasswordError('');
-    
+
         try {
-            const response = await axios.post("https://localhost:7254/api/Auth/Login", formData, {
-                headers: { 'Content-Type': 'application/json' }
-            });
-    
-            if (response.status === 200) {
-                localStorage.setItem("jwtToken", response.data.JwtToken);
-                onLogin(); 
-                navigate("/home");
-            } else {
-                setError("Login failed. Please check your credentials.");
-            }
+            await login(formData); // Call the login function
+            onLogin(); // Update the login state in the App component
+            navigate("/"); // Navigate to the home or dashboard
         } catch (error) {
-            if (error.response) {               
-                setError(error.response.data.message || "Login failed. Please check your credentials.");
-            } else if (error.request) {               
-                setError("Network error. Please try again later.");
-            } else {
-                setError("An error occurred during login.");               
-            }
+            setError("Login failed. Please check your credentials.");
         }
     };
 
@@ -73,7 +59,7 @@ const Login = ({ onLogin }) => {
                                     onChange={handleChange}
                                     required 
                                 />
-                                {emailError && <p className="text-danger">{emailError}</p>} {/* Display email error */}
+                                {emailError && <p className="text-danger">{emailError}</p>}
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="Password" className="form-label">Password</label>
@@ -86,12 +72,11 @@ const Login = ({ onLogin }) => {
                                     onChange={handleChange}
                                     required 
                                 />
-                                {passwordError && <p className="text-danger">{passwordError}</p>} {/* Display password error */}
+                                {passwordError && <p className="text-danger">{passwordError}</p>}
                             </div>
-                            {error && <p className="text-danger">{error}</p>} {/* Display login error */}
+                            {error && <p className="text-danger">{error}</p>}
                             <div className="text-center pt-2 mb-3">
                                 <button className="btn btn-dark-blue w-50" type="submit">Sign in</button>
-                                {/* <a className="text-muted d-block mt-2" href="#!">Forgot password?</a> */}
                             </div>
                             <div className="d-flex flex-row align-items-center justify-content-center">
                                 <p className="mb-0">Don't have an account?</p>
