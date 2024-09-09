@@ -17,7 +17,9 @@ namespace riims.Repositories
 
         public async Task<Departamenti?> DeleteAsync(Guid id)
         {
-            var existingDepartamenti = await dbcontext.Departamenti.FirstOrDefaultAsync(x => x.Id == id);
+            var existingDepartamenti = await dbcontext.Departamenti
+                .Include(i => i.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingDepartamenti == null)
             {
@@ -46,7 +48,8 @@ namespace riims.Repositories
 
         public async Task<Departamenti?> UpdateAsync(Guid id, Departamenti departamenti)
         {
-            var existingDepartamenti = await dbcontext.Departamenti.FirstOrDefaultAsync(x => x.Id == id);
+            var existingDepartamenti = await dbcontext.Departamenti
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingDepartamenti == null)
             {

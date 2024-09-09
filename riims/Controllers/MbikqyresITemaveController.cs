@@ -88,14 +88,6 @@ namespace riims.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id,
             [FromBody] UpdateMbikqyresRequestDTO updateMbikqyres)
         {
-            // Extract user ID from the token
-            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User ID not found in the token.");
-            }
-
             // Find the department
             var departamenti = await departamentiRepository.GetByNameAsync(updateMbikqyres.EmriDepartamentit);
 

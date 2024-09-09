@@ -121,14 +121,7 @@ namespace riims.Controllers
         [HttpPut("update-edukimi-by-id/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateEdukimiRequestDTO updateEdukimiRequestDTO)
         {
-            // Fetch the existing edukimi entry
-            var existingEdukimi = await edukimiRepository.GetByIdAsync(id);
-            if (existingEdukimi == null)
-            {
-                return NotFound();
-            }
-
-            // Find NiveliAkademik
+            // Finding NiveliAkademik
             var niveliAkademik = await niveliAkademikRepository.GetByNameAsync(updateEdukimiRequestDTO.NiveliAkademik);
 
             // Check if the institution exists by name

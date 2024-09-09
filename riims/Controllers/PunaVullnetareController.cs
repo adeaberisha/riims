@@ -101,14 +101,6 @@ namespace riims.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id,
             [FromBody] UpdatePunaVullnetareRequestDTO updatePunaVullnetare)
         {
-            // Extract user ID from the token
-            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User ID not found in the token.");
-            }
-
             // Check if the institution exists by name
             var institucion = await institucioniRepository.GetByNameAsync(updatePunaVullnetare.EmriInstitucionit);
 

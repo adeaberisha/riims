@@ -79,6 +79,8 @@ namespace riims.Mappings
             CreateMap<PublikimiDTO, Publikimi>();
             CreateMap<AddPublikimiRequestDTO, Publikimi>();
             CreateMap<UpdatePublikimiRequestDTO, Publikimi>();
+            CreateMap<Publikimi, PublikimiDTO>()
+            .ForMember(dest => dest.EmriDepartamentit, opt => opt.MapFrom(src => src.Departamenti.Emri));
 
             //PunaVullnetare
             CreateMap<PunaVullnetare, PunaVullnetareDTO>().ReverseMap();

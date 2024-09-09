@@ -7,6 +7,7 @@ using riims.Models.DTO;
 using riims.Models.DTO.Publikimi;
 using riims.Repositories;
 using System.Diagnostics.Contracts;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -15,12 +16,15 @@ namespace riims.Controllers
     public class PublikimiController : ControllerBase
     {
         private readonly IPublikimiRepository publikimiRepository;
+        private readonly IDepartamentiRepository departamentiRepository;
         private readonly IMapper mapper;
 
         public PublikimiController(IPublikimiRepository publikimiRepository,
+            IDepartamentiRepository departamentiRepository,
             IMapper mapper)
         {
             this.publikimiRepository = publikimiRepository;
+            this.departamentiRepository = departamentiRepository;
             this.mapper = mapper;
         }
 
@@ -59,41 +63,56 @@ namespace riims.Controllers
         }
 
         //CREATE Publikimi
-        [HttpPost("add-publikimi/{userId}")]
+        [HttpPost("add-publikimi")]
         //[Route("{userId:Guid}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddPublikimiRequestDTO addPublikimiRequestDTO)
+        public async Task<IActionResult> Create([FromBody] AddPublikimiRequestDTO addPublikimi)
         {
-            //Converting DTO to domain model
-            var publikimetDomain = mapper.Map<Publikimi>(addPublikimiRequestDTO);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
 
-            //Using domain model to create edukimi
-            publikimetDomain = await publikimiRepository.CreateAsync(userId, publikimetDomain);
+            // Find the department
+            var departamenti = await departamentiRepository.GetByNameAsync(addPublikimi.EmriDepartamentit);
 
-            //Mapping the domain model back to DTO
-            var publikimiDTO = mapper.Map<PublikimiDTO>(publikimetDomain);
+            // Convert the DTO to a domain model
+            var publikimiDomain = mapper.Map<Publikimi>(addPublikimi);
+            publikimiDomain.UserId = userId;
+            publikimiDomain.DepartamentiId = departamenti.Id;
 
-            return CreatedAtAction(nameof(GetById), new { id = publikimiDTO.Id }, publikimiDTO);
+            // Use the domain model to create a Publikimi
+            publikimiDomain = await publikimiRepository.CreateAsync(userId, publikimiDomain);
+
+            // Map the domain model back to DTO
+            var publikimiDto = mapper.Map<PublikimiDTO>(publikimiDomain);
+
+            return CreatedAtAction(nameof(GetById), new { id = publikimiDto.Id }, publikimiDto);
         }
 
 
         //UPDATE Publikimi
         [HttpPut("update-publikimi-by-id/{id}")]
         //[Route("{id:Guid}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDTO updatePublikimiRequestDTO)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDTO updatePublikimi)
         {
-            //Mapping DTO to domain model 
-            var publikimetDomain = mapper.Map<Publikimi>(updatePublikimiRequestDTO);
+            var departamenti = await departamentiRepository.GetByNameAsync(updatePublikimi.EmriDepartamentit);
 
-            publikimetDomain = await publikimiRepository.UpdateAsync(id, publikimetDomain);
-
-            if (publikimetDomain == null)
+            // Fetch the existing Publikimi
+            var publikimiDomain = await publikimiRepository.GetByIdAsync(id);
+            if (publikimiDomain == null)
             {
                 return NotFound();
             }
 
-            //Converting domain model back to DTOs
-            //Returning the DTO
-            return Ok(mapper.Map<PublikimiDTO>(publikimetDomain));
+            // Update the Publikimi domain model with new data
+            publikimiDomain = mapper.Map(updatePublikimi, publikimiDomain);
+            publikimiDomain.DepartamentiId = departamenti.Id;
+
+            // Update Publikimi in the database
+            publikimiDomain = await publikimiRepository.UpdateAsync(id, publikimiDomain);
+
+            return Ok(mapper.Map<PublikimiDTO>(publikimiDomain));
         }
 
 

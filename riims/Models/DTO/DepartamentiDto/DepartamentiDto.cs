@@ -12,7 +12,7 @@ namespace riims.Models.DTO.DepartamentiDto
         public string EmriInstitucionit { get; set; }
         public Guid InstitucioniId { get; set; }
 
-        public ICollection<MbikqyresITemave> Mbikqyresit { get; set; } = new HashSet<MbikqyresITemave>();
-        public ICollection<riims.Models.Domain.Publikimi> Publikimet { get; set; } = new HashSet<riims.Models.Domain.Publikimi>();
+        //public ICollection<MbikqyresITemave> Mbikqyresit { get; set; } = new HashSet<MbikqyresITemave>();
+        //public ICollection<riims.Models.Domain.Publikimi> Publikimet { get; set; } = new HashSet<riims.Models.Domain.Publikimi>();
     }
 }
