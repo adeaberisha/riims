@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import RiimsLogo from '../photos/riims-logo.png';
-import './css/Register.css'; 
+import '../css/Register.css'; 
 
 const Register = () => {
     const [formData, setFormData] = useState({ Username: '', Password: '', ConfirmPassword: '' });

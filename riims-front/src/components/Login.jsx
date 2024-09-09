@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import RiimsLogo from '../photos/riims-logo.png';
-import './css/Login.css';
+import '../css/Login.css';
 import { login } from '../components/AuthService';
 
 const Login = ({ onLogin }) => {
@@ -26,9 +26,9 @@ const Login = ({ onLogin }) => {
         setPasswordError('');
 
         try {
-            await login(formData); // Call the login function
-            onLogin(); // Update the login state in the App component
-            navigate("/"); // Navigate to the home or dashboard
+            await login(formData); 
+            onLogin(); 
+            navigate("/"); 
         } catch (error) {
             setError("Login failed. Please check your credentials.");
         }

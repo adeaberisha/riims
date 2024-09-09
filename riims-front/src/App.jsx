@@ -5,11 +5,11 @@ import Login from './components/Login';
 import Register from './components/Register'; 
 import Footer from './components/Footer';
 import EditProfile from './components/EditProfile';
-import Eksperienca from './components/Eksperienca'; 
-import Aftesite from './components/Aftesite'; 
-import Specializimet from './components/Specializimet';
-import Gjuhet from './components/Gjuhet';
-import Licensat from './components/Licensat'; 
+import Eksperienca from './models/Eksperienca'; 
+import Aftesite from './models/Aftesite'; 
+import Specializimet from './models/Specializimet';
+import Gjuhet from './models/Gjuhet';
+import Licensat from './models/Licensat'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

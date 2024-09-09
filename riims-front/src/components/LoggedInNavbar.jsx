@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import RiimsLogo from '../photos/riims-logo.png';
-import './css/CustomNavbar.css';
+import '../css/CustomNavbar.css';
 
 function LoggedInNavbar({ handleLogout }) {
     return (
