@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom'; 
 import RiimsLogo from '../photos/riims-logo.png';
 import './css/CustomNavbar.css';
 
@@ -17,6 +17,7 @@ function LoggedInNavbar({ handleLogout }) {
                         <NavDropdown title="Menu" id="basic-nav-dropdown" className="text-light">
                             <NavDropdown.Item as={Link} to="/cv">CV</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/edit-profile">Edit Profile</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/eksperienca">Eksperienca</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/person-details">Details</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/home" className="text-light">Home</Nav.Link>

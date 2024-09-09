@@ -97,7 +97,7 @@ function EditProfile() {
                 <div className="col-md-4 text-center">
                     <div className="card mb-3">
                         <div className="card-body">
-                            <h4 className='fst-italic mb-4'>Edit Profile</h4>
+                            <h4 className='fst-italic mb-4 '>Edit Profile</h4>
                             {formData.foto && (
                                 <div className="mb-3">
                                     <img src={formData.foto} alt="Selected" className="img-thumbnail" style={{ width: '200px', height: '200px' }} />
@@ -164,7 +164,7 @@ function EditProfile() {
                                     <label htmlFor="numriTelefonit" className='text-muted'>Numri i Telefonit</label>
                                     <input type="text" className="form-control" id="numriTelefonit" name="numriTelefonit" value={formData.numriTelefonit || ''} onChange={handleChange} />
                                 </div>
-                                <button type="submit" className="btn btn-primary ms-3">Update Profile</button>
+                                <button type="submit" className="btn  btn-primary active ms-3">Update Profile</button>
                             </div>
                         </div>
                     </form>
