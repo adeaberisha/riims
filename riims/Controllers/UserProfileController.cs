@@ -5,31 +5,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using riims.Data;
 using riims.Models.Domain;
+using riims.Models.DTO.EdukimiDto;
 using riims.Models.DTO.InstitucioniDto;
 using riims.Models.DTO.UserDTO;
 using riims.Repositories;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class UserProfileController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly IUserRepository userRepository;
+        private readonly INiveliAkademikRepository niveliAkademikRepository;
         private readonly IMapper mapper;
 
-        public UserController(RiimsDbContext dbContext, IUserRepository userRepository,
+        public UserProfileController(IUserRepository userRepository,
+            INiveliAkademikRepository niveliAkademikRepository,
             IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.userRepository = userRepository;
+            this.niveliAkademikRepository = niveliAkademikRepository;
             this.mapper = mapper;
         }
 
         //GET ALL USERS
-        [HttpGet("get-all-persons")]
+        [HttpGet("get-all-profiles")]
         public async Task<IActionResult> GetAll()
         {
             //Getting the data from database - domain models
@@ -42,7 +45,7 @@ namespace riims.Controllers
         }
 
         //GET USER BY ID
-        [HttpGet("get-person-by-id/{id}")]
+        [HttpGet("get-profile-by-id/{id}")]
         //[Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] string id)
         {
@@ -59,64 +62,22 @@ namespace riims.Controllers
             return Ok(mapper.Map<UserDTO>(userDomain));
         }
 
-        //CREATE USER
-        [HttpPost("add-person/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddUserRequestDTO addUserRequestDTO)
-        {
-            // Find or create the NiveliAkademik entity
-            var niveliAkademik = await dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.lvl == addUserRequestDTO.NiveliAkademik);
-
-            if (niveliAkademik == null)
-            {
-                niveliAkademik = new NiveliAkademik
-                {
-                    Id = Guid.NewGuid(),
-                    lvl = addUserRequestDTO.NiveliAkademik
-                };
-
-                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
-                await dbContext.SaveChangesAsync();
-            }
-
-            // Convert DTO to domain model
-            var userDomain = mapper.Map<User>(addUserRequestDTO);
-            userDomain.NiveliAkademik = niveliAkademik;
-
-            // Set UserId from route parameter
-            userDomain.Id = userId;
-
-            // Create the user
-            userDomain = await userRepository.CreateAsync(userDomain);
-
-            // Map the domain model back to DTO
-            var userDTO = mapper.Map<UserDTO>(userDomain);
-
-            return CreatedAtAction(nameof(GetById), new { id = userDTO.Id }, userDTO);
-        }
-
         //UPDATE USER
-        [HttpPut("update-person-by-id/{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpdateUserRequestDTO updateUserRequestDTO)
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> Update([FromBody] UpdateUserRequestDTO updateUserRequestDTO)
         {
-            // Find or create the NiveliAkademik entity
-            var niveliAkademik = await dbContext.NiveliAkademik
-                .FirstOrDefaultAsync(n => n.lvl == updateUserRequestDTO.NiveliAkademik);
-
-            if (niveliAkademik == null)
+            //Extracting the user id from the token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
             {
-                niveliAkademik = new NiveliAkademik
-                {
-                    Id = Guid.NewGuid(),
-                    lvl = updateUserRequestDTO.NiveliAkademik
-                };
-
-                await dbContext.NiveliAkademik.AddAsync(niveliAkademik);
-                await dbContext.SaveChangesAsync();
+                return Unauthorized();
             }
+
+            // Find the NiveliAkademik
+            var niveliAkademik = await niveliAkademikRepository.GetByNameAsync(updateUserRequestDTO.NiveliAkademik);
 
             // Fetch the existing user
-            var existingUser = await userRepository.GetByIdAsync(id);
+            var existingUser = await userRepository.GetByIdAsync(userId);
             if (existingUser == null)
             {
                 return NotFound();
@@ -127,7 +88,7 @@ namespace riims.Controllers
             existingUser.NiveliAkademik = niveliAkademik;
 
             // Update user in the database
-            existingUser = await userRepository.UpdateAsync(id, existingUser);
+            existingUser = await userRepository.UpdateAsync(userId, existingUser);
 
             // Convert the domain model back to DTO
             var userDTO = mapper.Map<UserDTO>(existingUser);
@@ -137,7 +98,7 @@ namespace riims.Controllers
 
 
         //DELETE USER
-        [HttpDelete("delete-person-by-id/{id}")]
+        [HttpDelete("delete-user-by-id/{id}")]
         //[Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] string id)
         {

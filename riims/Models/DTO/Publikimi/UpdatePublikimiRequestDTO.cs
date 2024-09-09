@@ -10,7 +10,8 @@
 
         public bool? AutoriKryesor { get; set; }
 
+        public string EmriDepartamentit { get; set; }
+
         public DateTime DataPublikimi { get; set; }
-        public Guid DepartamentiId { get; set; }
     }
 }

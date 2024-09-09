@@ -8,6 +8,7 @@ using riims.Models.DTO.LicensatDto;
 using riims.Models.DTO.SpecializimiDto;
 using riims.Repositories;
 using System.ComponentModel;
+using System.Security.Claims;
 
 namespace riims.Controllers
 {
@@ -17,12 +18,15 @@ namespace riims.Controllers
     {
         private readonly RiimsDbContext dbContext;
         private readonly ILicensatRepository licensatRepository;
+        private readonly IInstitucioniRepository institucioniRepository;
         private readonly IMapper mapper;
 
-        public LicensatController(RiimsDbContext dbContext, ILicensatRepository licensatRepository, IMapper mapper)
+        public LicensatController(ILicensatRepository licensatRepository, 
+            IInstitucioniRepository institucioniRepository,
+            IMapper mapper)
         {
-            this.dbContext = dbContext;
             this.licensatRepository=licensatRepository;
+            this.institucioniRepository = institucioniRepository;
             this.mapper=mapper;
         }
 
@@ -49,32 +53,41 @@ namespace riims.Controllers
             return Ok(licensatDTO);
         }
 
-        [HttpPost("add-licensa/{userId}")]
-        public async Task<IActionResult> Create([FromRoute] string userId, [FromBody] AddLicensatRequestDto addLicensatRequestDto)
+        [HttpPost("add-licensa")]
+        public async Task<IActionResult> Create([FromBody] AddLicensatRequestDto addLicensat)
         {
-            var institucion = await dbContext.Institucioni
-                .FirstOrDefaultAsync(i => i.Emri == addLicensatRequestDto.EmriInstitucionit);
+            // Extract user ID from the token
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); // Or handle as appropriate
+            }
+
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(addLicensat.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = addLicensatRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = addLicensat.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
-            var licensatDomainModel = mapper.Map<Licensat>(addLicensatRequestDto);
-            licensatDomainModel.InstitucioniId = institucion.Id;
+            // Convert the DTO to a domain model
+            var licensatDomain = mapper.Map<Licensat>(addLicensat);
+            licensatDomain.UserId = userId;
+            licensatDomain.InstitucioniId = institucion.Id;
 
-            licensatDomainModel = await licensatRepository.CreateAsync(userId, licensatDomainModel);
+            // Use the domain model to create a Licensat
+            licensatDomain = await licensatRepository.CreateAsync(userId, licensatDomain);
 
-            var licensatDto = mapper.Map<LicensatDto>(licensatDomainModel);
+            // Map the domain model back to DTO
+            var licensatDto = mapper.Map<LicensatDto>(licensatDomain);
 
             return CreatedAtAction(nameof(GetById), new { id = licensatDto.Id }, licensatDto);
         }
@@ -82,46 +95,38 @@ namespace riims.Controllers
         [HttpPut("update-licensa-by-id/{id}")]
         //[Route("{id:guid}")]
 
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLicensatRequestDto updateLicensatRequestDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateLicensatRequestDto updateLicensat)
         {
-            var institucion = await dbContext.Institucioni
-              .FirstOrDefaultAsync(i => i.Emri == updateLicensatRequestDto.EmriInstitucionit);
+            // Check if the institution exists by name
+            var institucion = await institucioniRepository.GetByNameAsync(updateLicensat.EmriInstitucionit);
 
             // If the institution doesn't exist, create it
             if (institucion == null)
             {
                 institucion = new Institucioni
                 {
-                    Id = Guid.NewGuid(), // Generate a new Guid for the institution
-                    Emri = updateLicensatRequestDto.EmriInstitucionit
+                    Id = Guid.NewGuid(),
+                    Emri = updateLicensat.EmriInstitucionit
                 };
 
-                // Add the institution to the database
-                await dbContext.Institucioni.AddAsync(institucion);
-                await dbContext.SaveChangesAsync(); // Save the new institution to the database
+                institucion = await institucioniRepository.CreateAsync(institucion);
             }
 
-            var existingLicensat= await licensatRepository.GetByIdAsync(id);
-
-            
-            if (existingLicensat == null)
+            // Fetch the existing Licensat
+            var licensatDomain = await licensatRepository.GetByIdAsync(id);
+            if (licensatDomain == null)
             {
                 return NotFound();
             }
 
-            existingLicensat.Emri = updateLicensatRequestDto.Emri;
-            existingLicensat.DataLeshimit = updateLicensatRequestDto.DataLeshimit;
-            existingLicensat.DataSkadimit = updateLicensatRequestDto.DataSkadimit;
-            existingLicensat.CredentialId = updateLicensatRequestDto.CredentialId;
-            existingLicensat.CredentialUrl = updateLicensatRequestDto.CredentialUrl;
-            existingLicensat.InstitucioniId = institucion.Id;
+            // Update the Licensat domain model with new data
+            licensatDomain = mapper.Map(updateLicensat, licensatDomain);
+            licensatDomain.InstitucioniId = institucion.Id;
 
-            var updatedLicensat= await licensatRepository.UpdateAsync(id, existingLicensat);
+            // Update Licensat in the database
+            licensatDomain = await licensatRepository.UpdateAsync(id, licensatDomain);
 
-            // Map the updated domain model back to DTO
-            var licensatDTO = mapper.Map<LicensatDto>(updatedLicensat);
-
-            return Ok(licensatDTO);
+            return Ok(mapper.Map<LicensatDto>(licensatDomain));
         }
 
         [HttpDelete("delete-licensa-by-id/{id}")]

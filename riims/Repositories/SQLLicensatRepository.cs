@@ -19,7 +19,9 @@ namespace riims.Repositories
 
         public async Task<Licensat?> DeleteAsync(Guid id)
         {
-            var existingLicensat = await dbContext.Licensat.FirstOrDefaultAsync(x => x.Id == id);
+            var existingLicensat = await dbContext.Licensat
+                .Include(i => i.Institucioni)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingLicensat == null)
             {

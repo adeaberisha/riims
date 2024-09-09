@@ -23,7 +23,9 @@ namespace riims.Repositories
 
         public async Task<Publikimi?> DeleteAsync(Guid id)
         {
-            var existingPublikimi = await dbContext.Publikimi.FirstOrDefaultAsync(x => x.Id == id);
+            var existingPublikimi = await dbContext.Publikimi
+                .Include(d => d.Departamenti)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (existingPublikimi == null)
             {
@@ -40,12 +42,15 @@ namespace riims.Repositories
         {
             return await dbContext.Publikimi
                 .Where(x => x.UserId == userId)
+                .Include(d => d.Departamenti)
                 .ToListAsync();
         }
 
         public async Task<Publikimi?> GetByIdAsync(Guid id)
         {
-            return await dbContext.Publikimi.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Publikimi
+                .Include(d => d.Departamenti)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Publikimi?> UpdateAsync(Guid id, Publikimi publikimi)
@@ -62,7 +67,7 @@ namespace riims.Repositories
             existingPublikimi.LinkuPublikimit = publikimi.LinkuPublikimit;
             existingPublikimi.AutoriKryesor = publikimi.AutoriKryesor;
             existingPublikimi.DataPublikimi = publikimi.DataPublikimi;
-            existingPublikimi.DepartamentiId = publikimi.DepartamentiId;
+            existingPublikimi.Departamenti = publikimi.Departamenti;
 
             await dbContext.SaveChangesAsync();
             return existingPublikimi;
