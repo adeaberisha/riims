@@ -13,6 +13,7 @@ import Licensat from './models/Licensat';
 import Projekti from './models/Projekti';
 import PunaVullnetare from './models/PunaVullnetare';
 import Edukimi from './models/Edukimi';
+import HonorsAndAwards from './models/HonorsAndAwards';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -129,6 +130,14 @@ function App() {
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <Edukimi />
+                  </div>
+                </>
+              } />
+               <Route path="/honorsandawards" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <HonorsAndAwards />
                   </div>
                 </>
               } />
