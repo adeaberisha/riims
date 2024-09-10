@@ -45,12 +45,19 @@ namespace riims.Controllers
         }
 
         //GET USER BY ID
-        [HttpGet("get-profile-by-id/{id}")]
+        [HttpGet("get-profile-by-id")]
         //[Route("{id:Guid}")]
-        public async Task<IActionResult> GetById([FromRoute] string id)
+        public async Task<IActionResult> GetById()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+
             //Getting the userat domain model from the database
-            var userDomain = await userRepository.GetByIdAsync(id);
+            var userDomain = await userRepository.GetByIdAsync(userId);
 
             if (userDomain == null)
             {
@@ -75,6 +82,16 @@ namespace riims.Controllers
 
             // Find the NiveliAkademik
             var niveliAkademik = await niveliAkademikRepository.GetByNameAsync(updateUserRequestDTO.NiveliAkademik);
+            if (niveliAkademik == null)
+            {
+                niveliAkademik = new NiveliAkademik
+                {
+                    Id = Guid.NewGuid(),
+                    lvl = updateUserRequestDTO.NiveliAkademik
+                };
+
+                niveliAkademik = await niveliAkademikRepository.CreateAsync(niveliAkademik);
+            }
 
             // Fetch the existing user
             var existingUser = await userRepository.GetByIdAsync(userId);

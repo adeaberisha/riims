@@ -100,6 +100,16 @@ namespace riims.Controllers
 
                 institucion = await institucioniRepository.CreateAsync(institucion);
             }
+            if (niveliAkademik == null)
+            {
+                niveliAkademik = new NiveliAkademik
+                {
+                    Id = Guid.NewGuid(),
+                    lvl = addEdukimiRequestDTO.NiveliAkademik
+                };
+
+                niveliAkademik = await niveliAkademikRepository.CreateAsync(niveliAkademik);
+            }
 
             // Convert the DTO to a domain model
             var edukimiDomain = mapper.Map<Edukimi>(addEdukimiRequestDTO);

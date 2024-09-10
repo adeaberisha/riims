@@ -18,7 +18,7 @@
         public User User { get; set; }
         public Guid InstitucioniId { get; set; }
         public Institucioni Institucioni { get; set; }
-        public Guid NiveliAkademikId { get; set; }
+        public Guid? NiveliAkademikId { get; set; }
         public NiveliAkademik NiveliAkademik { get; set; }
 
     }
