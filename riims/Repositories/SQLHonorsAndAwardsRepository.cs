@@ -44,8 +44,8 @@ namespace riims.Repositories
         {
             return await dbContext.HonorsAndAwards
               .Include(x => x.Institucioni)
-             .Where(x => x.UserId == userId)
-             .ToListAsync();
+              .Where(x => x.UserId == userId)
+              .ToListAsync();
         }
 
         public async Task<HonorsAndAwards?> GetByIdAsync(Guid id)

@@ -41,8 +41,8 @@ namespace riims.Repositories
         public async Task<List<Publikimi>> GetAllAsync(string userId)
         {
             return await dbContext.Publikimi
-                .Where(x => x.UserId == userId)
                 .Include(d => d.Departamenti)
+                .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
 

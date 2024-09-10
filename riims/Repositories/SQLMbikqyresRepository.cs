@@ -41,8 +41,8 @@ namespace riims.Repositories
         public async Task<List<MbikqyresITemave>> GetAllAsync(string userId)
         {
             return await dbcontext.MbikqyresITemave
-             .Where(e => e.UserId == userId)
              .Include(e => e.Departamenti)
+             .Where(e => e.UserId == userId)
              .ToListAsync();
         }
 

@@ -43,9 +43,9 @@ namespace riims.Repositories
         public async Task<List<Edukimi>> GetAllAsync(string userId)
         {
             return await dbcontext.Edukimi
-             .Where(e => e.UserId == userId)
              .Include(e => e.Institucioni)
              .Include(e => e.NiveliAkademik)
+             .Where(e => e.UserId == userId)
              .ToListAsync();
         }
 
