@@ -30,9 +30,16 @@ namespace riims.Controllers
             this.mapper=mapper;
         }
 
-        [HttpGet("get-licensat-by-person-id/{userId}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        [HttpGet("get-licensat")]
+        public async Task<IActionResult> GetAll()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+
             var licensatDomain = await licensatRepository.GetAllAsync(userId);
             var licensatDTO = mapper.Map<List<LicensatDto>>(licensatDomain);
             return Ok(licensatDTO);

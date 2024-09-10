@@ -29,10 +29,16 @@ namespace riims.Controllers
         }
 
         //GET ALL Publikimet
-        [HttpGet("get-publikimi-by-person-id/{userId}")]
+        [HttpGet("get-publikimet")]
         //[Route("users/{userId:Guid}")]
-        public async Task<IActionResult> GetAll([FromRoute] string userId)
+        public async Task<IActionResult> GetAll()
         {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
             // Getting the data from database - domain models
             var publikimetDomain = await publikimiRepository.GetAllAsync(userId);
 

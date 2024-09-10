@@ -11,6 +11,8 @@ import Specializimet from './models/Specializimet';
 import Gjuhet from './models/Gjuhet';
 import Licensat from './models/Licensat'; 
 import Projekti from './models/Projekti';
+import PunaVullnetare from './models/PunaVullnetare';
+import Edukimi from './models/Edukimi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -112,6 +114,22 @@ function App() {
                     <Projekti />
                   </div>
                   <Footer /> 
+                </>
+              } />
+              <Route path="/puna-vullnetare" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <PunaVullnetare />
+                  </div>
+                </>
+              } />
+              <Route path="/edukimi" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Edukimi />
+                  </div>
                 </>
               } />
                
