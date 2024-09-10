@@ -10,16 +10,20 @@ function EditProfile() {
         gjinia: '',
         adresa: '',
         dataELindjes: '',
-        titulliAkademik: '',
+        NiveliAkademik: '',
         numriTelefonit: '',
         foto: defaultImage
     });
-    const [userId, setUserId] = useState('');
-    const token = localStorage.getItem('authToken'); 
+    const [niveliAkademikOptions, setNiveliAkademikOptions] = useState([]);
+    const token = localStorage.getItem('jwtToken'); 
+   
+
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
-        setUserId(userId);
-        fetchData(userId);
+        if (token) {
+            fetchData();
+        } else {
+            alert('Token not found. Please log in again.');
+        }
 
         const savedFoto = localStorage.getItem("foto");
         if (savedFoto) {
@@ -28,37 +32,98 @@ function EditProfile() {
                 foto: savedFoto
             }));
         }
+    }, [token]);
+
+    useEffect(() => {
+        const fetchNiveliAkademik = async () => {
+            try {
+                const response = await axios.get('https://localhost:7254/api/NiveliAkademik/get-all-NiveletAkademike');
+                const options = response.data.map(level => ({
+                    value: level.id,
+                    label: level.lvl
+                }));
+                setNiveliAkademikOptions(options);
+            } catch (error) {
+                console.error('Error fetching academic levels:', error);
+                alert('Failed to fetch academic levels.');
+            }
+        };
+        fetchNiveliAkademik();
     }, []);
 
-    const fetchData = async (userId) => {
+    
+
+    const formatDate = (isoDateString) => {
+        const date = new Date(isoDateString);
+        return date.toISOString().split('T')[0]; 
+    };
+    
+    // Usage
+    const formattedDate = formatDate('2024-09-10T14:13:13.097');
+
+    const fetchData = async () => {
         try {
-            const response = await axios.get(`https://localhost:7254/api/User/get-person-by-id/${userId}`, {
+            const response = await axios.get('https://localhost:7254/api/UserProfile/get-profile-by-id', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const personData = response.data;
             setFormData(prevFormData => ({
                 ...prevFormData,
                 ...personData,
+                dataELindjes: personData.dataELindjes ? formatDate(personData.dataELindjes) : '',
                 foto: personData.foto || localStorage.getItem("foto") || defaultImage
             }));
         } catch (error) {
             console.error('Error fetching person data:', error);
+            alert('Error fetching profile data. Please try again.');
         }
     };
+    
+    const handleImageUpload = async (file) => {
+        const formData = new FormData();
+        formData.append('File', file);
+        formData.append('FileName', file.name); 
+        
+    
+        try {
+            const response = await axios.post('https://localhost:7254/api/Images/Upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data; 
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert('Error uploading image. Please try again.');
+        }
+    };
+    
+    
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         if (e.target.name === "foto") {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const imageDataUrl = reader.result;
+                // Validate file type and size
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select a valid image file.');
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    alert('File size exceeds 5MB.');
+                    return;
+                }
+    
+                // Upload the file and get the URL or filename
+                const imageData = await handleImageUpload(file);
+                if (imageData && imageData.url) {
                     setFormData(prevFormData => ({
                         ...prevFormData,
-                        foto: imageDataUrl
+                        foto: imageData.url // Adjust this based on your response structure
                     }));
-                };
-                reader.readAsDataURL(file);
+                    localStorage.setItem("foto", imageData.url); // Save to local storage
+                }
             }
         } else {
             setFormData({
@@ -67,6 +132,8 @@ function EditProfile() {
             });
         }
     };
+    
+    
 
     const handleRemovePhoto = () => {
         setFormData(prevFormData => ({
@@ -75,13 +142,28 @@ function EditProfile() {
         }));
         localStorage.removeItem("foto"); 
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        const formDataToSend = {
+            emri: formData.emri,
+            mbiemri: formData.mbiemri,
+            gjinia: formData.gjinia,
+            adresa: formData.adresa,
+            dataELindjes: formData.dataELindjes,
+            NiveliAkademik: formData.NiveliAkademik,
+            numriTelefonit: formData.numriTelefonit,
+            foto: formData.foto 
+        };
+    
+        console.log('Submitting data:', formDataToSend);
+    
         try {
-            const fullUrl = `https://localhost:7254/api/User/update-person-by-id/${userId}`;
-            await axios.put(fullUrl, formData, {
-                headers: { Authorization: `Bearer ${token}` }
+            const response = await axios.put('https://localhost:7254/api/UserProfile/update-profile', formDataToSend, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
             localStorage.setItem("foto", formData.foto);
             alert('Profile updated successfully!');
@@ -90,7 +172,8 @@ function EditProfile() {
             alert('Error updating profile. Please try again.');
         }
     };
-
+    
+    
     return (
         <div className="container mt-5 mb-3">
             <div className="row justify-content-center">
@@ -155,8 +238,21 @@ function EditProfile() {
                             </div>
                             <div className="col-md-6 mb-3">
                                 <div className="form-group">
-                                    <label htmlFor="titulliAkademik" className='text-muted'>Niveli Akademik</label>
-                                    <input type="text" className="form-control" id="titulliAkademik" name="titulliAkademik" value={formData.titulliAkademik || ''} onChange={handleChange} />
+                                    <label htmlFor="NiveliAkademik" className='text-muted'>Niveli Akademik</label>
+                                    <select
+                                        className="form-control"
+                                        id="NiveliAkademik"
+                                        name="NiveliAkademik"
+                                        value={formData.NiveliAkademik || ''}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Select Academic Level</option>
+                                        {niveliAkademikOptions.map(level => (
+                                            <option key={level.value} value={level.value}>
+                                                {level.label}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                             <div className="col-md-6 mb-3 d-flex align-items-end">
@@ -164,7 +260,11 @@ function EditProfile() {
                                     <label htmlFor="numriTelefonit" className='text-muted'>Numri i Telefonit</label>
                                     <input type="text" className="form-control" id="numriTelefonit" name="numriTelefonit" value={formData.numriTelefonit || ''} onChange={handleChange} />
                                 </div>
-                                <button type="submit" className="btn  btn-primary active ms-3">Update Profile</button>
+                            </div>
+                            <div className="col-md-6 mb-3 d-flex align-items-end">
+                                <div className="form-group flex-grow-1">
+                                    <button type="submit" className="btn btn-primary active btn-block">Save Changes</button>
+                                </div>
                             </div>
                         </div>
                     </form>
