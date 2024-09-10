@@ -16,7 +16,6 @@ namespace riims.Controllers
     [ApiController]
     public class LicensatController : ControllerBase
     {
-        private readonly RiimsDbContext dbContext;
         private readonly ILicensatRepository licensatRepository;
         private readonly IInstitucioniRepository institucioniRepository;
         private readonly IMapper mapper;

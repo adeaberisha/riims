@@ -81,6 +81,16 @@ namespace riims.Controllers
 
             // Find the department
             var departamenti = await departamentiRepository.GetByNameAsync(addPublikimi.EmriDepartamentit);
+            if (departamenti == null)
+            {
+                departamenti = new Departamenti
+                {
+                    Id = Guid.NewGuid(),
+                    Emri = addPublikimi.EmriDepartamentit
+                };
+
+                departamenti = await departamentiRepository.CreateAsync(departamenti);
+            }
 
             // Convert the DTO to a domain model
             var publikimiDomain = mapper.Map<Publikimi>(addPublikimi);
@@ -103,6 +113,16 @@ namespace riims.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePublikimiRequestDTO updatePublikimi)
         {
             var departamenti = await departamentiRepository.GetByNameAsync(updatePublikimi.EmriDepartamentit);
+            if (departamenti == null)
+            {
+                departamenti = new Departamenti
+                {
+                    Id = Guid.NewGuid(),
+                    Emri = updatePublikimi.EmriDepartamentit
+                };
+
+                departamenti = await departamentiRepository.CreateAsync(departamenti);
+            }
 
             // Fetch the existing Publikimi
             var publikimiDomain = await publikimiRepository.GetByIdAsync(id);

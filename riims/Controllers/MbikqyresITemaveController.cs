@@ -69,6 +69,16 @@ namespace riims.Controllers
 
             // Find the department
             var departamenti = await departamentiRepository.GetByNameAsync(addMbikqyres.EmriDepartamentit);
+            if (departamenti == null)
+            {
+                departamenti = new Departamenti
+                {
+                    Id = Guid.NewGuid(),
+                    Emri = addMbikqyres.EmriDepartamentit
+                };
+
+                departamenti = await departamentiRepository.CreateAsync(departamenti);
+            }
 
             // Convert the DTO to a domain model
             var mbikqyresDomain = mapper.Map<MbikqyresITemave>(addMbikqyres);
@@ -90,6 +100,16 @@ namespace riims.Controllers
         {
             // Find the department
             var departamenti = await departamentiRepository.GetByNameAsync(updateMbikqyres.EmriDepartamentit);
+            if (departamenti == null)
+            {
+                departamenti = new Departamenti
+                {
+                    Id = Guid.NewGuid(),
+                    Emri = updateMbikqyres.EmriDepartamentit
+                };
+
+                departamenti = await departamentiRepository.CreateAsync(departamenti);
+            }
 
             // Fetch the existing MbikqyresITemave
             var mbikqyresDomain = await mbikqyresRepository.GetByIdAsync(id);
