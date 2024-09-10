@@ -22,6 +22,7 @@ function LoggedInNavbar({ handleLogout }) {
                             <NavDropdown.Item as={Link} to="/specializimet">Specializimet</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/gjuhet">Gjuhet</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/licensat">Licensat</NavDropdown.Item> {/* Add Licensat link */}
+                            <NavDropdown.Item as={Link} to="/projekti">Projekti</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/person-details">Details</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/home" className="text-light">Home</Nav.Link>
