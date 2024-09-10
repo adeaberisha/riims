@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Select from 'react-select';
+import Sidebar from '../components/Sidebar.jsx';
 
 function Licensat() {
   const [formData, setFormData] = useState({
@@ -11,26 +11,10 @@ function Licensat() {
     CredentialId: '',
     CredentialUrl: ''
   });
-  const [institucionet, setInstitucionet] = useState([]);
+
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => {
-    const fetchInstitucionet = async () => {
-      try {
-        const response = await axios.get('https://localhost:7254/api/Institucioni/get-all-Institucionet');
-        const options = response.data.map(institucion => ({
-          value: institucion.id,
-          label: institucion.emri
-        }));
-        setInstitucionet(options);
-      } catch (error) {
-        console.error('Error fetching institutions:', error);
-        setErrorMessage('Failed to fetch institutions.');
-      }
-    };
-    fetchInstitucionet();
-  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -39,17 +23,10 @@ function Licensat() {
     });
   };
 
-  const handleSelectChange = (selectedOption) => {
-    setFormData({
-      ...formData,
-      EmriInstitucionit: selectedOption ? selectedOption.value : ''
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Reset error message before submission
-    setSuccessMessage(''); // Reset success message before submission
+    setErrorMessage('');
+    setSuccessMessage('');
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
@@ -79,7 +56,7 @@ function Licensat() {
       );
 
       if (response.status === 201) {
-        setSuccessMessage('Licensa added successfully!');
+        setSuccessMessage('Licensa u shtua me sukses!');
         setFormData({
           Emri: '',
           EmriInstitucionit: '',
@@ -89,118 +66,161 @@ function Licensat() {
           CredentialUrl: ''
         });
       } else {
-        setErrorMessage('Something went wrong. Please try again.');
+        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
       }
 
     } catch (error) {
-      console.error('Error adding licensa:', error);
+      console.error('Error gjatë shtimit të eksperiencës:', error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('No response from the server. Please try again.');
+        setErrorMessage('Ju lutem provoni përsëri.');
       } else {
-        setErrorMessage('Error: Could not complete the request.');
+        setErrorMessage('Ju lutem provoni përsëri.');
       }
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      Emri: '',
+      EmriInstitucionit: '',
+      DataLeshimit: '',
+      DataSkadimit: '',
+      CredentialId: '',
+      CredentialUrl: ''
+    });
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => setErrorMessage(''), 6000);
+      return () => clearTimeout(timer);
+    }
+    if (successMessage) {
+      const timer = setTimeout(() => setSuccessMessage(''), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMessage]);
+
+
   return (
     <div className="container-fluid h-100 bg-light">
       <div className="row h-100">
-        <div className="col d-flex justify-content-center align-items-center mb-5 mt-4">
-          <div className="col-md-6 col-lg-5 col-xl-4">
-            <h4 className="text-center text-muted fst-italic m-3">Shtoni licensat tuaja</h4>
-            
+        {/* Sidebar */}
+        <div className="col-md-2 p-0">
+          <Sidebar />
+        </div>
+
+        {/* Main Content */}
+        <div className="col-md-10 d-flex flex-column align-items-center py-5">
+          <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+            <h4 className="text-center text-muted fst-italic mb-4">Shtoni licensat tuaja</h4>
+
             {errorMessage && (
-              <div className="alert alert-danger text-center" role="alert">
+              <div className="alert alert-danger text-center mb-3" role="alert">
                 {errorMessage}
               </div>
             )}
-            
+
             {successMessage && (
-              <div className="alert alert-success text-center" role="alert">
+              <div className="alert alert-success text-center mb-3" role="alert">
                 {successMessage}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="border p-4 shadow-lg rounded bg-white">
-              <div className="form-group mb-3">
-                <label htmlFor="Emri" className="form-label fw-bold">Emri*</label>
-                <input 
-                  type="text" 
-                  className="form-control form-control-lg" 
-                  id="Emri" 
-                  name="Emri" 
-                  value={formData.Emri} 
-                  onChange={handleChange} 
-                  required 
-                  placeholder="Shkruani emrin e licensës"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
+              <div className="row">
+                <div className="col-md-12 mb-2">
+                  <div className="form-group">
+                    <label htmlFor="Emri" className="form-label fw-bold">Emri*</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="Emri"
+                      name="Emri"
+                      value={formData.Emri}
+                      onChange={handleChange}
+                      placeholder="Shkruani emrin"
+                    />
+                  </div>
+                </div>
+                <div className="col-md-12 mb-2">
+                  <div className="form-group">
+                    <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Institucioni*</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="EmriInstitucionit"
+                      name="EmriInstitucionit"
+                      value={formData.EmriInstitucionit}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6 mb-2">
+                  <div className="form-group">
+                    <label htmlFor="DataLeshimit" className="form-label fw-bold">Data e Leshimit*</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="DataLeshimit"
+                      name="DataLeshimit"
+                      value={formData.DataLeshimit}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-              <div className="form-group mb-3">
-                <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
-                <Select
-                  options={institucionet}
-                  value={institucionet.find(option => option.value === formData.EmriInstitucionit)}
-                  onChange={handleSelectChange}
-                  placeholder="Zgjedhni një institucion"
-                  required
-                />
-              </div>
+                <div className="col-md-6 mb-2">
+                  <div className="form-group">
+                    <label htmlFor="DataSkadimit" className="form-label fw-bold">Data e Skadimit</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="DataSkadimit"
+                      name="DataSkadimit"
+                      value={formData.DataSkadimit}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-              <div className="form-group mb-3">
-                <label htmlFor="DataLeshimit" className="form-label fw-bold">Data e lëshimit*</label>
-                <input 
-                  type="date" 
-                  className="form-control form-control-lg" 
-                  id="DataLeshimit" 
-                  name="DataLeshimit" 
-                  value={formData.DataLeshimit} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
+                <div className="col-md-6 mb-3">
+                  <div className="form-group">
+                    <label htmlFor="CredentialId" className="form-label fw-bold">Credential ID</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="CredentialId"
+                      name="CredentialId"
+                      value={formData.CredentialId}
+                      onChange={handleChange}
+                      placeholder="Shkruani Credential ID"
+                    />
+                  </div>
+                </div>
 
-              <div className="form-group mb-3">
-                <label htmlFor="DataSkadimit" className="form-label fw-bold">Data e skadimit</label>
-                <input 
-                  type="date" 
-                  className="form-control form-control-lg" 
-                  id="DataSkadimit" 
-                  name="DataSkadimit" 
-                  value={formData.DataSkadimit} 
-                  onChange={handleChange} 
-                />
-              </div>
+                <div className="col-md-6 mb-3">
+                  <div className="form-group">
+                    <label htmlFor="CredentialUrl" className="form-label fw-bold">Credential URL</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="CredentialUrl"
+                      name="CredentialUrl"
+                      value={formData.CredentialUrl}
+                      onChange={handleChange}
+                      placeholder="Shkruani Credential URL"
+                    />
+                  </div>
+                </div>
 
-              <div className="form-group mb-3">
-                <label htmlFor="CredentialId" className="form-label fw-bold">Credential ID</label>
-                <input 
-                  type="text" 
-                  className="form-control form-control-lg" 
-                  id="CredentialId" 
-                  name="CredentialId" 
-                  value={formData.CredentialId} 
-                  onChange={handleChange} 
-                  placeholder="Opsionale"
-                />
+                <div className="col-md-12 d-flex justify-content-between mb-2">
+                  <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                  <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Shto</button>
+                </div>
               </div>
-
-              <div className="form-group mb-3">
-                <label htmlFor="CredentialUrl" className="form-label fw-bold">Credential URL</label>
-                <input 
-                  type="url" 
-                  className="form-control form-control-lg" 
-                  id="CredentialUrl" 
-                  name="CredentialUrl" 
-                  value={formData.CredentialUrl} 
-                  onChange={handleChange} 
-                  placeholder="Opsionale"
-                />
-              </div>
-
-              <button type="submit" className="btn btn-primary w-100 py-2">Ruaj</button>
             </form>
           </div>
         </div>

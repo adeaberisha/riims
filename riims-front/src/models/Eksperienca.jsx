@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import Sidebar from '../components/Sidebar.jsx';
 
 const workTypes = [
     { value: 'Compressed Workweek', label: 'Compressed Workweek' },
@@ -17,16 +18,18 @@ const workTypes = [
 ];
 
 function Eksperienca() {
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         titulli: '',
-        llojiPunesimit: '',
-        emriKompanise: '',
+        llojiPunesimit: null,  // Updated to null
+        emriKompanise: null,   // Updated to null
         lokacioni: '',
         llojiLokacionit: '',
         dataFillimit: '',
         dataMbarimit: '',
         pershkrimi: ''
-    });
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
     const [institucionet, setInstitucionet] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -58,14 +61,14 @@ function Eksperienca() {
     const handleSelectChange = (selectedOption) => {
         setFormData({
             ...formData,
-            llojiPunesimit: selectedOption ? selectedOption.value : ''
+            llojiPunesimit: selectedOption ? selectedOption.value : null
         });
     };
 
     const handleInstitutionChange = (selectedOption) => {
         setFormData({
             ...formData,
-            emriKompanise: selectedOption ? selectedOption.value : ''
+            emriKompanise: selectedOption ? selectedOption.value : null
         });
     };
 
@@ -77,7 +80,7 @@ function Eksperienca() {
         const token = localStorage.getItem("jwtToken");
 
         if (!token) {
-            setErrorMessage('Token not found. Please log in again.');
+            setErrorMessage('Ju lutem logohuni përsëri.');
             return;
         }
 
@@ -93,8 +96,8 @@ function Eksperienca() {
                 Pershkrimi: formData.pershkrimi || null
             };
 
-            const postResponse = await axios.post(
-                `https://localhost:7254/api/Eksperienca/add-eksperienca`,
+            const response = await axios.post(
+                'https://localhost:7254/api/Eksperienca/add-eksperienca',
                 data,
                 {
                     headers: {
@@ -104,144 +107,175 @@ function Eksperienca() {
                 }
             );
 
-            if (postResponse.status === 201) {
-                setSuccessMessage('Experience added successfully!');
-                setFormData({
-                    titulli: '',
-                    llojiPunesimit: '',
-                    emriKompanise: '',
-                    lokacioni: '',
-                    llojiLokacionit: '',
-                    dataFillimit: '',
-                    dataMbarimit: '',
-                    pershkrimi: ''
-                });
+            if (response.status === 201) {
+                setSuccessMessage('Eksperienca u shtua me sukses!');
+                setFormData(initialFormData); // Reset form data
             } else {
-                setErrorMessage('Something went wrong. Please try again.');
+                setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
             }
 
         } catch (error) {
-            console.error('Error adding experience:', error);
-            setErrorMessage('Error: Could not complete the request.');
+            console.error('Error gjatë shtimit të eksperiencës:', error);
+            setErrorMessage('Ju lutem provoni përsëri.');
         }
     };
 
+    const handleReset = () => {
+        setFormData(initialFormData);
+    };
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => setErrorMessage(''), 6000);
+            return () => clearTimeout(timer);
+        }
+        if (successMessage) {
+            const timer = setTimeout(() => setSuccessMessage(''), 6000);
+            return () => clearTimeout(timer);
+        }
+    }, [errorMessage, successMessage]);
+
     return (
-        <div className="container-fluid h-100 bg-light mb-4 mt-4">
-            <div className="row h-100 mt-4">
-                <div className="col d-flex justify-content-center mb-4">
-                    <div className="col-md-8 col-lg-6 col-xl-4">
-                        <h4 className="text-center text-muted fst-italic m-3">Shtoni eksperiencën tuaj profesionale</h4>
+        <div className="container-fluid h-100 bg-light">
+            <div className="row h-100">
+                {/* Sidebar */}
+                <div className="col-md-2 p-0">
+                    <Sidebar />
+                </div>
+
+                {/* Main Content */}
+                <div className="col-md-10 d-flex flex-column align-items-center py-5">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                        <h4 className="text-center text-muted fst-italic mb-4">Shtoni eksperiencën tuaj profesionale</h4>
 
                         {errorMessage && (
-                            <div className="alert alert-danger text-center" role="alert">
+                            <div className="alert alert-danger text-center mb-3" role="alert">
                                 {errorMessage}
                             </div>
                         )}
 
                         {successMessage && (
-                            <div className="alert alert-success text-center" role="alert">
+                            <div className="alert alert-success text-center mb-3" role="alert">
                                 {successMessage}
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="border p-4 shadow-lg rounded bg-white" style={{ boxShadow: '10px 10px 12px rgba(0, 0, 0, 0.1)' }}>
-                            <div className="form-group mb-3">
-                                <label htmlFor="titulli" className='form-label fw-bold'>Titulli*</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="titulli"
-                                    name="titulli"
-                                    value={formData.titulli}
-                                    onChange={handleChange}
-                                    placeholder="Shkruani titullin e punës"
-                                    required
-                                />
+                        <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
+                            <div className="row">
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="titulli" className='form-label fw-bold'>Titulli*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="titulli"
+                                            name="titulli"
+                                            value={formData.titulli}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani titullin e punës"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label id="llojiPunesimit-label" className='form-label fw-bold'>Lloji i punësimit*</label>
+                                        <Select
+                                            aria-labelledby="llojiPunesimit-label"
+                                            options={workTypes}
+                                            value={workTypes.find(option => option.value === formData.llojiPunesimit) || null} // Correctly handle null
+                                            onChange={handleSelectChange}
+                                            placeholder="Zgjedhni llojin"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="emriKompanise" className="form-label fw-bold">Institucioni*</label>
+                                        <Select
+                                            options={institucionet}
+                                            value={institucionet.find(option => option.value === formData.emriKompanise) || null} // Correctly handle null
+                                            onChange={handleInstitutionChange}
+                                            placeholder="Zgjedhni institucionin"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="lokacioni" className="form-label fw-bold">Lokacioni*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="lokacioni"
+                                            name="lokacioni"
+                                            value={formData.lokacioni}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani lokacionin"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="llojiLokacionit" className='form-label fw-bold'>Lloji i lokacionit*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="llojiLokacionit"
+                                            name="llojiLokacionit"
+                                            value={formData.llojiLokacionit}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani llojin e lokacionit"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="dataFillimit" className="form-label fw-bold">Data e fillimit*</label>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            id="dataFillimit"
+                                            name="dataFillimit"
+                                            value={formData.dataFillimit}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-2">
+                                    <div className="form-group">
+                                        <label htmlFor="dataMbarimit" className="form-label fw-bold">Data e mbarimit</label>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            id="dataMbarimit"
+                                            name="dataMbarimit"
+                                            value={formData.dataMbarimit}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-12 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="pershkrimi" className="form-label fw-bold">Përshkrimi</label>
+                                        <textarea
+                                            className="form-control"
+                                            id="pershkrimi"
+                                            name="pershkrimi"
+                                            value={formData.pershkrimi}
+                                            onChange={handleChange}
+                                            rows="2"
+                                            placeholder="Përshkruani eksperiencën tuaj"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-12 d-flex justify-content-between mb-2">
+                                    <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                                    <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
+                                </div>
                             </div>
-                            <div className="form-group mb-3">
-                                <label id="llojiPunesimit-label" className='form-label fw-bold'>Lloji i punësimit*</label>
-                                <Select
-                                    aria-labelledby="llojiPunesimit-label"
-                                    options={workTypes}
-                                    value={workTypes.find(option => option.value === formData.llojiPunesimit)}
-                                    onChange={handleSelectChange}
-                                    placeholder="Zgjedhni llojin e punësimit"
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="emriKompanise" className='form-label fw-bold'>Emri i institucionit*</label>
-                                <Select
-                                    options={institucionet}
-                                    value={institucionet.find(option => option.value === formData.EmriInstitucionit)}
-                                    onChange={handleInstitutionChange}
-                                    placeholder="Zgjedhni institucionin"
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="lokacioni" className='form-label fw-bold'>Lokacioni*</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="lokacioni"
-                                    name="lokacioni"
-                                    value={formData.lokacioni}
-                                    onChange={handleChange}
-                                    placeholder="Shkruani lokacionin e punës"
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="llojiLokacionit" className='form-label fw-bold'>Lloji i lokacionit*</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="llojiLokacionit"
-                                    name="llojiLokacionit"
-                                    value={formData.llojiLokacionit}
-                                    onChange={handleChange}
-                                    placeholder="Shkruani llojin e lokacionit"
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="dataFillimit" className='form-label fw-bold'>Data e fillimit*</label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="dataFillimit"
-                                    name="dataFillimit"
-                                    value={formData.dataFillimit}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="dataMbarimit" className='form-label fw-bold'>Data e përfundimit</label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="dataMbarimit"
-                                    name="dataMbarimit"
-                                    value={formData.dataMbarimit}
-                                    onChange={handleChange}
-                                    placeholder="Shkruani datën e përfundimit (opsionale)"
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="pershkrimi" className='form-label fw-bold'>Përshkrimi</label>
-                                <textarea
-                                    className="form-control"
-                                    id="pershkrimi"
-                                    name="pershkrimi"
-                                    value={formData.pershkrimi}
-                                    onChange={handleChange}
-                                    placeholder="Shkruani përshkrimin e punës (opsionale)"
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary w-100 active mb-2 mt-2">Ruaj</button>
                         </form>
                     </div>
                 </div>
@@ -251,3 +285,5 @@ function Eksperienca() {
 }
 
 export default Eksperienca;
+
+
