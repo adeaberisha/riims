@@ -2,12 +2,6 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://localhost:7254/api';
 
-// Set the default header
-const token = localStorage.getItem('jwtToken');
-if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
-
 axios.interceptors.request.use(
     config => {
         const token = localStorage.getItem('jwtToken');
@@ -23,9 +17,9 @@ axios.interceptors.response.use(
     response => response,
     error => {
         if (error.response && error.response.status === 401) {
-            // Handle unauthorized errors, e.g., redirect to login
-            // Optionally clear the token here
             localStorage.removeItem('jwtToken');
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = "/login";
         }
         return Promise.reject(error);
     }
