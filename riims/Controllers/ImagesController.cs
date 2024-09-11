@@ -37,8 +37,6 @@ namespace riims.Controllers
                     return Unauthorized(); // Or handle as appropriate
                 }
 
-               // var userId = userIdClaim.Value; // Extract UserId as a string
-
                 // Convert DTO to Domain model
                 var imageDomainModel = new Image
                 {
@@ -50,9 +48,10 @@ namespace riims.Controllers
                 };
 
                 // Use repository to upload image with extracted UserId
-                await imageRepository.Upload(userId, imageDomainModel); 
+                await imageRepository.Upload(userId, imageDomainModel);
 
-                return Ok(imageDomainModel);
+                // Return the uploaded image URL
+                return Ok(new { url = imageDomainModel.FilePath });
             }
 
             return BadRequest(ModelState);

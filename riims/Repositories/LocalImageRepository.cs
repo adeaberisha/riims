@@ -19,7 +19,7 @@ namespace riims.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<Image> Upload(string userId, Image image) // Match method signature
+        public async Task<Image> Upload(string userId, Image image)
         {
             var localFilePath = Path.Combine(webHostEnvironment.ContentRootPath, "Images",
                 $"{image.FileName}{image.FileExtension}");

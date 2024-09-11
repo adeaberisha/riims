@@ -83,22 +83,28 @@ function EditProfile() {
     const handleImageUpload = async (file) => {
         const formData = new FormData();
         formData.append('File', file);
-        formData.append('FileName', file.name); 
-        
-    
+        formData.append('FileName', file.name);
+      
         try {
-            const response = await axios.post('https://localhost:7254/api/Images/Upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            return response.data; 
+          const response = await axios.post('https://localhost:7254/api/Images/Upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const imageData = response.data;
+          if (imageData && imageData.url) {
+            setFormData(prevFormData => ({
+              ...prevFormData,
+              foto: imageData.url, // Update the profile picture with the uploaded image
+            }));
+            localStorage.setItem("foto", imageData.url);
+          }
         } catch (error) {
-            console.error('Error uploading image:', error);
-            alert('Error uploading image. Please try again.');
+          console.error('Gabim gjatë ngarkimit të imazhit', error);
+          alert('Gabim gjatë ngarkimit të imazhit. Ju lutemi provoni përsëri.');
         }
-    };
+      };
     
     
 
