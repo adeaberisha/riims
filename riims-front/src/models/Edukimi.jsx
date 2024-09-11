@@ -167,7 +167,7 @@ function Edukimi() {
                 </div>
                 <div className="col-md-6 mb-2">
                   <div className="form-group">
-                    <label htmlFor="Institucioni" className="form-label fw-bold">Institucioni</label>
+                    <label htmlFor="Institucioni" className="form-label fw-bold">Institucioni*</label>
                     <input 
                       type="text" 
                       className="form-control" 
@@ -181,7 +181,7 @@ function Edukimi() {
                 </div>
                 <div className="col-md-6 mb-2">
                   <div className="form-group">
-                    <label htmlFor="Lokacioni" className="form-label fw-bold">Lokacioni</label>
+                    <label htmlFor="Lokacioni" className="form-label fw-bold">Lokacioni*</label>
                     <input 
                       type="text" 
                       className="form-control" 
