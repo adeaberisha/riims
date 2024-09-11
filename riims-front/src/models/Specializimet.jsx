@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Sidebar from '../components/Sidebar.jsx';
 
 function Specializimet() {
     const [formData, setFormData] = useState({
@@ -62,7 +63,6 @@ function Specializimet() {
 
             console.log('Response:', response.data);  // Debug: Log the response
 
-            // Check for success (201 or 200)
             if (response.status === 201 || response.status === 200) {
                 setSuccessMessage('Specializimi u shtua me sukses!');
                 setFormData({
@@ -91,65 +91,178 @@ function Specializimet() {
         }
     };
 
+    const handleReset = () => {
+        setFormData({
+            EmriInstitucionit: '',
+            llojiIspecializimit: '',
+            lokacionit: '',
+            dataEFillimit: '',
+            dataEMbarimit: '',
+            aftesiteEfituara: '',
+            pershkrimi: '',
+            nrKredive: ''
+        });
+    };
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => setErrorMessage(''), 6000);
+            return () => clearTimeout(timer);
+        }
+        if (successMessage) {
+            const timer = setTimeout(() => setSuccessMessage(''), 6000);
+            return () => clearTimeout(timer);
+        }
+    }, [errorMessage, successMessage]);
+
     return (
         <div className="container-fluid h-100 bg-light">
             <div className="row h-100">
-                <div className="col d-flex justify-content-center align-items-center mb-5 mt-4">
-                    <div className="col-md-6 col-lg-5 col-xl-4">
-                        <h4 className="text-center text-muted fst-italic m-3">Shtoni specializimin</h4>
+                {/* Sidebar */}
+                <div className="col-md-2 p-0">
+                    <Sidebar />
+                </div>
+
+                {/* Main Content */}
+                <div className="col-md-10 d-flex flex-column align-items-center py-5">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                        <h4 className="text-center text-muted fst-italic mb-4">Shtoni specializimin</h4>
+
                         {errorMessage && (
-                            <div className="alert alert-danger text-center" role="alert">
+                            <div className="alert alert-danger text-center mb-3" role="alert">
                                 {errorMessage}
                             </div>
                         )}
+
                         {successMessage && (
-                            <div className="alert alert-success text-center" role="alert">
+                            <div className="alert alert-success text-center mb-3" role="alert">
                                 {successMessage}
                             </div>
                         )}
-                        <form onSubmit={handleSubmit} className="border p-4 shadow-sm rounded">
-                            <div className="form-group mb-3">
-                                <label htmlFor="EmriInstitucionit" className='text-muted m-1'>Emri i institucionit*</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="EmriInstitucionit"
-                                    name="EmriInstitucionit"
-                                    value={formData.EmriInstitucionit}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
 
-                            <div className="form-group mb-3">
-                                <label htmlFor="llojiIspecializimit" className='text-muted m-1'>Lloji i specializimit*</label>
-                                <input type="text" className="form-control" id="llojiIspecializimit" name="llojiIspecializimit" value={formData.llojiIspecializimit} onChange={handleChange} required />
+                        <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white">
+                            <div className="row">
+                                {/* First Half of the Form */}
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="EmriInstitucionit" className='form-label fw-bold'>Emri i institucionit*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="EmriInstitucionit"
+                                            name="EmriInstitucionit"
+                                            value={formData.EmriInstitucionit}
+                                            onChange={handleChange}
+                                            required
+                                            placeholder="Shkruani emrin e institucionit"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="llojiIspecializimit" className='form-label fw-bold'>Lloji i specializimit*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="llojiIspecializimit"
+                                            name="llojiIspecializimit"
+                                            value={formData.llojiIspecializimit}
+                                            onChange={handleChange}
+                                            required
+                                            placeholder="Shkruani llojin e specializimit"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="lokacionit" className='form-label fw-bold'>Lokacioni</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="lokacionit"
+                                            name="lokacionit"
+                                            value={formData.lokacionit}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani lokacionin"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="aftesiteEfituara" className='form-label fw-bold'>Aftësitë e fituara</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="aftesiteEfituara"
+                                            name="aftesiteEfituara"
+                                            value={formData.aftesiteEfituara}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani aftësitë e fituara"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="lokacionit" className='text-muted m-1'>Lokacioni</label>
-                                <input type="text" className="form-control" id="lokacionit" name="lokacionit" value={formData.lokacionit} onChange={handleChange} />
+                            <div className="row">
+                                {/* Second Half of the Form */}
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="dataEFillimit" className='form-label fw-bold'>Data e fillimit*</label>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            id="dataEFillimit"
+                                            name="dataEFillimit"
+                                            value={formData.dataEFillimit}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="dataEMbarimit" className='form-label fw-bold'>Data e mbarimit</label>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            id="dataEMbarimit"
+                                            name="dataEMbarimit"
+                                            value={formData.dataEMbarimit}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="nrKredive" className='form-label fw-bold'>Numri i kredive</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="nrKredive"
+                                            name="nrKredive"
+                                            value={formData.nrKredive}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani numrin e kredive"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="pershkrimi" className='form-label fw-bold'>Përshkrimi</label>
+                                        <textarea
+                                            className="form-control"
+                                            id="pershkrimi"
+                                            name="pershkrimi"
+                                            value={formData.pershkrimi}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani përshkrimin"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="dataEFillimit" className='text-muted m-1'>Data e fillimit*</label>
-                                <input type="date" className="form-control" id="dataEFillimit" name="dataEFillimit" value={formData.dataEFillimit} onChange={handleChange} required />
+                            <div className="d-flex justify-content-between mb-2">
+                                <button type="button" className="btn btn-secondary" style={{ width: 'calc(50% - 0.7rem)' }} onClick={handleReset}>Anulo</button>
+                                <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                             </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="dataEMbarimit" className='text-muted m-1'>Data e mbarimit</label>
-                                <input type="date" className="form-control" id="dataEMbarimit" name="dataEMbarimit" value={formData.dataEMbarimit} onChange={handleChange} />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="aftesiteEfituara" className='text-muted m-1'>Aftësitë e fituara</label>
-                                <input type="text" className="form-control" id="aftesiteEfituara" name="aftesiteEfituara" value={formData.aftesiteEfituara} onChange={handleChange} />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="nrKredive" className='text-muted m-1'>Numri i kredive</label>
-                                <input type="number" className="form-control" id="nrKredive" name="nrKredive" value={formData.nrKredive} onChange={handleChange} />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="pershkrimi" className='text-muted m-1'>Përshkrimi</label>
-                                <textarea className="form-control" id="pershkrimi" name="pershkrimi" value={formData.pershkrimi} onChange={handleChange} />
-                            </div>
-                            <button type="submit" className="btn btn-primary w-100 active mb-2 mt-2">Add</button>
                         </form>
                     </div>
                 </div>

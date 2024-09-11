@@ -16,6 +16,7 @@ import Projekti from './models/Projekti';
 import PunaVullnetare from './models/PunaVullnetare';
 import Edukimi from './models/Edukimi';
 import HonorsAndAwards from './models/HonorsAndAwards';
+import MbikqyresITemave from './models/MbikqyresITemave';
 import AdminDashboard from './components/AdminRoute'; 
 import EditLicensa from './update-components/EditLicensa';
 import EditEksperienca from './update-components/EditEksperienca';
@@ -170,6 +171,14 @@ function App() {
                     <HonorsAndAwards />
                   </div>
                   <Footer /> 
+                </>
+              } />
+              <Route path="/mbikqyresitemave" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <MbikqyresITemave />
+                  </div>
                 </>
               } />
               <Route path="/personDetails" element={
