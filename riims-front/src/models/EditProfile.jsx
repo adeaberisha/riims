@@ -53,8 +53,9 @@ function EditProfile() {
 
     
 
-    const formatDate = (isoDateString) => {
-        const date = new Date(isoDateString);
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
         return date.toISOString().split('T')[0]; 
     };
     
@@ -105,24 +106,24 @@ function EditProfile() {
         if (e.target.name === "foto") {
             const file = e.target.files[0];
             if (file) {
-                // Validate file type and size
+                
                 if (!file.type.startsWith('image/')) {
                     alert('Please select a valid image file.');
                     return;
                 }
-                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                if (file.size > 5 * 1024 * 1024) { 
                     alert('File size exceeds 5MB.');
                     return;
                 }
     
-                // Upload the file and get the URL or filename
+               
                 const imageData = await handleImageUpload(file);
                 if (imageData && imageData.url) {
                     setFormData(prevFormData => ({
                         ...prevFormData,
-                        foto: imageData.url // Adjust this based on your response structure
+                        foto: imageData.url 
                     }));
-                    localStorage.setItem("foto", imageData.url); // Save to local storage
+                    localStorage.setItem("foto", imageData.url);
                 }
             }
         } else {
@@ -146,14 +147,14 @@ function EditProfile() {
         e.preventDefault();
     
         const formDataToSend = {
-            emri: formData.emri,
-            mbiemri: formData.mbiemri,
-            gjinia: formData.gjinia,
-            adresa: formData.adresa,
-            dataELindjes: formData.dataELindjes,
-            NiveliAkademik: formData.NiveliAkademik,
-            numriTelefonit: formData.numriTelefonit,
-            foto: formData.foto 
+            emri: formData.emri || '',
+            mbiemri: formData.mbiemri || '',
+            gjinia: formData.gjinia || '',
+            adresa: formData.adresa || '',
+            dataELindjes: formData.dataELindjes ? formatDate(formData.dataELindjes) : null,
+            NiveliAkademik: formData.NiveliAkademik || '',  // Ensure this is included
+            numriTelefonit: formData.numriTelefonit || '',
+            foto: formData.foto || ''
         };
     
         console.log('Submitting data:', formDataToSend);
@@ -168,8 +169,14 @@ function EditProfile() {
             localStorage.setItem("foto", formData.foto);
             alert('Profile updated successfully!');
         } catch (error) {
-            console.error('Error updating person:', error.response ? error.response.data : error.message);
-            alert('Error updating profile. Please try again.');
+            if (error.response && error.response.data) {
+                const validationErrors = error.response.data.errors;
+                console.error('Validation errors:', validationErrors);
+                alert(`Error updating profile: ${Object.values(validationErrors).flat().join(', ')}`);
+            } else {
+                console.error('Error updating profile:', error.message);
+                alert(`Error updating profile: ${error.message}`);
+            }
         }
     };
     

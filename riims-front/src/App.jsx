@@ -18,14 +18,14 @@ import Edukimi from './models/Edukimi';
 import HonorsAndAwards from './models/HonorsAndAwards';
 import MbikqyresITemave from './models/MbikqyresITemave';
 import AdminDashboard from './components/AdminRoute'; 
-import EditLicensa from './update-components/EditLicensa';
-import EditEksperienca from './update-components/EditEksperienca';
+import EditLicensa from './UpdateModals/EditLicensa';
+import EditEksperienca from './UpdateModals/EditEksperienca';
 import PersonDetails from './models/PersonDetails';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
     if (token) {
@@ -43,6 +43,7 @@ function App() {
       setIsLoggedIn(false);
     }
   }, []);
+  
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -67,9 +68,7 @@ function App() {
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} /> 
                   <div className="container">
-                    <header className="App-header text-center mt-5">
-                      {/* Content after login */}
-                    </header>
+                    <Home/>
                   </div>
                   <Footer /> 
                 </>
@@ -190,7 +189,7 @@ function App() {
                   <Footer /> 
                 </>
               } />
-               <Route path="/EditLicensa" element={
+               <Route path="/EditLicensa/:id" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">

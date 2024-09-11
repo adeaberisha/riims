@@ -29,12 +29,12 @@
 .user-name {
     font-size: 2rem; 
     font-weight: bold;
-    margin-left: 40px;
+    margin-left: 60px;
 }
 
 .user-email, .user-info {
     font-size: 1rem;
-    margin-left: 40px;
+    margin-left: 60px;
 }
 
 .user-photo {
@@ -47,7 +47,7 @@
     /* margin-left: auto; */
     display: block;
     width: fit-content;
-    margin-left: 36px;
+    margin-left: 60px;
 }
 
 .btnn-dark-blue {
@@ -63,6 +63,15 @@
 
   .box {
     transition: transform 0.3s ease;
+    width: 80%; 
+    max-width: 250px;
+    margin: 0 auto; 
+    padding: 10px; 
+    border-radius: 8px; 
+}
+.box-content h4 {
+    font-size: 16px; 
+    margin-bottom: 10px; 
 }
 
 .box:hover {
