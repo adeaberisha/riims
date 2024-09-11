@@ -52,7 +52,7 @@ function Gjuhet() {
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
-      EmriGjuhes: selectedOption ? selectedOption.value : ''  // Setting ID of language
+      EmriGjuhes: selectedOption ? selectedOption.label : ''  // Setting ID of language
     });
   };
 
@@ -60,7 +60,7 @@ function Gjuhet() {
   const handleSelectChangeNiveli = (selectedOption) => {
     setFormData({
       ...formData,
-      NiveliGjuhesor: selectedOption ? selectedOption.value : ''  // Setting ID of level
+      NiveliGjuhesor: selectedOption ? selectedOption.label : ''  // Setting ID of level
     });
   };
 

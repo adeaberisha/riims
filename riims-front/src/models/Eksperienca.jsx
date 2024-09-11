@@ -68,7 +68,7 @@ function Eksperienca() {
     const handleInstitutionChange = (selectedOption) => {
         setFormData({
             ...formData,
-            emriKompanise: selectedOption ? selectedOption.value : null
+            emriKompanise: selectedOption ? selectedOption.label : null
         });
     };
 
@@ -195,7 +195,7 @@ function Eksperienca() {
                                         <label htmlFor="emriKompanise" className="form-label fw-bold">Institucioni*</label>
                                         <Select
                                             options={institucionet}
-                                            value={institucionet.find(option => option.value === formData.emriKompanise) || null} // Correctly handle null
+                                            value={institucionet.find(option => option.label === formData.emriKompanise) || null} // Correctly handle null
                                             onChange={handleInstitutionChange}
                                             placeholder="Zgjedhni institucionin"
                                         />

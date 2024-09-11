@@ -43,7 +43,7 @@ function HonorsAndAwards() {
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
-      EmriInstitucionit: selectedOption ? selectedOption.value : ''
+      EmriInstitucionit: selectedOption ? selectedOption.label : ''
     });
   };
 
@@ -156,7 +156,7 @@ function HonorsAndAwards() {
                 <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
                 <Select
                   options={institucionet}
-                  value={institucionet.find(option => option.value === formData.EmriInstitucionit)}
+                  value={institucionet.find(option => option.label === formData.EmriInstitucionit)}
                   onChange={handleSelectChange}
                   placeholder="Zgjedhni një institucion"
                   required
