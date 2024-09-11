@@ -136,7 +136,7 @@ function App() {
                   <Footer /> 
                 </>
               } />
-              <Route path="/puna-vullnetare" element={
+              <Route path="/punavullnetare" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">

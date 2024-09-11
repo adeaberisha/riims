@@ -125,7 +125,7 @@ function Specializimet() {
 
                 {/* Main Content */}
                 <div className="col-md-10 d-flex flex-column align-items-center py-5">
-                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6"style={{ marginTop: '-1.4rem' }}>
                         <h4 className="text-center text-muted fst-italic mb-4">Shtoni specializimin</h4>
 
                         {errorMessage && (
@@ -154,7 +154,7 @@ function Specializimet() {
                                             value={formData.EmriInstitucionit}
                                             onChange={handleChange}
                                             required
-                                            placeholder="Shkruani emrin e institucionit"
+                                            placeholder="Shkruani institucionin"
                                         />
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@ function Specializimet() {
                                             value={formData.llojiIspecializimit}
                                             onChange={handleChange}
                                             required
-                                            placeholder="Shkruani llojin e specializimit"
+                                            placeholder="Shkruani llojin"
                                         />
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@ function Specializimet() {
                                             name="aftesiteEfituara"
                                             value={formData.aftesiteEfituara}
                                             onChange={handleChange}
-                                            placeholder="Shkruani aftësitë e fituara"
+                                            placeholder="Shkruani aftësitë tuaja"
                                         />
                                     </div>
                                 </div>
@@ -241,7 +241,7 @@ function Specializimet() {
                                             name="nrKredive"
                                             value={formData.nrKredive}
                                             onChange={handleChange}
-                                            placeholder="Shkruani numrin e kredive"
+                                            placeholder="Shkruani numrin"
                                         />
                                     </div>
                                 </div>

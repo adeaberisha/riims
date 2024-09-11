@@ -20,8 +20,8 @@ const workTypes = [
 function Eksperienca() {
     const initialFormData = {
         titulli: '',
-        llojiPunesimit: null,  // Updated to null
-        emriKompanise: null,   // Updated to null
+        llojiPunesimit: '',  // Updated to null
+        emriKompanise: '',   // Updated to null
         lokacioni: '',
         llojiLokacionit: '',
         dataFillimit: '',
@@ -183,7 +183,7 @@ function Eksperienca() {
                                         <Select
                                             aria-labelledby="llojiPunesimit-label"
                                             options={workTypes}
-                                            value={workTypes.find(option => option.value === formData.llojiPunesimit) || null} // Correctly handle null
+                                            value={workTypes.find(option => option.value === formData.llojiPunesimit) || null}
                                             onChange={handleSelectChange}
                                             placeholder="Zgjedhni llojin"
                                             required
@@ -192,12 +192,16 @@ function Eksperienca() {
                                 </div>
                                 <div className="col-md-6 mb-2">
                                     <div className="form-group">
-                                        <label htmlFor="emriKompanise" className="form-label fw-bold">Institucioni*</label>
-                                        <Select
-                                            options={institucionet}
-                                            value={institucionet.find(option => option.label === formData.emriKompanise) || null} // Correctly handle null
-                                            onChange={handleInstitutionChange}
-                                            placeholder="Zgjedhni institucionin"
+                                        <label htmlFor="emriKompanise" className='form-label fw-bold'>Institucioni*</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="emriKompanise"
+                                            name="emriKompanise"
+                                            value={formData.emriKompanise}
+                                            onChange={handleChange}
+                                            placeholder="Shkruani institucionin"
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -225,7 +229,7 @@ function Eksperienca() {
                                             name="llojiLokacionit"
                                             value={formData.llojiLokacionit}
                                             onChange={handleChange}
-                                            placeholder="Shkruani llojin e lokacionit"
+                                            placeholder="Shkruani llojin"
                                             required
                                         />
                                     </div>
@@ -243,7 +247,10 @@ function Eksperienca() {
                                             required
                                         />
                                     </div>
+
                                 </div>
+                            </div>
+                            <div className="row">
                                 <div className="col-md-6 mb-2">
                                     <div className="form-group">
                                         <label htmlFor="dataMbarimit" className="form-label fw-bold">Data e mbarimit</label>
@@ -257,7 +264,7 @@ function Eksperienca() {
                                         />
                                     </div>
                                 </div>
-                                <div className="col-12 mb-3">
+                                <div className="col-md-6 mb-2">
                                     <div className="form-group">
                                         <label htmlFor="pershkrimi" className="form-label fw-bold">Përshkrimi</label>
                                         <textarea
@@ -271,10 +278,11 @@ function Eksperienca() {
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex justify-content-between mb-2">
-                                    <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
-                                    <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
-                                </div>
+                            </div>
+
+                            <div className="col-md-12 d-flex justify-content-between mb-2">
+                                <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                                <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                             </div>
                         </form>
                     </div>
