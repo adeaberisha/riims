@@ -38,7 +38,7 @@ function PersonDetails() {
     const [specializimi, setSpecializimi] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const { confirmDelete, DeleteConfirmationModal } = useDeleteAftesia(setAftesite);
     const { requestDelete, EdukimiDeleteModal } = useDeleteEdukimi(setEdukimi);
     const { triggerEksperiencaDelete, EksperiencaConfirmDeleteModal } = useDeleteEksperienca(setEksperienca);
@@ -47,8 +47,8 @@ function PersonDetails() {
     const { triggerLicensaDelete, LicensaDeleteModal } = useDeleteLicensa(setLicensat);
     const { triggerMbikqyresDelete, MbikqyresDeleteModal } = useDeleteMbikqyres(setMbikqyresITemave);
     const { triggerProjektiDelete, ProjektiDeleteModal } = useDeleteProjekti(setProjekti);
-    const { triggerPublikimiDelete, PublikimiDeleteModal } = useDeletePublikimi(setPublikimi);  
-    const { triggerPunaVullnetareDelete, PunaVullnetareDeleteModal } = useDeletePunaVullnetare(setPunaVullnetare); 
+    const { triggerPublikimiDelete, PublikimiDeleteModal } = useDeletePublikimi(setPublikimi);
+    const { triggerPunaVullnetareDelete, PunaVullnetareDeleteModal } = useDeletePunaVullnetare(setPunaVullnetare);
     const { triggerSpecializimDelete, SpecializimDeleteModal } = useDeleteSpecializim(setSpecializimi);
 
     useEffect(() => {
@@ -148,9 +148,9 @@ function PersonDetails() {
                                     <p>Aftesia: {aftesia.emri}</p>
                                     <p>Emri Institucionit: {aftesia.emriInstitucionit}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
-                            </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
+                                    </div>
                                     {index !== aftesia.length - 1 && <hr />}
                                 </div>
                             ))}
@@ -176,14 +176,14 @@ function PersonDetails() {
                                     <p>Niveli Akademik: {edukimi.niveliAkademik}</p>
                                     <p>Pershkrimi: {edukimi.pershkrimi}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => requestDelete(edukimi.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => requestDelete(edukimi.id)}>Delete</button>
+                                    </div>
                                     {index !== edukimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <EdukimiDeleteModal/>
+                        <EdukimiDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -226,9 +226,9 @@ function PersonDetails() {
                                     <p>Emri Gjuhes: {gjuhet.emriGjuhes}</p>
                                     <p>Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
+                                    </div>
                                     {index !== gjuhet.length - 1 && <hr />}
                                 </div>
                             ))}
@@ -252,9 +252,9 @@ function PersonDetails() {
                                     <p>Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
                                     <p>Pershkrimi: {award.pershkrimi}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                    </div>
                                     {index !== honorsAndAwards.length - 1 && <hr />}
                                 </div>
                             ))}
@@ -279,14 +279,14 @@ function PersonDetails() {
                                     {license.credentialId && <p>Credential ID: {license.credentialId}</p>}
                                     {license.credentialUrl && <p>Credential URL: {license.credentialUrl}</p>}
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
+                                    </div>
                                     {index !== licensat.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <LicensaDeleteModal/>
+                        <LicensaDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -304,14 +304,14 @@ function PersonDetails() {
                                     <p>Data: {new Date(item.data).toLocaleDateString()}</p>
                                     <p>Departamenti: {item.emriDepartamentit}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
+                                    </div>
                                     {index !== mbikqyresITemave.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <MbikqyresDeleteModal/>
+                        <MbikqyresDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -332,14 +332,14 @@ function PersonDetails() {
                                     <p>Description: {projekt.description}</p>
                                     <p>Asocohet: {projekt.asocohet}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
+                                    </div>
                                     {index !== projekti.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <ProjektiDeleteModal/>
+                        <ProjektiDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -359,14 +359,14 @@ function PersonDetails() {
                                     <p>Linku Publikimit: {publication.linkuPublikimit ? publication.linkuPublikimit : "N/A"}</p>
                                     <p>Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
+                                    </div>
                                     {index !== publikimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <PublikimiDeleteModal/>
+                        <PublikimiDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -385,14 +385,14 @@ function PersonDetails() {
                                     <p>Data Mbarimit: {puna.dataMbarimit ? new Date(puna.dataMbarimit).toLocaleDateString() : "N/A"}</p>
                                     <p>Pershkrimi: {puna.pershkrimi ? puna.pershkrimi : "N/A"}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
+                                    </div>
                                     {index !== punaVullnetare.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <PunaVullnetareDeleteModal/>
+                        <PunaVullnetareDeleteModal />
                     </div>
                 </div>
                 <div className="accordion-item">
@@ -414,14 +414,14 @@ function PersonDetails() {
                                     <p>Pershkrimi: {spec.pershkrimi ? spec.pershkrimi : "N/A"}</p>
                                     <p>Numri i Kredive: {spec.nrKredive ? spec.nrKredive : "N/A"}</p>
                                     <div>
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
-                                </div>
+                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
+                                    </div>
                                     {index !== specializimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
-                        <SpecializimDeleteModal/>
+                        <SpecializimDeleteModal />
                     </div>
                 </div>
             </div>
