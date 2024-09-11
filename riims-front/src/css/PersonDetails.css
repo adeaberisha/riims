@@ -1,0 +1,24 @@
+.custom-accordion-button {
+    color: #ffffff !important;
+    background-color: #02095e !important; /* Or any other background color */
+    border: none;
+}
+
+/* Override the default styles for when the button is collapsed */
+.custom-accordion-button:not(.collapsed) {
+    color: #ffffff !important;
+    background-color: #02095e !important; /* Match the background color */
+}
+
+/* Add hover effect if desired */
+.custom-accordion-button:hover {
+    color: #ffffff !important;
+    background-color: #041a8b !important; /* A slightly darker shade */
+}
+.custom-accordion-button::after {
+    filter: invert(1); /* Invert the color to make the arrow white */
+}
+/* Ensure the focus style matches */
+.custom-accordion-button:focus {
+    box-shadow: none;
+}

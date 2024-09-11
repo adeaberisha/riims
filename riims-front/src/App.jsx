@@ -1,3 +1,4 @@
+import PersonDetails from './models/PersonDetails';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoggedInNavbar from './components/LoggedInNavbar'; 
@@ -18,25 +19,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
     console.log('Logged in status:', loggedInStatus);
     setIsLoggedIn(loggedInStatus === 'true');
   }, []); 
-
   const handleLogin = () => {
     setIsLoggedIn(true); 
     localStorage.setItem('isLoggedIn', 'true'); 
   };
-
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn'); 
     localStorage.removeItem('jwtToken'); 
     window.location.href = "/login"; 
   };
-
   return (
     <Router>
       <div className="App">
@@ -133,7 +130,7 @@ function App() {
                   </div>
                 </>
               } />
-               <Route path="/honorsandawards" element={
+              <Route path="/honorsandawards" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
@@ -141,7 +138,16 @@ function App() {
                   </div>
                 </>
               } />
-               
+              <Route path="/personDetails" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <PersonDetails />
+                  </div>
+                </>
+              } />
+
+
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
@@ -156,5 +162,5 @@ function App() {
     </Router>
   );
 }
-
 export default App;
+

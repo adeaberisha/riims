@@ -24,7 +24,7 @@ namespace riims.Repositories
         public async Task<UserGjuhet?> DeleteAsync(Guid id)
         {
             var existingUserGjuhet = await dbcontext.UserGjuhet
-                .Include(ug => ug.GjuhaId)
+                .Include(ug => ug.Gjuha)
                 .Include(u => u.NiveliGjuhesor)
                 .FirstOrDefaultAsync(x => x.Id == id); 
 
