@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import Sidebar from '../components/Sidebar.jsx'; // Ensure Sidebar is imported
 
 function Gjuhet() {
   const [formData, setFormData] = useState({
@@ -120,23 +121,43 @@ function Gjuhet() {
     }
   };
 
+  useEffect(() => {
+    if (errorMessage) {
+        const timer = setTimeout(() => setErrorMessage(''), 6000);
+        return () => clearTimeout(timer);
+    }
+    if (successMessage) {
+        const timer = setTimeout(() => setSuccessMessage(''), 6000);
+        return () => clearTimeout(timer);
+    }
+}, [errorMessage, successMessage]);
+
   return (
     <div className="container-fluid h-100 bg-light">
       <div className="row h-100">
-        <div className="col d-flex justify-content-center align-items-center mb-5 mt-4">
-          <div className="col-md-6 col-lg-5 col-xl-4">
-            <h4 className="text-center text-muted fst-italic m-3">Shtoni gjuhën në të cilën jeni i aftë</h4>
+        {/* Sidebar */}
+        <div className="col-md-2 p-0">
+          <Sidebar />
+        </div>
+
+        {/* Main Content */}
+        <div className="col-md-10 d-flex justify-content-center py-5">
+          <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+            <h4 className="text-center text-muted fst-italic mb-4">Shtoni gjuhën në të cilën jeni i aftë</h4>
+
             {errorMessage && (
-              <div className="alert alert-danger text-center" role="alert">
+              <div className="alert alert-danger text-center mb-3" role="alert">
                 {errorMessage}
               </div>
             )}
+
             {successMessage && (
-              <div className="alert alert-success text-center" role="alert">
+              <div className="alert alert-success text-center mb-3" role="alert">
                 {successMessage}
               </div>
             )}
-            <form onSubmit={handleSubmit} className="border p-4 shadow-lg rounded bg-white">
+
+            <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
               <div className="form-group mb-3">
                 <label htmlFor="EmriGjuhes" className='form-label fw-bold'>Emri i gjuhës*</label>
                 <Select
@@ -157,7 +178,10 @@ function Gjuhet() {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-100 active mb-2 mt-2">Ruaj</button>
+              <div className="d-flex justify-content-between mb-2">
+                <button type="button" className="btn btn-secondary" style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
+              </div>
             </form>
           </div>
         </div>

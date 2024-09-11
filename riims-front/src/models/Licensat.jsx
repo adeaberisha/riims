@@ -155,6 +155,7 @@ function Licensat() {
                       name="EmriInstitucionit"
                       value={formData.EmriInstitucionit}
                       onChange={handleChange}
+                      placeholder="Shkruani emrin e institucionit"
                     />
                   </div>
                 </div>

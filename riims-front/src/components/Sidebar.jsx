@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import '../css/Sidebar.css'; 
+import '../css/Sidebar.css';
 
 const Sidebar = () => {
   return (
@@ -46,6 +46,11 @@ const Sidebar = () => {
               <li className="nav-item">
                 <Link to="/specializimet" className="nav-link px-0 align-middle">
                   <i className="bi bi-star-fill text-white"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic">Specializimet</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/mbikqyresitemave" className="nav-link px-0 align-middle">
+                  <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Mbikqyrës i temave</span>
                 </Link>
               </li>
             </ul>
