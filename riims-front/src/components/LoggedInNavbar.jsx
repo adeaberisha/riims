@@ -47,9 +47,11 @@ function LoggedInNavbar({ handleLogout }) {
               <NavDropdown.Item as={Link} to="/puna-vullnetare">Puna Vullnetare</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/edukimi">Edukimi</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/honorsandawards">Honors And Awards</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/EditLicensa">EditLicensa</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/EditEksperienca">EditEksperienca</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/person-details">Details</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={Link} to="/home" className="text-light">Home</Nav.Link>
+            <Nav.Link as={Link} to="/Home" className="text-light">Home</Nav.Link>
           </Nav>
           {isAdmin() && (
   <Nav>

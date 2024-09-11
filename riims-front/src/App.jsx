@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';  // Default import
 import LoggedInNavbar from './components/LoggedInNavbar'; 
 import Login from './components/Login'; 
+import Home from './models/Home'; 
 import Register from './components/Register'; 
 import Footer from './components/Footer';
 import EditProfile from './models/EditProfile';
@@ -14,27 +16,42 @@ import Projekti from './models/Projekti';
 import PunaVullnetare from './models/PunaVullnetare';
 import Edukimi from './models/Edukimi';
 import HonorsAndAwards from './models/HonorsAndAwards';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminDashboard from './components/AdminRoute'; 
+import EditLicensa from './update-components/EditLicensa';
+import EditEksperienca from './update-components/EditEksperienca';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem('isLoggedIn');
-    console.log('Logged in status:', loggedInStatus);
-    setIsLoggedIn(loggedInStatus === 'true');
-  }, []); 
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setIsAdmin(decodedToken.role && decodedToken.role.toLowerCase() === 'admin');
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        setIsLoggedIn(false);
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('isLoggedIn');
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   const handleLogin = () => {
-    setIsLoggedIn(true); 
-    localStorage.setItem('isLoggedIn', 'true'); 
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('isLoggedIn'); 
-    localStorage.removeItem('jwtToken'); 
-    window.location.href = "/login"; 
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('jwtToken');
+    window.location.href = "/login";
   };
 
   return (
@@ -133,7 +150,15 @@ function App() {
                   </div>
                 </>
               } />
-               <Route path="/honorsandawards" element={
+               <Route path="/Home" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Home />
+                  </div>
+                </>
+              } />
+              <Route path="/honorsandawards" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
@@ -141,7 +166,36 @@ function App() {
                   </div>
                 </>
               } />
-               
+               <Route path="/EditLicensa" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <EditLicensa />
+                  </div>
+                  <Footer /> 
+                </>
+              } />
+              <Route path="/EditEksperienca" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <EditEksperienca />
+                  </div>
+                  <Footer /> 
+                </>
+              } />
+              {isAdmin && (
+                <Route path="/dashboard" element={
+                  <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                      <AdminDashboard />
+                
+                    </div>
+                    <Footer /> 
+                  </>
+                } />
+              )}
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (
@@ -156,5 +210,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
