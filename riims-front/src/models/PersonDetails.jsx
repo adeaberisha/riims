@@ -220,9 +220,7 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2"onClick={() => navigate(`/edit-eksperienca/${exp.id}`)}>
-                                            Edit
-                                        </button>
+                                    <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -357,7 +355,6 @@ function PersonDetails() {
                                         <p className="mb-0">Asocohet: {projekt.asocohet}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
                                     </div>
                                 </div>

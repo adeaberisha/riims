@@ -189,6 +189,16 @@ function App() {
                   <Footer /> 
                 </>
               } />
+              <Route path="/EditEksperienca/:id" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <EditEksperienca />
+                  </div>
+                  <Footer /> 
+                </>
+              } />
+              
                <Route path="/EditLicensa/:id" element={
                 <>
                   <LoggedInNavbar handleLogout={handleLogout} />
@@ -199,7 +209,7 @@ function App() {
                 </>
               } />
                 <Route path="/" element={<PersonDetails />} />
-                <Route path="/edit-eksperienca/:id" element={<EditEksperienca />} />
+              
               {isAdmin && (
                 <Route path="/dashboard" element={
                   <>
