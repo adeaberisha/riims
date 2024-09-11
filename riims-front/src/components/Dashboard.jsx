@@ -3,6 +3,7 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const Dashboard = () => {
+  console.log('Dashboard component rendered');
   return (
     <Container fluid>
       <Row className="mt-4">
@@ -43,5 +44,4 @@ const Dashboard = () => {
     </Container>
   );
 };
-
 export default Dashboard;

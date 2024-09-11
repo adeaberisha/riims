@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function EditLicensa() {
-  const { id } = useParams();
+  const { id } = useParams(); // Extract the ID from URL parameters
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Emri: '',
@@ -13,35 +13,27 @@ function EditLicensa() {
     CredentialId: '',
     CredentialUrl: ''
   });
-  const [institucionet, setInstitucionet] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  console.log('====================================');
+  console.log(formData.DataLeshimit);
+  console.log('====================================');
   useEffect(() => {
-    const fetchInstitucionet = async () => {
-      try {
-        const response = await axios.get('https://localhost:7254/api/Institucioni/get-all-Institucionet');
-        const options = response.data.map(institucion => ({
-          value: institucion.id,
-          label: institucion.emri
-        }));
-        setInstitucionet(options);
-      } catch (error) {
-        console.error('Error fetching institutions:', error);
-        setErrorMessage('Failed to fetch institutions.');
-      }
-    };
-
     const fetchLicensa = async () => {
       try {
-        const response = await axios.get(`https://localhost:7254/api/Licensat/get-licensa-by-id/${id}`);
+        const response = await axios.get(`https://localhost:7254/api/Licensat/get-licensa-by-id/${id}`); // Use the ID to fetch the license
+        const formatDate = (isoDate) => {
+          if (!isoDate) return '';
+          const date = new Date(isoDate);
+          return date.toISOString().split('T')[0]; // YYYY-MM-DD
+        };
         setFormData({
-          Emri: response.data.Emri,
-          EmriInstitucionit: response.data.EmriInstitucionit,
-          DataLeshimit: response.data.DataLeshimit,
-          DataSkadimit: response.data.DataSkadimit,
-          CredentialId: response.data.CredentialId,
-          CredentialUrl: response.data.CredentialUrl
+          Emri: response.data.emri,
+          EmriInstitucionit: response.data.emriInstitucionit,
+          DataLeshimit: formatDate(response.data.dataLeshimit),
+          DataSkadimit: formatDate(response.data.dataSkadimit) || '',
+          CredentialId: response.data.credentialId || '',
+          CredentialUrl: response.data.credentialUrl || ''
         });
       } catch (error) {
         console.error('Error fetching licensa:', error);
@@ -49,7 +41,6 @@ function EditLicensa() {
       }
     };
 
-    fetchInstitucionet();
     fetchLicensa();
   }, [id]);
 
@@ -82,7 +73,7 @@ function EditLicensa() {
       };
 
       const response = await axios.put(
-        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`,
+        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`, // Use the ID for updating the license
         data,
         {
           headers: {
@@ -94,7 +85,7 @@ function EditLicensa() {
 
       if (response.status === 200) {
         setSuccessMessage('Licensa updated successfully!');
-        navigate('/licensat');
+        navigate('/home');
       } else {
         setErrorMessage('Something went wrong. Please try again.');
       }

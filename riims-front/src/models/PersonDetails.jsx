@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImage from '../photos/person.png';
 import '../css/PersonDetails.css';
+import { Link } from 'react-router-dom';
 import { useDeleteAftesia } from '../DeleteModals/DeleteAftesia.jsx';
 import { useDeleteEdukimi } from '../DeleteModals/DeleteEdukimi.jsx';
 import { useDeleteEksperienca } from '../DeleteModals/DeleteEksperienca.jsx';
@@ -53,7 +54,6 @@ function PersonDetails() {
     const { triggerSpecializimDelete, SpecializimDeleteModal } = useDeleteSpecializim(setSpecializimi);
 
     const navigate = useNavigate();
-
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -303,7 +303,7 @@ function PersonDetails() {
                                         {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <Link to={`/EditLicensa/${license.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
                                 </div>

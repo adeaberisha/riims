@@ -27,7 +27,7 @@ function Home() {
         numriTelefonit: '',
         foto: defaultImage
     });
-    const [niveliAkademikOptions, setNiveliAkademikOptions] = useState([]);
+    // const [niveliAkademikOptions, setNiveliAkademikOptions] = useState([]);
     const token = localStorage.getItem('jwtToken'); 
 
     useEffect(() => {
@@ -46,22 +46,22 @@ function Home() {
         }
     }, [token]);
 
-    useEffect(() => {
-        const fetchNiveliAkademik = async () => {
-            try {
-                const response = await axios.get('https://localhost:7254/api/NiveliAkademik/get-all-NiveletAkademike');
-                const options = response.data.map(level => ({
-                    value: level.id,
-                    label: level.lvl
-                }));
-                setNiveliAkademikOptions(options);
-            } catch (error) {
-                console.error('Error fetching academic levels:', error);
-                alert('Failed to fetch academic levels.');
-            }
-        };
-        fetchNiveliAkademik();
-    }, []);
+    // useEffect(() => {
+    //     const fetchNiveliAkademik = async () => {
+    //         try {
+    //             const response = await axios.get('https://localhost:7254/api/NiveliAkademik/get-all-NiveletAkademike');
+    //             const options = response.data.map(level => ({
+    //                 value: level.id,
+    //                 label: level.lvl
+    //             }));
+    //             setNiveliAkademikOptions(options);
+    //         } catch (error) {
+    //             console.error('Error fetching academic levels:', error);
+    //             alert('Failed to fetch academic levels.');
+    //         }
+    //     };
+    //     fetchNiveliAkademik();
+    // }, []);
 
     const formatDate = (isoDateString) => {
         const date = new Date(isoDateString);
@@ -172,7 +172,7 @@ function Home() {
                     {/* Row 1 */}
                     <div className="col-md-4 mb-4">
                         <div className="box text-center bg-white shadow p-3 d-flex flex-column justify-content-center align-items-center">
-                            <Link to="/person-details" className="d-block text-decoration-none">
+                            <Link to="/personDetails" className="d-block text-decoration-none">
                                 <img src={list} alt="list" style={{ width: '85px', height: 'auto' }} />
                                 <div className="box-content mt-3">
                                     <h4 className="fst-italic mb-3" style={{ color: '#244082' }}>Shiko të gjithat</h4>
