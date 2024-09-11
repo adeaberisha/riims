@@ -53,7 +53,7 @@ export function useDeleteEksperienca(setEksperienca) {
                         <button type="button" className="btn-close" onClick={closeEksperiencaConfirmModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Eksperienca?</p>
+                        <p>Are you sure you want to delete this experience?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeEksperiencaConfirmModal}>Cancel</button>

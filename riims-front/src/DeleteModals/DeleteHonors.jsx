@@ -53,7 +53,7 @@ export function useDeleteHonor(setHonors) {
                         <button type="button" className="btn-close" onClick={closeHonorDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this honor or award?</p>
+                        <p>Are you sure you want to delete this honor/award?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeHonorDeleteModal}>Cancel</button>

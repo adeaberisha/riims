@@ -53,7 +53,7 @@ export function useDeleteSpecializim(setSpecializime) {
                         <button type="button" className="btn-close" onClick={closeSpecializimDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Specializim?</p>
+                        <p>Are you sure you want to delete this specialization?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeSpecializimDeleteModal}>Cancel</button>

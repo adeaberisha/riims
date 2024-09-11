@@ -3,9 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Function to delete Edukimi by ID
 async function deleteEdukimiById(id) {
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from local storage
+
+    if (!token) {
+        console.error('No authentication token found.');
+        return;
+    }
+
     try {
         const response = await fetch(`https://localhost:7254/api/Edukimi/delete-edukimi-by-id/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the request headers
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {
@@ -17,6 +28,7 @@ async function deleteEdukimiById(id) {
         console.error(`Error deleting Edukimi: ${error}`);
     }
 }
+
 
 // Function to handle delete
 export function useDeleteEdukimi(setEdukime) {
@@ -53,7 +65,7 @@ export function useDeleteEdukimi(setEdukime) {
                         <button type="button" className="btn-close" onClick={closeEdukimiDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Edukimi?</p>
+                        <p>Are you sure you want to delete this education?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeEdukimiDeleteModal}>Cancel</button>

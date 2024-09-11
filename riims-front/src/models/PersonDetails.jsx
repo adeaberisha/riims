@@ -13,6 +13,7 @@ import { useDeleteProjekti } from '../DeleteModals/DeleteProjekti.jsx';
 import { useDeletePublikimi } from '../DeleteModals/DeletePublikimi.jsx';
 import { useDeletePunaVullnetare } from '../DeleteModals/DeletePunaVullnetare.jsx';
 import { useDeleteSpecializim } from '../DeleteModals/DeleteSpecializimi.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function PersonDetails() {
     const [userData, setUserData] = useState({
@@ -50,6 +51,8 @@ function PersonDetails() {
     const { triggerPublikimiDelete, PublikimiDeleteModal } = useDeletePublikimi(setPublikimi);
     const { triggerPunaVullnetareDelete, PunaVullnetareDeleteModal } = useDeletePunaVullnetare(setPunaVullnetare);
     const { triggerSpecializimDelete, SpecializimDeleteModal } = useDeleteSpecializim(setSpecializimi);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -141,17 +144,18 @@ function PersonDetails() {
                             Aftesite
                         </button>
                     </h2>
-                    <div id="relatedAftesiteCollapse" className="accordion-collapse collapse " aria-labelledby="relatedAftesiteHeading" data-bs-parent="#relatedAftesiteAccordion">
+                    <div id="relatedAftesiteCollapse" className="accordion-collapse collapse" aria-labelledby="relatedAftesiteHeading" data-bs-parent="#relatedAftesiteAccordion">
                         <div className="accordion-body">
                             {aftesite.map((aftesia, index) => (
-                                <div key={index}>
-                                    <p>Aftesia: {aftesia.emri}</p>
-                                    <p>Emri Institucionit: {aftesia.emriInstitucionit}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Aftesia: {aftesia.emri}</p>
+                                        <p className="mb-0">Emri Institucionit: {aftesia.emriInstitucionit}</p>
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
                                     </div>
-                                    {index !== aftesia.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -164,22 +168,27 @@ function PersonDetails() {
                             Edukimi
                         </button>
                     </h2>
-                    <div id="edukimiCollapse" className="accordion-collapse collapse " aria-labelledby="edukimiHeading" data-bs-parent="#edukimiAccordion">
+                    <div id="edukimiCollapse" className="accordion-collapse collapse" aria-labelledby="edukimiHeading" data-bs-parent="#edukimiAccordion">
                         <div className="accordion-body">
                             {edukimi.map((edukimi, index) => (
-                                <div key={index}>
-                                    <p>Emri Institucionit: {edukimi.institucioni}</p>
-                                    <p>Fusha Studimit: {edukimi.fushaStudimit}</p>
-                                    <p>Lokacioni: {edukimi.lokacioni}</p>
-                                    <p>Data Fillimit: {new Date(edukimi.dataFillimit).toLocaleDateString()}</p>
-                                    <p>Data Mbarimit: {new Date(edukimi.dataMbarimit).toLocaleDateString()}</p>
-                                    <p>Niveli Akademik: {edukimi.niveliAkademik}</p>
-                                    <p>Pershkrimi: {edukimi.pershkrimi}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri Institucionit: {edukimi.institucioni}</p>
+                                        <p className="mb-0">Fusha Studimit: {edukimi.fushaStudimit}</p>
+                                        <p className="mb-0">Lokacioni: {edukimi.lokacioni}</p>
+                                        <p className="mb-0">Data Fillimit: {new Date(edukimi.dataFillimit).toLocaleDateString()}</p>
+                                        {edukimi.dataMbarimit && (
+                                            <p className="mb-0">Data Mbarimit: {new Date(edukimi.dataMbarimit).toLocaleDateString()}</p>
+                                        )}
+                                        <p className="mb-0">Niveli Akademik: {edukimi.niveliAkademik}</p>
+                                        {edukimi.pershkrimi && (
+                                            <p className="mb-0">Pershkrimi: {edukimi.pershkrimi}</p>
+                                        )}
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => requestDelete(edukimi.id)}>Delete</button>
                                     </div>
-                                    {index !== edukimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -192,21 +201,30 @@ function PersonDetails() {
                             Eksperiencat
                         </button>
                     </h2>
-                    <div id="eksperiencatCollapse" className="accordion-collapse collapse " aria-labelledby="eksperiencatHeading" data-bs-parent="#eksperiencatAccordion">
+                    <div id="eksperiencatCollapse" className="accordion-collapse collapse" aria-labelledby="eksperiencatHeading" data-bs-parent="#eksperiencatAccordion">
                         <div className="accordion-body">
                             {eksperienca.map((exp, index) => (
-                                <div key={index}>
-                                    <p>Titulli: {exp.titulli}</p>
-                                    <p>Lloji Punesimit: {exp.llojiPunesimit}</p>
-                                    <p>Emri Kompanise: {exp.emriInstitucionit}</p>
-                                    <p>Lokacioni: {exp.lokacioni}</p>
-                                    <p>Lloji Lokacionit: {exp.llojiLokacionit}</p>
-                                    <p>Data Fillimit: {new Date(exp.dataFillimit).toLocaleDateString()}</p>
-                                    {exp.dataMbarimit && <p>Data Mbarimit: {new Date(exp.dataMbarimit).toLocaleDateString()}</p>}
-                                    {exp.pershkrimi && <p>Pershkrimi: {exp.pershkrimi}</p>}
-                                    <button className="btn btn-primary me-2">Edit</button>
-                                    <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
-                                    {index !== exp.length - 1 && <hr />}
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Titulli: {exp.titulli}</p>
+                                        <p className="mb-0">Lloji Punesimit: {exp.llojiPunesimit}</p>
+                                        <p className="mb-0">Emri Kompanise: {exp.emriInstitucionit}</p>
+                                        <p className="mb-0">Lokacioni: {exp.lokacioni}</p>
+                                        <p className="mb-0">Lloji Lokacionit: {exp.llojiLokacionit}</p>
+                                        <p className="mb-0">Data Fillimit: {new Date(exp.dataFillimit).toLocaleDateString()}</p>
+                                        {exp.dataMbarimit && (
+                                            <p className="mb-0">Data Mbarimit: {new Date(exp.dataMbarimit).toLocaleDateString()}</p>
+                                        )}
+                                        {exp.pershkrimi && (
+                                            <p className="mb-0">Pershkrimi: {exp.pershkrimi}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <button className="btn btn-primary me-2"onClick={() => navigate(`/edit-eksperienca/${exp.id}`)}>
+                                            Edit
+                                        </button>
+                                        <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -219,17 +237,18 @@ function PersonDetails() {
                             Gjuhet
                         </button>
                     </h2>
-                    <div id="gjuhetCollapse" className="accordion-collapse collapse " aria-labelledby="gjuhetHeading" data-bs-parent="#gjuhetAccordion">
+                    <div id="gjuhetCollapse" className="accordion-collapse collapse" aria-labelledby="gjuhetHeading" data-bs-parent="#gjuhetAccordion">
                         <div className="accordion-body">
                             {gjuhet.map((gjuhet, index) => (
-                                <div key={index}>
-                                    <p>Emri Gjuhes: {gjuhet.emriGjuhes}</p>
-                                    <p>Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri Gjuhes: {gjuhet.emriGjuhes}</p>
+                                        <p className="mb-0">Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
                                     </div>
-                                    {index !== gjuhet.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -242,20 +261,21 @@ function PersonDetails() {
                             Honors and Awards
                         </button>
                     </h2>
-                    <div id="honorsAndAwardsCollapse" className="accordion-collapse collapse " aria-labelledby="honorsAndAwardsHeading" data-bs-parent="#accordion">
+                    <div id="honorsAndAwardsCollapse" className="accordion-collapse collapse" aria-labelledby="honorsAndAwardsHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {honorsAndAwards.map((award, index) => (
-                                <div key={index}>
-                                    <p>Titulli: {award.titulli}</p>
-                                    <p>Issuer: {award.issuer}</p>
-                                    <p>Institucioni:{award.emriInstitucionit}</p>
-                                    <p>Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
-                                    <p>Pershkrimi: {award.pershkrimi}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Titulli: {award.titulli}</p>
+                                        <p className="mb-0">Issuer: {award.issuer}</p>
+                                        <p className="mb-0">Institucioni: {award.emriInstitucionit}</p>
+                                        <p className="mb-0">Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
+                                        <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
                                     </div>
-                                    {index !== honorsAndAwards.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -268,21 +288,24 @@ function PersonDetails() {
                             Licensat
                         </button>
                     </h2>
-                    <div id="licensatCollapse" className="accordion-collapse collapse " aria-labelledby="licensatHeading" data-bs-parent="#accordion">
+                    <div id="licensatCollapse" className="accordion-collapse collapse" aria-labelledby="licensatHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {licensat.map((license, index) => (
-                                <div key={index}>
-                                    <p>Emri: {license.emri}</p>
-                                    <p>Emri Institucionit: {license.emriInstitucionit}</p>
-                                    <p>Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
-                                    <p>Data Skadimit: {license.dataSkadimit ? new Date(license.dataSkadimit).toLocaleDateString() : 'N/A'}</p>
-                                    {license.credentialId && <p>Credential ID: {license.credentialId}</p>}
-                                    {license.credentialUrl && <p>Credential URL: {license.credentialUrl}</p>}
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri: {license.emri}</p>
+                                        <p className="mb-0">Emri Institucionit: {license.emriInstitucionit}</p>
+                                        <p className="mb-0">Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
+                                        {license.dataSkadimit && (
+                                            <p className="mb-0">Data Skadimit: {new Date(license.dataSkadimit).toLocaleDateString()}</p>
+                                        )}
+                                        {license.credentialId && <p className="mb-0">Credential ID: {license.credentialId}</p>}
+                                        {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
-                                    {index !== licensat.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -295,19 +318,20 @@ function PersonDetails() {
                             Mbikqyres i Temave
                         </button>
                     </h2>
-                    <div id="mbikqyresITemaveCollapse" className="accordion-collapse collapse " aria-labelledby="mbikqyresITemaveHeading" data-bs-parent="#accordion">
+                    <div id="mbikqyresITemaveCollapse" className="accordion-collapse collapse" aria-labelledby="mbikqyresITemaveHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {mbikqyresITemave.map((item, index) => (
-                                <div key={index}>
-                                    <p>Titulli Temes: {item.titulliTemes}</p>
-                                    <p>Studenti: {item.studenti}</p>
-                                    <p>Data: {new Date(item.data).toLocaleDateString()}</p>
-                                    <p>Departamenti: {item.emriDepartamentit}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Titulli Temes: {item.titulliTemes}</p>
+                                        <p className="mb-0">Studenti: {item.studenti}</p>
+                                        <p className="mb-0">Data: {new Date(item.data).toLocaleDateString()}</p>
+                                        <p className="mb-0">Departamenti: {item.emriDepartamentit}</p>
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
                                     </div>
-                                    {index !== mbikqyresITemave.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -316,26 +340,26 @@ function PersonDetails() {
                 </div>
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="projektiHeading">
-                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#projektiCollapse" aria-expanded="true" aria-controls="projektiCollapse" >
+                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#projektiCollapse" aria-expanded="true" aria-controls="projektiCollapse">
                             Projekti
                         </button>
                     </h2>
-                    <div id="projektiCollapse" className="accordion-collapse collapse " aria-labelledby="projektiHeading" data-bs-parent="#accordion">
+                    <div id="projektiCollapse" className="accordion-collapse collapse" aria-labelledby="projektiHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {projekti.map((projekt, index) => (
-                                <div key={index}>
-                                    <p>Emri Projektit: {projekt.emriProjektit}</p>
-                                    <p>Institucioni: {projekt.emriInstitucionit}</p>
-                                    <p>Start Date: {new Date(projekt.startDate).toLocaleDateString()}</p>
-                                    <p>End Date: {projekt.endDate ? new Date(projekt.endDate).toLocaleDateString() : 'Ongoing'}</p>
-                                    <p>Collaborators: {projekt.collaborators || 'None'}</p>
-                                    <p>Description: {projekt.description}</p>
-                                    <p>Asocohet: {projekt.asocohet}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri Projektit: {projekt.emriProjektit}</p>
+                                        <p className="mb-0">Institucioni: {projekt.emriInstitucionit}</p>
+                                        <p className="mb-0">Data e Fillimit: {new Date(projekt.startDate).toLocaleDateString()}</p>
+                                        {projekt.endDate && <p className="mb-0">Data e Mbarimit: {new Date(projekt.endDate).toLocaleDateString()}</p>}
+                                        {projekt.collaborators && <p className="mb-0">Bashkëpunëtorët: {projekt.collaborators}</p>}
+                                        <p className="mb-0">Asocohet: {projekt.asocohet}</p>
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
                                     </div>
-                                    {index !== projekti.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -344,25 +368,26 @@ function PersonDetails() {
                 </div>
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="publikimetHeading">
-                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#publikimetCollapse" aria-expanded="true" aria-controls="publikimetCollapse" >
+                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#publikimetCollapse" aria-expanded="true" aria-controls="publikimetCollapse">
                             Publikimet
                         </button>
                     </h2>
-                    <div id="publikimetCollapse" className="accordion-collapse collapse " aria-labelledby="publikimetHeading" data-bs-parent="#accordion">
+                    <div id="publikimetCollapse" className="accordion-collapse collapse" aria-labelledby="publikimetHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {publikimi.map((publication, index) => (
-                                <div key={index}>
-                                    <p>Titulli: {publication.titulli}</p>
-                                    <p>Lloji Publikimit: {publication.llojiPublikimit}</p>
-                                    <p>Data Publikimit: {new Date(publication.dataPublikimi).toLocaleDateString()}</p>
-                                    <p>Departamenti: {publication.emriDepartamentit}</p>
-                                    <p>Linku Publikimit: {publication.linkuPublikimit ? publication.linkuPublikimit : "N/A"}</p>
-                                    <p>Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Titulli: {publication.titulli}</p>
+                                        <p className="mb-0">Lloji Publikimit: {publication.llojiPublikimit}</p>
+                                        <p className="mb-0">Data Publikimit: {new Date(publication.dataPublikimi).toLocaleDateString()}</p>
+                                        <p className="mb-0">Departamenti: {publication.emriDepartamentit}</p>
+                                        {publication.linkuPublikimit && <p className="mb-0">Linku Publikimit: {publication.linkuPublikimit}</p>}
+                                        {publication.autoriKryesor !== undefined && <p className="mb-0">Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>}
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
                                     </div>
-                                    {index !== publikimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -375,20 +400,21 @@ function PersonDetails() {
                             Puna Vullnetare
                         </button>
                     </h2>
-                    <div id="punaVullnetareCollapse" className="accordion-collapse collapse " aria-labelledby="punaVullnetareHeading" data-bs-parent="#accordion">
+                    <div id="punaVullnetareCollapse" className="accordion-collapse collapse" aria-labelledby="punaVullnetareHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {punaVullnetare.map((puna, index) => (
-                                <div key={index}>
-                                    <p>Emri i Institucionit: {puna.emriInstitucionit}</p>
-                                    <p>Roli: {puna.roli}</p>
-                                    <p>Data Fillimit: {new Date(puna.dataFillimit).toLocaleDateString()}</p>
-                                    <p>Data Mbarimit: {puna.dataMbarimit ? new Date(puna.dataMbarimit).toLocaleDateString() : "N/A"}</p>
-                                    <p>Pershkrimi: {puna.pershkrimi ? puna.pershkrimi : "N/A"}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri i Institucionit: {puna.emriInstitucionit}</p>
+                                        <p className="mb-0">Roli: {puna.roli}</p>
+                                        <p className="mb-0">Data Fillimit: {new Date(puna.dataFillimit).toLocaleDateString()}</p>
+                                        {puna.dataMbarimit && <p className="mb-0">Data Mbarimit: {new Date(puna.dataMbarimit).toLocaleDateString()}</p>}
+                                        {puna.pershkrimi && <p className="mb-0">Pershkrimi: {puna.pershkrimi}</p>}
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
                                     </div>
-                                    {index !== punaVullnetare.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>
@@ -397,27 +423,28 @@ function PersonDetails() {
                 </div>
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="specializimetHeading">
-                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#specializimetCollapse" aria-expanded="true" aria-controls="specializimetCollapse" >
+                        <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#specializimetCollapse" aria-expanded="true" aria-controls="specializimetCollapse">
                             Specializimet
                         </button>
                     </h2>
-                    <div id="specializimetCollapse" className="accordion-collapse collapse " aria-labelledby="specializimetHeading" data-bs-parent="#accordion">
+                    <div id="specializimetCollapse" className="accordion-collapse collapse" aria-labelledby="specializimetHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
                             {specializimi.map((spec, index) => (
-                                <div key={index}>
-                                    <p>Emri i Institucionit: {spec.emriInstitucionit}</p>
-                                    <p>Lloji i Specializimit: {spec.llojiIspecializimit}</p>
-                                    <p>Lokacioni: {spec.lokacionit ? spec.lokacionit : "N/A"}</p>
-                                    <p>Data e Fillimit: {new Date(spec.dataEFillimit).toLocaleDateString()}</p>
-                                    <p>Data e Mbarimit: {spec.dataEMbarimit ? new Date(spec.dataEMbarimit).toLocaleDateString() : "N/A"}</p>
-                                    <p>Aftesite e Fituara: {spec.aftesiteEfituara ? spec.aftesiteEfituara : "N/A"}</p>
-                                    <p>Pershkrimi: {spec.pershkrimi ? spec.pershkrimi : "N/A"}</p>
-                                    <p>Numri i Kredive: {spec.nrKredive ? spec.nrKredive : "N/A"}</p>
+                                <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="me-3">
+                                        <p className="mb-0">Emri i Institucionit: {spec.emriInstitucionit}</p>
+                                        <p className="mb-0">Lloji i Specializimit: {spec.llojiIspecializimit}</p>
+                                        {spec.lokacionit && <p className="mb-0">Lokacioni: {spec.lokacionit}</p>}
+                                        <p className="mb-0">Data e Fillimit: {new Date(spec.dataEFillimit).toLocaleDateString()}</p>
+                                        {spec.dataEMbarimit && <p className="mb-0">Data e Mbarimit: {new Date(spec.dataEMbarimit).toLocaleDateString()}</p>}
+                                        {spec.aftesiteEfituara && <p className="mb-0">Aftesite e Fituara: {spec.aftesiteEfituara}</p>}
+                                        {spec.pershkrimi && <p className="mb-0">Pershkrimi: {spec.pershkrimi}</p>}
+                                        {spec.nrKredive > 0 && <p className="mb-0">Numri i Kredive: {spec.nrKredive}</p>}
+                                    </div>
                                     <div>
                                         <button className="btn btn-primary me-2">Edit</button>
                                         <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
                                     </div>
-                                    {index !== specializimi.length - 1 && <hr />}
                                 </div>
                             ))}
                         </div>

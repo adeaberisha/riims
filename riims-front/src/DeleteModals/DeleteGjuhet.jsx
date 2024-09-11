@@ -53,7 +53,7 @@ export function useDeleteUserGjuhet(setUserGjuhet) {
                         <button type="button" className="btn-close" onClick={closeUserGjuhetConfirmModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this UserGjuhet?</p>
+                        <p>Are you sure you want to delete this language?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeUserGjuhetConfirmModal}>Cancel</button>

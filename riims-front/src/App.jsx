@@ -190,15 +190,8 @@ function App() {
                   <Footer /> 
                 </>
               } />
-              <Route path="/EditEksperienca" element={
-                <>
-                  <LoggedInNavbar handleLogout={handleLogout} />
-                  <div className="container mt-4">
-                    <EditEksperienca />
-                  </div>
-                  <Footer /> 
-                </>
-              } />
+                <Route path="/" element={<PersonDetails />} />
+                <Route path="/edit-eksperienca/:id" element={<EditEksperienca />} />
               {isAdmin && (
                 <Route path="/dashboard" element={
                   <>

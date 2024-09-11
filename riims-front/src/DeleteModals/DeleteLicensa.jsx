@@ -53,7 +53,7 @@ export function useDeleteLicensa(setLicensat) {
                         <button type="button" className="btn-close" onClick={closeLicensaDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Licensa?</p>
+                        <p>Are you sure you want to delete this license?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeLicensaDeleteModal}>Cancel</button>

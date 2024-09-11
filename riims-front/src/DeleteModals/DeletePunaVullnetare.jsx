@@ -3,9 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Function to delete PunaVullnetare by ID
 async function deletePunaVullnetareById(id) {
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from local storage
+
+    if (!token) {
+        console.error('No authentication token found.');
+        return;
+    }
+
     try {
         const response = await fetch(`https://localhost:7254/api/PunaVullnetare/delete-puna-vullnetare-by-id/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the request headers
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {
@@ -53,7 +64,7 @@ export function useDeletePunaVullnetare(setPunaVullnetare) {
                         <button type="button" className="btn-close" onClick={closePunaVullnetareDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Puna Vullnetare?</p>
+                        <p>Are you sure you want to delete this voluntary work?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closePunaVullnetareDeleteModal}>Cancel</button>

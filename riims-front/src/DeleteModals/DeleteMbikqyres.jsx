@@ -3,9 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Function to delete MbikqyresITemave by ID
 async function deleteMbikqyresById(id) {
+    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from local storage
+
+    if (!token) {
+        console.error('No authentication token found.');
+        return;
+    }
+
     try {
         const response = await fetch(`https://localhost:7254/api/MbikqyresITemave/delete-mbikqyres-by-id/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the request headers
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {
@@ -17,6 +28,7 @@ async function deleteMbikqyresById(id) {
         console.error(`Error deleting MbikqyresITemave: ${error}`);
     }
 }
+
 
 // Function to handle delete
 export function useDeleteMbikqyres(setMbikqyresITemave) {
@@ -53,7 +65,7 @@ export function useDeleteMbikqyres(setMbikqyresITemave) {
                         <button type="button" className="btn-close" onClick={closeMbikqyresDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this MbikqyresITemave?</p>
+                        <p>Are you sure you want to delete this supervisor?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closeMbikqyresDeleteModal}>Cancel</button>

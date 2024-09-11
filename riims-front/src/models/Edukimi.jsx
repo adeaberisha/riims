@@ -177,6 +177,7 @@ function Edukimi() {
                       name="Institucioni"
                       value={formData.Institucioni}
                       onChange={handleChange}
+                      required
                       placeholder="Shkruani institucionin"
                     />
                   </div>
@@ -191,6 +192,7 @@ function Edukimi() {
                       name="Lokacioni"
                       value={formData.Lokacioni}
                       onChange={handleChange}
+                      required
                       placeholder="Shkruani lokacionin"
                     />
                   </div>

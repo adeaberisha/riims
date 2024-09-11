@@ -53,7 +53,7 @@ export function useDeletePublikimi(setPublikimet) {
                         <button type="button" className="btn-close" onClick={closePublikimiDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this Publikimi?</p>
+                        <p>Are you sure you want to delete this publication?</p>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={closePublikimiDeleteModal}>Cancel</button>

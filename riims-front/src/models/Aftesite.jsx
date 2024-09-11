@@ -118,7 +118,7 @@ function Aftesite() {
                                 />
                             </div>
                             <div className="form-group mb-3">
-                                <label htmlFor="emriInstitucionit" className="form-label fw-bold">Institucioni ku e kam zhvilluar këtë aftësi *</label>
+                                <label htmlFor="emriInstitucionit" className="form-label fw-bold">Institucioni ku e keni zhvilluar këtë aftësi *</label>
                                 <input 
                                   type="text" 
                                   className="form-control" 
@@ -128,6 +128,7 @@ function Aftesite() {
                                   onChange={handleChange} 
                                   required 
                                   placeholder="Shkruani institucionin"
+                                
                                 />
                             </div>
                             <div className="d-flex justify-content-between mb-2">
