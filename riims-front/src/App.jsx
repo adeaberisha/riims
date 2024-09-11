@@ -19,7 +19,10 @@ import HonorsAndAwards from './models/HonorsAndAwards';
 import MbikqyresITemave from './models/MbikqyresITemave';
 import AdminDashboard from './components/AdminRoute'; 
 import EditLicensa from './UpdateModals/EditLicensa';
+import EditAftesia from './UpdateModals/EditAftesia';
 import EditEksperienca from './UpdateModals/EditEksperienca';
+import EditGjuhet from './UpdateModals/EditGjuhet';
+import EditSpecializim from './UpdateModals/EditSpecializim';
 import PersonDetails from './models/PersonDetails';
 
 function App() {
@@ -198,6 +201,33 @@ function App() {
                   <Footer /> 
                 </>
               } />
+              <Route path="/EditAftesia/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditAftesia />
+                    </div>
+                    <Footer />
+                </>
+            } />
+            <Route path="/EditGjuhet/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditGjuhet />
+                    </div>
+                    <Footer />
+                </>
+            } />
+            <Route path="/EditSpecializim/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditSpecializim />
+                    </div>
+                    <Footer />
+                </>
+            } />
                 <Route path="/" element={<PersonDetails />} />
                 <Route path="/edit-eksperienca/:id" element={<EditEksperienca />} />
               {isAdmin && (

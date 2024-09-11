@@ -16,6 +16,8 @@ import { useDeletePunaVullnetare } from '../DeleteModals/DeletePunaVullnetare.js
 import { useDeleteSpecializim } from '../DeleteModals/DeleteSpecializimi.jsx';
 import { useNavigate } from 'react-router-dom';
 
+
+
 function PersonDetails() {
     const [userData, setUserData] = useState({
         emri: '',
@@ -153,7 +155,7 @@ function PersonDetails() {
                                         <p className="mb-0">Emri Institucionit: {aftesia.emriInstitucionit}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <Link to={`/EditAftesia/${aftesia.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -246,7 +248,7 @@ function PersonDetails() {
                                         <p className="mb-0">Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <Link to={`/EditGjuhet/${gjuhet.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -442,7 +444,7 @@ function PersonDetails() {
                                         {spec.nrKredive > 0 && <p className="mb-0">Numri i Kredive: {spec.nrKredive}</p>}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                    <Link to={`/EditSpecializim/${spec.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
                                     </div>
                                 </div>

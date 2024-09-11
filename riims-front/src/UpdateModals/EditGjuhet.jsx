@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import Sidebar from '../components/Sidebar.jsx'; // Ensure Sidebar is imported
+import Sidebar from '../components/Sidebar.jsx'; // Ensure you have this component or adjust import
 
-function Gjuhet() {
-  const initialFormData = {
+function EditGjuhet() {
+  const { id } = useParams(); // Extract the ID from URL parameters
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     EmriGjuhes: '',
-    Niveli: ''
-  };
-  const [formData, setFormData] = useState(initialFormData);
+    NiveliGjuhesor: ''
+  });
   const [gjuhet, setGjuhet] = useState([]);
   const [niveli, setNiveli] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -20,7 +22,7 @@ function Gjuhet() {
       try {
         const response = await axios.get('https://localhost:7254/api/Gjuhet');
         const options = response.data.map(gjuha => ({
-          value: gjuha.id,  // Sending ID
+          value: gjuha.id,
           label: gjuha.emriGjuhes
         }));
         setGjuhet(options);
@@ -38,7 +40,7 @@ function Gjuhet() {
       try {
         const response = await axios.get('https://localhost:7254/api/NiveliGjuhesor/get-all-NiveletGjuhesore');
         const options = response.data.map(niveli => ({
-          value: niveli.id,  // Sending ID
+          value: niveli.id,
           label: niveli.niveli
         }));
         setNiveli(options);
@@ -50,11 +52,28 @@ function Gjuhet() {
     fetchNivelet();
   }, []);
 
+  // Fetch the current language details on mount
+  useEffect(() => {
+    const fetchUserGjuhet = async () => {
+      try {
+        const response = await axios.get(`https://localhost:7254/api/UserGjuhet/get-userGjuhet-by-id/${id}`);
+        setFormData({
+          EmriGjuhes: response.data.emriGjuhes,
+          NiveliGjuhesor: response.data.niveliGjuhesor
+        });
+      } catch (error) {
+        console.error('Error fetching user language details:', error);
+        setErrorMessage('Failed to fetch user language details.');
+      }
+    };
+    fetchUserGjuhet();
+  }, [id]);
+
   // Handle language selection change
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
-      EmriGjuhes: selectedOption ? selectedOption.label : ''  // Setting ID of language
+      EmriGjuhes: selectedOption ? selectedOption.label : ''
     });
   };
 
@@ -62,15 +81,14 @@ function Gjuhet() {
   const handleSelectChangeNiveli = (selectedOption) => {
     setFormData({
       ...formData,
-      NiveliGjuhesor: selectedOption ? selectedOption.label : ''  // Setting ID of level
+      NiveliGjuhesor: selectedOption ? selectedOption.label : ''
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');  // Reset error message
-    setSuccessMessage('');  // Reset success message
+    setErrorMessage('');
+    setSuccessMessage('');
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
@@ -80,14 +98,12 @@ function Gjuhet() {
 
     try {
       const data = {
-        EmriGjuhes: formData.EmriGjuhes,  // Sending language ID
-        NiveliGjuhesor: formData.NiveliGjuhesor  // Sending level ID
+        EmriGjuhes: formData.EmriGjuhes,
+        NiveliGjuhesor: formData.NiveliGjuhesor
       };
 
-      console.log('Submitting data:', data);  // Debug: Log the data being sent
-
-      const response = await axios.post(
-        'https://localhost:7254/api/UserGjuhet/add-userGjuhet',
+      const response = await axios.put(
+        `https://localhost:7254/api/UserGjuhet/update-userGjuhet-by-id/${id}`,
         data,
         {
           headers: {
@@ -97,20 +113,16 @@ function Gjuhet() {
         }
       );
 
-      console.log('Response:', response.data);  // Debug: Log the response
-
-      // Check for success (201 or 200)
-      if (response.status === 201) {
-        setSuccessMessage('Gjuha u shtua me sukses!');
-        setFormData(initialFormData); // Reset form data
+      if (response.status === 200) {
+        setSuccessMessage('User language updated successfully!');
+        navigate('/home');
       } else {
-        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+        setErrorMessage('Something went wrong. Please try again.');
       }
-
     } catch (error) {
-      console.error('Error adding language:', error);
+      console.error('Error updating user language:', error);
       if (error.response) {
-        setErrorMessage('Error adding language.');
+        setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
         setErrorMessage('No response from the server. Please try again.');
       } else {
@@ -120,19 +132,11 @@ function Gjuhet() {
   };
 
   const handleReset = () => {
-    setFormData(initialFormData);
+    setFormData({
+      EmriGjuhes: '',
+      NiveliGjuhesor: ''
+    });
   };
-
-  useEffect(() => {
-    if (errorMessage) {
-      const timer = setTimeout(() => setErrorMessage(''), 6000);
-      return () => clearTimeout(timer);
-    }
-    if (successMessage) {
-      const timer = setTimeout(() => setSuccessMessage(''), 6000);
-      return () => clearTimeout(timer);
-    }
-  }, [errorMessage, successMessage]);
 
   return (
     <div className="container-fluid h-100 bg-light">
@@ -178,7 +182,7 @@ function Gjuhet() {
                     <label htmlFor="Niveli" className='form-label fw-bold'>Niveli gjuhësor</label>
                     <Select
                       options={niveli}
-                      value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null }  // Select the right option based on ID
+                      value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null}  // Select the right option based on ID
                       onChange={handleSelectChangeNiveli}
                       placeholder="Zgjedhni një nivel"
                       required
@@ -198,4 +202,4 @@ function Gjuhet() {
   );
 }
 
-export default Gjuhet;
+export default EditGjuhet;
