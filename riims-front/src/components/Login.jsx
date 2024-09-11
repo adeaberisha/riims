@@ -28,7 +28,7 @@ const Login = ({ onLogin }) => {
         try {
             await login(formData); 
             onLogin(); 
-            navigate("/"); 
+            navigate("/home"); 
         } catch (error) {
             setError("Login failed. Please check your credentials.");
         }

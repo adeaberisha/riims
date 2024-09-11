@@ -20,10 +20,10 @@
 }
 
 .user-details-container {
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.8); 
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 60px;
+    background: rgba(238, 237, 237, 0.8); 
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .user-name {
@@ -60,4 +60,13 @@
     background-color: #002244;
     border-color: #002244;
   }
+
+  .box {
+    transition: transform 0.3s ease;
+}
+
+.box:hover {
+    transform: scale(1.05); 
+}
+
   

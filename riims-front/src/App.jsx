@@ -46,6 +46,7 @@ function App() {
   const handleLogin = () => {
     setIsLoggedIn(true);
     localStorage.setItem('isLoggedIn', 'true');
+    
   };
 
   const handleLogout = () => {
@@ -141,6 +142,7 @@ function App() {
                   <div className="container mt-4">
                     <PunaVullnetare />
                   </div>
+                  <Footer /> 
                 </>
               } />
               <Route path="/edukimi" element={
@@ -149,6 +151,7 @@ function App() {
                   <div className="container mt-4">
                     <Edukimi />
                   </div>
+                  <Footer /> 
                 </>
               } />
                <Route path="/Home" element={
@@ -157,6 +160,7 @@ function App() {
                   <div className="container mt-4">
                     <Home />
                   </div>
+                  <Footer /> 
                 </>
               } />
               <Route path="/honorsandawards" element={
@@ -165,6 +169,7 @@ function App() {
                   <div className="container mt-4">
                     <HonorsAndAwards />
                   </div>
+                  <Footer /> 
                 </>
               } />
               <Route path="/personDetails" element={
@@ -173,6 +178,7 @@ function App() {
                   <div className="container mt-4">
                     <PersonDetails />
                   </div>
+                  <Footer /> 
                 </>
               } />
                <Route path="/EditLicensa" element={
