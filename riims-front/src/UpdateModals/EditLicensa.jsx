@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import EditSidebar from '../components/EditSidebar.jsx';
 
 function EditLicensa() {
   const { id } = useParams(); // Extract the ID from URL parameters
@@ -15,13 +16,11 @@ function EditLicensa() {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  console.log('====================================');
-  console.log(formData.DataLeshimit);
-  console.log('====================================');
+
   useEffect(() => {
     const fetchLicensa = async () => {
       try {
-        const response = await axios.get(`https://localhost:7254/api/Licensat/get-licensa-by-id/${id}`); // Use the ID to fetch the license
+        const response = await axios.get(`https://localhost:7254/api/Licensat/get-licensa-by-id/${id}`);
         const formatDate = (isoDate) => {
           if (!isoDate) return '';
           const date = new Date(isoDate);
@@ -115,115 +114,125 @@ function EditLicensa() {
 
   return (
     <div className="container-fluid bg-light mb-4">
-      <div className="row justify-content-center py-4">
-        <div className="col-md-10 col-lg-8">
-          <h4 className="text-center text-muted fst-italic mb-4">Edit Licensën</h4>
-          
-          {errorMessage && (
-            <div className="alert alert-danger text-center mb-3" role="alert">
-              {errorMessage}
+      <div className="row">
+        {/* Sidebar */}
+        <div className="col-md-3">
+          <EditSidebar />
+        </div>
+        
+        {/* Form */}
+        <div className="col-md-9 d-flex justify-content-center align-items-center">
+          <div className="row justify-content-center w-100">
+            <div className="col-md-12 col-lg-10">
+              <h4 className="text-center text-muted fst-italic mb-4">Edit Licensën</h4>
+
+              {errorMessage && (
+                <div className="alert alert-danger text-center mb-3" role="alert">
+                  {errorMessage}
+                </div>
+              )}
+              
+              {successMessage && (
+                <div className="alert alert-success text-center mb-3" role="alert">
+                  {successMessage}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="Emri" className="form-label fw-bold">Emri*</label>
+                    <input 
+                      type="text" 
+                      className="form-control" 
+                      id="Emri" 
+                      name="Emri" 
+                      value={formData.Emri} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="Shkruani emrin e licensës"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="EmriInstitucionit"
+                      name="EmriInstitucionit"
+                      value={formData.EmriInstitucionit}
+                      onChange={handleChange}
+                      required
+                      placeholder="Shkruani emrin e institucionit"
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="DataLeshimit" className="form-label fw-bold">Data e lëshimit*</label>
+                    <input 
+                      type="date" 
+                      className="form-control" 
+                      id="DataLeshimit" 
+                      name="DataLeshimit" 
+                      value={formData.DataLeshimit} 
+                      onChange={handleChange} 
+                      required 
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="DataSkadimit" className="form-label fw-bold">Data e skadimit</label>
+                    <input 
+                      type="date" 
+                      className="form-control" 
+                      id="DataSkadimit" 
+                      name="DataSkadimit" 
+                      value={formData.DataSkadimit} 
+                      onChange={handleChange} 
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-6">
+                    <label htmlFor="CredentialId" className="form-label fw-bold">Credential ID</label>
+                    <input 
+                      type="text" 
+                      className="form-control" 
+                      id="CredentialId" 
+                      name="CredentialId" 
+                      value={formData.CredentialId} 
+                      onChange={handleChange} 
+                      placeholder="Opsionale"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="CredentialUrl" className="form-label fw-bold">Credential URL</label>
+                    <input 
+                      type="url" 
+                      className="form-control" 
+                      id="CredentialUrl" 
+                      name="CredentialUrl" 
+                      value={formData.CredentialUrl} 
+                      onChange={handleChange} 
+                      placeholder="Opsionale"
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-3">
+                  <div className="col-md-12 d-flex justify-content-between">
+                    <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                    <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
+                  </div>
+                </div>
+              </form>
             </div>
-          )}
-          
-          {successMessage && (
-            <div className="alert alert-success text-center mb-3" role="alert">
-              {successMessage}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
-            <div className="row mb-3">
-              <div className="col-md-6">
-                <label htmlFor="Emri" className="form-label fw-bold">Emri*</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  id="Emri" 
-                  name="Emri" 
-                  value={formData.Emri} 
-                  onChange={handleChange} 
-                  required 
-                  placeholder="Shkruani emrin e licensës"
-                />
-              </div>
-
-              <div className="col-md-6">
-                <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="EmriInstitucionit"
-                  name="EmriInstitucionit"
-                  value={formData.EmriInstitucionit}
-                  onChange={handleChange}
-                  required
-                  placeholder="Shkruani emrin e institucionit"
-                />
-              </div>
-            </div>
-
-            <div className="row mb-3">
-              <div className="col-md-6">
-                <label htmlFor="DataLeshimit" className="form-label fw-bold">Data e lëshimit*</label>
-                <input 
-                  type="date" 
-                  className="form-control" 
-                  id="DataLeshimit" 
-                  name="DataLeshimit" 
-                  value={formData.DataLeshimit} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
-
-              <div className="col-md-6">
-                <label htmlFor="DataSkadimit" className="form-label fw-bold">Data e skadimit</label>
-                <input 
-                  type="date" 
-                  className="form-control" 
-                  id="DataSkadimit" 
-                  name="DataSkadimit" 
-                  value={formData.DataSkadimit} 
-                  onChange={handleChange} 
-                />
-              </div>
-            </div>
-
-            <div className="row mb-3">
-              <div className="col-md-6">
-                <label htmlFor="CredentialId" className="form-label fw-bold">Credential ID</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  id="CredentialId" 
-                  name="CredentialId" 
-                  value={formData.CredentialId} 
-                  onChange={handleChange} 
-                  placeholder="Opsionale"
-                />
-              </div>
-
-              <div className="col-md-6">
-                <label htmlFor="CredentialUrl" className="form-label fw-bold">Credential URL</label>
-                <input 
-                  type="url" 
-                  className="form-control" 
-                  id="CredentialUrl" 
-                  name="CredentialUrl" 
-                  value={formData.CredentialUrl} 
-                  onChange={handleChange} 
-                  placeholder="Opsionale"
-                />
-              </div>
-            </div>
-
-            <div className="row mb-3">
-              <div className="col-md-12 d-flex justify-content-between">
-                <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
-                <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

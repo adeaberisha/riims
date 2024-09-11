@@ -46,7 +46,7 @@ function EditGjuhet() {
         setNiveli(options);
       } catch (error) {
         console.error('Error fetching levels:', error);
-        setErrorMessage('Failed to fetch language levels.');
+        setErrorMessage('Deshtoi me i mar gjuhet!');
       }
     };
     fetchNivelet();
@@ -62,8 +62,8 @@ function EditGjuhet() {
           NiveliGjuhesor: response.data.niveliGjuhesor
         });
       } catch (error) {
-        console.error('Error fetching user language details:', error);
-        setErrorMessage('Failed to fetch user language details.');
+        console.error('Gabim gjate marrjes se gjuheve.', error);
+        setErrorMessage('Gabim gjate marrjes se gjuheve.');
       }
     };
     fetchUserGjuhet();
@@ -92,7 +92,7 @@ function EditGjuhet() {
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
-      setErrorMessage('Token not found. Please log in again.');
+      setErrorMessage('Ju lutem logohuni përsëri.');
       return;
     }
 
@@ -114,17 +114,17 @@ function EditGjuhet() {
       );
 
       if (response.status === 200) {
-        setSuccessMessage('User language updated successfully!');
+        setSuccessMessage('Gjuha u ndryshua me sukses!');
         navigate('/home');
       } else {
-        setErrorMessage('Something went wrong. Please try again.');
+        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
       }
     } catch (error) {
-      console.error('Error updating user language:', error);
+      console.error('Error gjatë ndryshimit të gjuhës', error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('No response from the server. Please try again.');
+        setErrorMessage('Ju lutem provoni perseri.');
       } else {
         setErrorMessage('Error: Could not complete the request.');
       }

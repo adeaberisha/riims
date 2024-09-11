@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../components/Sidebar.jsx';
 import { useParams, useNavigate } from 'react-router-dom';
+import EditSidebar from '../components/EditSidebar.jsx';
 
 function EditAftesia() {
     const { id } = useParams(); // Extract the ID from URL parameters
@@ -45,7 +45,7 @@ function EditAftesia() {
         const token = localStorage.getItem("jwtToken");
 
         if (!token) {
-            setErrorMessage('Token not found. Please log in again.');
+            setErrorMessage('Ju lutem logohuni përsëri.');
             return;
         }
 
@@ -67,10 +67,10 @@ function EditAftesia() {
             );
 
             if (response.status === 200) {
-                setSuccessMessage('Aftesia updated successfully!');
+                setSuccessMessage('Aftesia u ndryshua me sukses!');
                 navigate('/home');
             } else {
-                setErrorMessage('Something went wrong. Please try again.');
+                setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
             }
 
         } catch (error) {
@@ -78,9 +78,9 @@ function EditAftesia() {
             if (error.response) {
                 setErrorMessage(`Error: ${error.response.data}`);
             } else if (error.request) {
-                setErrorMessage('No response from the server. Please try again.');
+                setErrorMessage('Ju lutem provoni perseri!');
             } else {
-                setErrorMessage('Error: Could not complete the request.');
+                setErrorMessage('Eror');
             }
         }
     };
@@ -97,7 +97,7 @@ function EditAftesia() {
             <div className="row h-100">
                 {/* Sidebar */}
                 <div className="col-md-2 p-0">
-                    <Sidebar />
+                    <EditSidebar />
                 </div>
 
                 {/* Main Content */}

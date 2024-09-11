@@ -1,4 +1,4 @@
-import Sidebar from '../components/Sidebar.jsx';
+import EditSidebar from '../components/EditSidebar.jsx';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -36,7 +36,7 @@ function EditSpecializim() {
         });
       } catch (error) {
         console.error('Error fetching specializim:', error);
-        setErrorMessage('Failed to fetch specializim details.');
+        setErrorMessage('Deshtoi marrja e specializimit:');
       }
     };
 
@@ -57,7 +57,7 @@ function EditSpecializim() {
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
-      setErrorMessage('Token not found. Please log in again.');
+      setErrorMessage('Ju lutem logohuni përsëri.');
       return;
     }
 
@@ -85,18 +85,18 @@ function EditSpecializim() {
       );
 
       if (response.status === 200) {
-        setSuccessMessage('Specializimi updated successfully!');
+        setSuccessMessage('Specializimi u ndryshua me sukses!');
         navigate('/home');
       } else {
-        setErrorMessage('Something went wrong. Please try again.');
+        setErrorMessage('Ju lutem provoni përsëri.');
       }
 
     } catch (error) {
-      console.error('Error updating specializim:', error);
+      console.error('Gabim gjate ndryshimit te Specializimit:', error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('No response from the server. Please try again.');
+        setErrorMessage('Ju lutem provoni perseri.');
       } else {
         setErrorMessage('Error: Could not complete the request.');
       }
@@ -121,7 +121,7 @@ function EditSpecializim() {
       <div className="row h-100">
         {/* Sidebar */}
         <div className="col-md-2 p-0">
-          <Sidebar />
+          <EditSidebar />
         </div>
 
         {/* Main Content */}
