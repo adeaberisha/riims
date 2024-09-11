@@ -13,7 +13,7 @@
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public Guid DepartamentiId { get; set; }
+        public Guid? DepartamentiId { get; set; }
         public Departamenti Departamenti { get; set; }
 
     }

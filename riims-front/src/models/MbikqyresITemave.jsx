@@ -9,7 +9,6 @@ function MbikqyresITemave() {
     studenti: '',
     data: '',
     emriDepartamentit: '',
-    departamentiId: '', // Added for handling department ID
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -20,19 +19,32 @@ function MbikqyresITemave() {
   useEffect(() => {
     const fetchDepartamentet = async () => {
       try {
-        const response = await axios.get('https://localhost:7254/api/Departamenti/get-all-departamentet');
+        const token = localStorage.getItem("jwtToken");
+
+        if (!token) {
+          throw new Error('Token not found');
+        }
+
+        const response = await axios.get('https://localhost:7254/api/Departamenti/get-all-departamentet', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
         const options = response.data.map(departamenti => ({
           value: departamenti.id,
-          label: `${departamenti.emri} (${departamenti.emriInstitucionit})`, // Include institution name in the label
+          label: departamenti.emri
         }));
         setDepartamentet(options);
       } catch (error) {
-        console.error('Error gjatë marrjes së departamenteve:', error);
+        console.error('Error gjatë marrjes së departamenteve:', error.response ? error.response.data : error.message);
         setErrorMessage('Dështoi marrja e departamenteve.');
       }
     };
+
     fetchDepartamentet();
   }, []);
+
 
   const handleChange = (e) => {
     setFormData({
@@ -44,8 +56,7 @@ function MbikqyresITemave() {
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
-      emriDepartamentit: selectedOption ? selectedOption.label.split(' (')[0] : '',
-      departamentiId: selectedOption ? selectedOption.value : ''
+      emriDepartamentit: selectedOption ? selectedOption.label : ''
     });
   };
 
@@ -65,7 +76,7 @@ function MbikqyresITemave() {
         titulliTemes: formData.titulliTemes,
         studenti: formData.studenti,
         data: formData.data,
-        departamentiId: formData.departamentiId, // Use department ID
+        emriDepartamentit: formData.emriDepartamentit
       };
 
       const response = await axios.post(
@@ -80,14 +91,14 @@ function MbikqyresITemave() {
       );
 
       if (response.status === 201) {
-        setSuccessMessage('Mbikqyresi i temave u shtua me sukses!');
+        setSuccessMessage('Mbikqyresi u shtua me sukses!');
         setFormData(initialFormData); // Reset form data
       } else {
         setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
       }
 
     } catch (error) {
-      console.error('Error gjatë shtimit të mbikqyrësit të temave:', error);
+      console.error('Error gjatë shtimit të mbikqyresit:', error);
       setErrorMessage('Ju lutem provoni përsëri.');
     }
   };
@@ -99,7 +110,7 @@ function MbikqyresITemave() {
   useEffect(() => {
     if (errorMessage) {
       const timer = setTimeout(() => setErrorMessage(''), 6000);
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer);
     }
     if (successMessage) {
       const timer = setTimeout(() => setSuccessMessage(''), 6000);
@@ -182,7 +193,7 @@ function MbikqyresITemave() {
                     <label htmlFor="emriDepartamentit" className="form-label fw-bold">Departamenti*</label>
                     <Select
                       options={departamentet}
-                      value={departamentet.find(option => option.value === formData.departamentiId) || null}  // Match by ID
+                      value={departamentet.find(option => option.label === formData.emriDepartamentit) || null}  // Match by ID
                       onChange={handleSelectChange}
                       placeholder="Zgjedhni departamentin"
                       required

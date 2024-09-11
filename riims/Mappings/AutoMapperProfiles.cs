@@ -159,12 +159,17 @@ namespace riims.Mappings
             CreateMap<AddNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
             CreateMap<UpdateNiveliAkademikRequestDto, NiveliAkademik>().ReverseMap();
 
-            //MbikqyresITemave
-            CreateMap<MbikqyresITemave, MbikqyresITemaveDTO>().ReverseMap();
-            CreateMap<AddMbikqyresRequestDTO, MbikqyresITemave>().ReverseMap();
-            CreateMap<UpdateMbikqyresRequestDTO, MbikqyresITemave>().ReverseMap();
             CreateMap<MbikqyresITemave, MbikqyresITemaveDTO>()
-           .ForMember(dest => dest.EmriDepartamentit, opt => opt.MapFrom(src => src.Departamenti.Emri));
+           .ForMember(dest => dest.EmriDepartamentit, opt => opt.MapFrom(src => src.Departamenti.Emri))
+           .ReverseMap();
+
+            // Mapping for AddMbikqyresRequestDTO and MbikqyresITemave
+            CreateMap<AddMbikqyresRequestDTO, MbikqyresITemave>()
+                .ReverseMap();
+
+            // Mapping for UpdateMbikqyresRequestDTO and MbikqyresITemave
+            CreateMap<UpdateMbikqyresRequestDTO, MbikqyresITemave>()
+                .ReverseMap();
 
         }
     }
