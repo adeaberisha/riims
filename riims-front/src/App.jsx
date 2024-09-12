@@ -25,6 +25,7 @@ import EditGjuhet from './UpdateModals/EditGjuhet';
 import EditSpecializim from './UpdateModals/EditSpecializim';
 import EditProjekti from './UpdateModals/EditProjekti';
 import EditEdukimi from './UpdateModals/EditEdukimi';
+import EditPunaVullnetare from './UpdateModals/EditPunaVullnetare';
 import PersonDetails from './models/PersonDetails';
 
 function App() {
@@ -254,6 +255,15 @@ function App() {
                     <LoggedInNavbar handleLogout={handleLogout} />
                     <div className="container mt-4">
                         <EditEdukimi />
+                    </div>
+                    <Footer />
+                </>
+            } />
+            <Route path="/EditPunaVullnetare/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditPunaVullnetare />
                     </div>
                     <Footer />
                 </>

@@ -412,7 +412,7 @@ function PersonDetails() {
                                         {puna.pershkrimi && <p className="mb-0">Pershkrimi: {puna.pershkrimi}</p>}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <Link to={`/EditPunaVullnetare/${puna.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
                                     </div>
                                 </div>
