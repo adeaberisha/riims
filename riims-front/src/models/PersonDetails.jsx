@@ -188,7 +188,7 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                        <Link to={`/EditEdukimi/${edukimi.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => requestDelete(edukimi.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -222,7 +222,7 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                    <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
+                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -385,7 +385,7 @@ function PersonDetails() {
                                         {publication.autoriKryesor !== undefined && <p className="mb-0">Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>}
                                     </div>
                                     <div>
-                                    <Link to={`/EditPublikimi/${publication.id}`} className="btn btn-primary me-2">Edit</Link>
+                                        <Link to={`/EditPublikimi/${publication.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
                                     </div>
                                 </div>
@@ -442,7 +442,7 @@ function PersonDetails() {
                                         {spec.nrKredive > 0 && <p className="mb-0">Numri i Kredive: {spec.nrKredive}</p>}
                                     </div>
                                     <div>
-                                    <Link to={`/EditSpecializim/${spec.id}`} className="btn btn-primary me-2">Edit</Link>
+                                        <Link to={`/EditSpecializim/${spec.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
                                     </div>
                                 </div>

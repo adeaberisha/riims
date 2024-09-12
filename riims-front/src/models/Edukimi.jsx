@@ -11,7 +11,7 @@ function Edukimi() {
     DataMbarimit: '',
     Pershkrimi: '',
     Institucioni: '',
-    NiveliAkademik: ''
+    NiveliAkademik: null
   };
 
   const [formData, setFormData] = useState(initialFormData);
