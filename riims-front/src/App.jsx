@@ -23,6 +23,7 @@ import EditAftesia from './UpdateModals/EditAftesia';
 import EditEksperienca from './UpdateModals/EditEksperienca';
 import EditGjuhet from './UpdateModals/EditGjuhet';
 import EditSpecializim from './UpdateModals/EditSpecializim';
+import EditProjekti from './UpdateModals/EditProjekti';
 import PersonDetails from './models/PersonDetails';
 
 function App() {
@@ -234,6 +235,15 @@ function App() {
                     <LoggedInNavbar handleLogout={handleLogout} />
                     <div className="container mt-4">
                         <EditSpecializim />
+                    </div>
+                    <Footer />
+                </>
+            } />
+            <Route path="/EditProjekti/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditProjekti />
                     </div>
                     <Footer />
                 </>

@@ -53,6 +53,11 @@ const Sidebar = () => {
                   <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Mbikqyrës i temave</span>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/projekti" className="nav-link px-0 align-middle">
+                  <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Projekti</span>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

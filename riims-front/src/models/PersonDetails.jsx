@@ -357,6 +357,7 @@ function PersonDetails() {
                                         <p className="mb-0">Asocohet: {projekt.asocohet}</p>
                                     </div>
                                     <div>
+                                        <Link to={`/EditProjekti/${projekt.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
                                     </div>
                                 </div>
