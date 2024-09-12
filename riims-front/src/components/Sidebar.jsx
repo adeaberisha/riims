@@ -54,8 +54,18 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to="/honorsandawards" className="nav-link px-0 align-middle">
+                  <i className="bi bi-bookmarks-fill"></i> <span className=" d-none d-sm-inline text-white fst-italic"> Nderime dhe çmime</span>
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to="/projekti" className="nav-link px-0 align-middle">
                   <i className="bi bi-folder-fill"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Projekti</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/publikimi" className="nav-link px-0 align-middle">
+                  <i className="bi bi-bar-chart"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Publikimi</span>
                 </Link>
               </li>
             </ul>

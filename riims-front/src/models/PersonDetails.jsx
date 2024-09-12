@@ -385,7 +385,7 @@ function PersonDetails() {
                                         {publication.autoriKryesor !== undefined && <p className="mb-0">Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>}
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
+                                    <Link to={`/EditPublikimi/${publication.id}`} className="btn btn-primary me-2">Edit</Link>
                                         <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
                                     </div>
                                 </div>

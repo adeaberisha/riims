@@ -258,7 +258,7 @@ function Home() {
                     </div>
                     <div className="col-md-4 mb-4">
                         <div className="box text-center bg-white shadow p-3 d-flex flex-column justify-content-center align-items-center">
-                            <Link to="/Publikimi" className="d-block text-decoration-none">
+                            <Link to="/publikimi" className="d-block text-decoration-none">
                                 <img src={lightning} alt="journal" style={{ width: '85px', height: 'auto' }} />
                                 <div className="box-content mt-3">
                                     <h4 className="fst-italic mb-3" style={{ color: '#244082' }}>Publikimi</h4>
