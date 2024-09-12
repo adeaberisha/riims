@@ -135,7 +135,7 @@ function EditLicensa() {
         <div className="col-md-9 d-flex justify-content-center align-items-center">
           <div className="row justify-content-center w-100">
             <div className="col-md-12 col-lg-10">
-              <h4 className="text-center text-muted fst-italic mb-4">Edit Licensën</h4>
+              <h4 className="text-center text-muted fst-italic mb-4">Perditso Licensën tuaj</h4>
 
               {errorMessage && (
                 <div className="alert alert-danger text-center mb-3" role="alert">

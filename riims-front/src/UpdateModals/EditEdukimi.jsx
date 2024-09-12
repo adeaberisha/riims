@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select'; // Ensure you have react-select installed
-import Sidebar from '../components/Sidebar.jsx'; // Adjust import as necessary
+import EditSidebar from '../components/EditSidebar.jsx'; // Adjust import as necessary
 
 function EditEdukimi() {
     const { id } = useParams();
@@ -166,7 +166,7 @@ function EditEdukimi() {
         <div className="container-fluid h-100 bg-light">
             <div className="row h-100">
                 <div className="col-md-2 p-0">
-                    <Sidebar />
+                    <EditSidebar />
                 </div>
                 <div className="col-md-10 d-flex flex-column align-items-center py-5">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-6">

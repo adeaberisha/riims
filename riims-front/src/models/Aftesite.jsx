@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import axios from 'axios';
 import Sidebar from '../components/Sidebar.jsx';
 
@@ -85,8 +85,8 @@ function Aftesite() {
                 </div>
 
                 {/* Main Content */}
-                <div className="col-md-10 d-flex justify-content-center py-5">
-                    <div className="col-12 col-md-8 col-lg-6" style={{ marginTop: '3rem' }}>
+                <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+                    <div className="col-12 col-md-8 col-lg-6">
                         <div className="text-center mb-4">
                             <h4 className="text-muted fst-italic">Shtoni aftësitë tuaja</h4>
                         </div>
@@ -128,7 +128,6 @@ function Aftesite() {
                                   onChange={handleChange} 
                                   required 
                                   placeholder="Shkruani institucionin"
-                                
                                 />
                             </div>
                             <div className="d-flex justify-content-between mb-2">

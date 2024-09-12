@@ -145,7 +145,7 @@ function EditEksperienca() {
         <div className="col-md-9">
           <div className="row justify-content-center py-4">
             <div className="col-md-8 col-lg-6">
-              <h4 className="text-center text-muted fst-italic mb-4">Edit Eksperiencën</h4>
+              <h4 className="text-center text-muted fst-italic mb-4">Perditso Eksperiencën tuaj</h4>
 
               {errorMessage && (
                 <div className="alert alert-danger text-center mb-3" role="alert">

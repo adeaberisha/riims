@@ -172,9 +172,9 @@ function Publikimi() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
+                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
                             <div className="row">
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-3">
                                     <div className="form-group">
                                         <label htmlFor="titulli" className="form-label fw-bold">Titulli*</label>
                                         <input
@@ -190,7 +190,7 @@ function Publikimi() {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-3">
                                     <div className="form-group">
                                         <label id="llojiPublikimit-label" className="form-label fw-bold">Lloji i publikimit*</label>
                                         <Select
@@ -204,7 +204,7 @@ function Publikimi() {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-3">
                                     <div className="form-group">
                                         <label htmlFor="linkuPublikimit" className="form-label fw-bold">Linku i publikimit</label>
                                         <input
@@ -219,7 +219,7 @@ function Publikimi() {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2 d-flex align-items-center">
+                                <div className="col-md-6 mb-3 d-flex align-items-center">
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
@@ -227,12 +227,11 @@ function Publikimi() {
                                         name="autoriKryesor"
                                         checked={formData.autoriKryesor}
                                         onChange={handleCheckboxChange}
-                                        style={{ marginTop: '1.25rem' }}  // Add margin to push it lower
                                     />
-                                    <label htmlFor="autoriKryesor" className="ms-2">Autori kryesor</label>
+                                    <label htmlFor="autoriKryesor" className="form-check-label ms-2">Autori kryesor</label>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-3">
                                     <div className="form-group">
                                         <label htmlFor="dataPublikimi" className="form-label fw-bold">Data e publikimit*</label>
                                         <input
@@ -247,7 +246,7 @@ function Publikimi() {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-3">
                                     <div className="form-group">
                                         <label id="emriDepartamentit-label" className="form-label fw-bold">Departamenti*</label>
                                         <Select
@@ -261,7 +260,7 @@ function Publikimi() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-12 d-flex justify-content-between mb-2">
+                            <div className="d-flex justify-content-between">
                                 <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
                                 <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                             </div>

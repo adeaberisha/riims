@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar.jsx';
+import EditSidebar from '../components/EditSidebar.jsx'; 
 
 function EditPunaVullnetare() {
     const { id } = useParams();
@@ -129,7 +129,7 @@ function EditPunaVullnetare() {
             <div className="row h-100">
                 {/* Sidebar */}
                 <div className="col-md-2 p-0">
-                    <Sidebar />
+                    <EditSidebar />
                 </div>
 
                 {/* Main Content */}
