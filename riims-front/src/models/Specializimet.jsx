@@ -27,8 +27,8 @@ function Specializimet() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrorMessage('');  // Reset error message
-        setSuccessMessage('');  // Reset success message
+        setErrorMessage('');  
+        setSuccessMessage('');  
         const token = localStorage.getItem("jwtToken");
 
         if (!token) {
@@ -48,7 +48,7 @@ function Specializimet() {
                 nrKredive: formData.nrKredive || null
             };
 
-            console.log('Submitting data:', data);  // Debug: Log the data being sent
+            console.log('Submitting data:', data); 
 
             const response = await axios.post(
                 'https://localhost:7254/api/Specializimet/add-specializim',
@@ -61,7 +61,7 @@ function Specializimet() {
                 }
             );
 
-            console.log('Response:', response.data);  // Debug: Log the response
+            console.log('Response:', response.data); 
 
             if (response.status === 201 || response.status === 200) {
                 setSuccessMessage('Specializimi u shtua me sukses!');
@@ -124,8 +124,8 @@ function Specializimet() {
                 </div>
 
                 {/* Main Content */}
-                <div className="col-md-10 d-flex flex-column align-items-center py-5">
-                    <div className="col-12 col-md-10 col-lg-8 col-xl-6"style={{ marginTop: '-1.4rem' }}>
+                <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+                    <div className="col-12 col-md-10 col-lg-8 col-xl-6">
                         <h4 className="text-center text-muted fst-italic mb-4">Shtoni specializimin</h4>
 
                         {errorMessage && (
@@ -140,7 +140,7 @@ function Specializimet() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white">
+                        <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
                             <div className="row">
                                 {/* First Half of the Form */}
                                 <div className="col-md-6 mb-3">
@@ -259,7 +259,7 @@ function Specializimet() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-between mb-2">
+                            <div className="d-flex justify-content-between">
                                 <button type="button" className="btn btn-secondary" style={{ width: 'calc(50% - 0.7rem)' }} onClick={handleReset}>Anulo</button>
                                 <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                             </div>

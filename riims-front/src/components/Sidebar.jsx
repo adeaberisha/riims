@@ -53,7 +53,7 @@ const Sidebar = () => {
                   <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Mbikqyrës i temave</span>
                 </Link>
               </li>
-              <li className="nav-item">
+               <li className="nav-item">
                 <Link to="/honorsandawards" className="nav-link px-0 align-middle">
                   <i className="bi bi-bookmarks-fill"></i> <span className=" d-none d-sm-inline text-white fst-italic"> Nderime dhe çmime</span>
                 </Link>

@@ -144,53 +144,55 @@ function Gjuhet() {
 
         {/* Main Content */}
         <div className="col-md-10 d-flex justify-content-center py-5">
-          <div className="col-12 col-md-10 col-lg-8 col-xl-6">
-            <h4 className="text-center text-muted fst-italic mb-4">Shtoni gjuhën në të cilën jeni i aftë</h4>
+          <div className="d-flex justify-content-center align-items-center w-100">
+            <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+              <h4 className="text-center text-muted fst-italic mb-4">Shtoni gjuhën në të cilën jeni i aftë</h4>
 
-            {errorMessage && (
-              <div className="alert alert-danger text-center mb-3" role="alert">
-                {errorMessage}
-              </div>
-            )}
+              {errorMessage && (
+                <div className="alert alert-danger text-center mb-3" role="alert">
+                  {errorMessage}
+                </div>
+              )}
 
-            {successMessage && (
-              <div className="alert alert-success text-center mb-3" role="alert">
-                {successMessage}
-              </div>
-            )}
+              {successMessage && (
+                <div className="alert alert-success text-center mb-3" role="alert">
+                  {successMessage}
+                </div>
+              )}
 
-            <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
-              <div className="row">
-                <div className="form-group mb-3">
-                  <div className="form-group">
-                    <label htmlFor="EmriGjuhes" className='form-label fw-bold'>Emri i gjuhës*</label>
-                    <Select
-                      options={gjuhet}
-                      value={gjuhet.find(option => option.label === formData.EmriGjuhes) || null}  // Select the right option based on ID
-                      onChange={handleSelectChange}
-                      placeholder="Zgjedhni një gjuhë"
-                      required
-                    />
+              <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
+                <div className="row">
+                  <div className="form-group mb-3">
+                    <div className="form-group">
+                      <label htmlFor="EmriGjuhes" className='form-label fw-bold'>Emri i gjuhës*</label>
+                      <Select
+                        options={gjuhet}
+                        value={gjuhet.find(option => option.label === formData.EmriGjuhes) || null}  // Select the right option based on ID
+                        onChange={handleSelectChange}
+                        placeholder="Zgjedhni një gjuhë"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group mb-3">
+                    <div className="form-group">
+                      <label htmlFor="Niveli" className='form-label fw-bold'>Niveli gjuhësor</label>
+                      <Select
+                        options={niveli}
+                        value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null }  // Select the right option based on ID
+                        onChange={handleSelectChangeNiveli}
+                        placeholder="Zgjedhni një nivel"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between mb-2">
+                    <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
+                    <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                   </div>
                 </div>
-                <div className="form-group mb-3">
-                  <div className="form-group">
-                    <label htmlFor="Niveli" className='form-label fw-bold'>Niveli gjuhësor</label>
-                    <Select
-                      options={niveli}
-                      value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null }  // Select the right option based on ID
-                      onChange={handleSelectChangeNiveli}
-                      placeholder="Zgjedhni një nivel"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between mb-2">
-                  <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
-                  <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
