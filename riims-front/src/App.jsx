@@ -18,6 +18,7 @@ import Edukimi from './models/Edukimi';
 import HonorsAndAwards from './models/HonorsAndAwards';
 import MbikqyresITemave from './models/MbikqyresITemave';
 import AdminDashboard from './components/AdminRoute'; 
+import Publikimi from './models/Publikimi';
 import EditLicensa from './UpdateModals/EditLicensa';
 import EditAftesia from './UpdateModals/EditAftesia';
 import EditEksperienca from './UpdateModals/EditEksperienca';
@@ -27,6 +28,7 @@ import EditProjekti from './UpdateModals/EditProjekti';
 import EditEdukimi from './UpdateModals/EditEdukimi';
 import EditPunaVullnetare from './UpdateModals/EditPunaVullnetare';
 import PersonDetails from './models/PersonDetails';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -183,6 +185,14 @@ function App() {
                   <LoggedInNavbar handleLogout={handleLogout} />
                   <div className="container mt-4">
                     <MbikqyresITemave />
+                  </div>
+                </>
+              } />
+              <Route path="/publikimi" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <Publikimi />
                   </div>
                 </>
               } />
