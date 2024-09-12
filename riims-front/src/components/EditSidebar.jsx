@@ -56,7 +56,7 @@ const EditSidebar = ({ id })=> {
               </li>
               <li className="nav-item">
                 <Link to={`/EditProjekti/${id}`} className="nav-link px-0 align-middle">
-                  <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic">Edit Projekti</span>
+                  <i className="bi bi-folder-fill"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic">Edit Projekti</span>
                 </Link>
               </li>
             </ul>

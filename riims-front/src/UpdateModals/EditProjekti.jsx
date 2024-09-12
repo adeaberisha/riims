@@ -82,18 +82,31 @@ function EditProjekti() {
 
       if (response.status === 200) {
         setSuccessMessage('Projekti u ndryshua me sukses!');
-        navigate('/projekti-list');
+          setFormData({
+            emriProjektit: '',
+            startDate: '',
+            endDate: '',
+            collaborators: '',
+            description: '',
+            asocohet: '',
+            EmriInstitucionit: ''
+          });
+        // Redirect after 3 seconds (3000 ms)
+        setTimeout(() => {
+          // Navigate to the home page
+          window.location.href = '/home';
+        }, 3000); 
       } else {
-        setErrorMessage('Ju lutem provoni përsëri.');
-      }
+      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+  }
     } catch (error) {
-      console.error('Gabim gjatë ndryshimit të Projektit:', error);
+      console.error('Error gjatë ndryshimit të Projektit:', error);
       if (error.response) {
-        setErrorMessage(`Gabim: ${error.response.data}`);
+        setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
         setErrorMessage('Ju lutem provoni përsëri.');
       } else {
-        setErrorMessage('Gabim: Nuk mund të përfundojë kërkesa.');
+        setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
       }
     }
   };

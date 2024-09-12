@@ -83,20 +83,31 @@ function EditLicensa() {
       );
 
       if (response.status === 200) {
-        setSuccessMessage('Licensa updated successfully!');
-        navigate('/home');
+        setSuccessMessage('Licensa u ndryshua me sukses!');
+        setFormData({
+          Emri: '',
+          EmriInstitucionit: '',
+          DataLeshimit: '',
+          DataSkadimit: '',
+          CredentialId: '',
+          CredentialUrl: ''
+        });
+        // Redirect after 3 seconds (3000 ms)
+        setTimeout(() => {
+          // Navigate to the home page
+          window.location.href = '/home';
+        }, 3000); 
       } else {
-        setErrorMessage('Something went wrong. Please try again.');
-      }
-
+      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+        }
     } catch (error) {
-      console.error('Error updating licensa:', error);
+      console.error('Error gjatë ndryshimit të licensës:', error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('No response from the server. Please try again.');
+        setErrorMessage('Ju lutem provoni perseri!');
       } else {
-        setErrorMessage('Error: Could not complete the request.');
+        setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
       }
     }
   };

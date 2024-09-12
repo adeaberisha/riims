@@ -86,11 +86,24 @@ function EditSpecializim() {
 
       if (response.status === 200) {
         setSuccessMessage('Specializimi u ndryshua me sukses!');
-        navigate('/home');
-      } else {
-        setErrorMessage('Ju lutem provoni përsëri.');
-      }
-
+        setFormData({
+          EmriInstitucionit: '',
+          llojiIspecializimit: '',
+          lokacionit: '',
+          dataEFillimit: '',
+          dataEMbarimit: '',
+          aftesiteEfituara: '',
+          pershkrimi: '',
+          nrKredive: ''
+      });
+      // Redirect after 3 seconds (3000 ms)
+      setTimeout(() => {
+        // Navigate to the home page
+        window.location.href = '/home';
+      }, 3000); 
+    } else {
+    setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+       }
     } catch (error) {
       console.error('Gabim gjate ndryshimit te Specializimit:', error);
       if (error.response) {
@@ -98,7 +111,7 @@ function EditSpecializim() {
       } else if (error.request) {
         setErrorMessage('Ju lutem provoni perseri.');
       } else {
-        setErrorMessage('Error: Could not complete the request.');
+        setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
       }
     }
   };
@@ -127,7 +140,7 @@ function EditSpecializim() {
         {/* Main Content */}
         <div className="col-md-10 d-flex flex-column align-items-center py-5">
           <div className="col-12 col-md-10 col-lg-8 col-xl-6">
-            <h4 className="text-center text-muted fst-italic mb-4">Shtoni specializimin</h4>
+            <h4 className="text-center text-muted fst-italic mb-4">Edito specializimin</h4>
 
             {errorMessage && (
               <div className="alert alert-danger text-center mb-3" role="alert">

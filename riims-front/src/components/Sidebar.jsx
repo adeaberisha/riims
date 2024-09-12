@@ -55,7 +55,7 @@ const Sidebar = () => {
               </li>
               <li className="nav-item">
                 <Link to="/projekti" className="nav-link px-0 align-middle">
-                  <i className="fas fa-user-tie"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Projekti</span>
+                  <i className="bi bi-folder-fill"></i> <span className="ms-1 d-none d-sm-inline text-white fst-italic"> Projekti</span>
                 </Link>
               </li>
             </ul>

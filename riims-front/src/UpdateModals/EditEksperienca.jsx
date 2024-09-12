@@ -90,10 +90,24 @@ function EditEksperienca() {
 
       if (response.status === 200) {
         setSuccessMessage('Eksperienca u ndryshua me sukses!');
-        navigate('/home');
+        setFormData({
+          Titulli: '',
+          LlojiPunesimit: '',
+          Lokacioni: '',
+          LlojiLokacionit: '',
+          DataFillimit: '',
+          DataMbarimit: '',
+          Pershkrimi: '',
+          EmriInstitucionit: ''
+        });
+        // Redirect after 3 seconds (3000 ms)
+        setTimeout(() => {
+          // Navigate to the home page
+          window.location.href = '/home';
+        }, 3000); 
       } else {
-        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
-      }
+      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+  }
     } catch (error) {
       console.error('Gabim gjate ndryshimit te eksperiences:', error);
       if (error.response) {
@@ -101,7 +115,7 @@ function EditEksperienca() {
       } else if (error.request) {
         setErrorMessage('Ju lutem provoni perseri!');
       } else {
-        setErrorMessage('Gabim!');
+        setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
       }
     }
   };

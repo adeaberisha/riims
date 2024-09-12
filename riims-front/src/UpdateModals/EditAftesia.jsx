@@ -67,20 +67,27 @@ function EditAftesia() {
             );
 
             if (response.status === 200) {
-                setSuccessMessage('Aftesia u ndryshua me sukses!');
-                navigate('/home');
-            } else {
-                setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
-            }
-
+             setSuccessMessage('Aftesia u ndryshua me sukses!');
+             setFormData({
+                emri: '',
+                emriInstitucionit: ''
+            });
+           // Redirect after 3 seconds (3000 ms)
+            setTimeout(() => {
+            // Navigate to the home page
+            window.location.href = '/home';
+             }, 3000); 
+        } else {
+        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+          }         
         } catch (error) {
-            console.error('Error updating aftesia:', error);
+            console.error('Error gjatë ndryshimit të aftësisë:', error);
             if (error.response) {
                 setErrorMessage(`Error: ${error.response.data}`);
             } else if (error.request) {
                 setErrorMessage('Ju lutem provoni perseri!');
             } else {
-                setErrorMessage('Eror');
+                setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
             }
         }
     };
@@ -104,7 +111,7 @@ function EditAftesia() {
                 <div className="col-md-10 d-flex justify-content-center py-5">
                     <div className="col-12 col-md-8 col-lg-6" style={{ marginTop: '3rem' }}>
                         <div className="text-center mb-4">
-                            <h4 className="text-muted fst-italic">Shtoni aftësitë tuaja</h4>
+                            <h4 className="text-muted fst-italic">Edito aftësitë tuaja</h4>
                         </div>
                         
                         {errorMessage && (

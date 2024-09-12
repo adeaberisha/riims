@@ -115,10 +115,18 @@ function EditGjuhet() {
 
       if (response.status === 200) {
         setSuccessMessage('Gjuha u ndryshua me sukses!');
-        navigate('/home');
+        setFormData({
+          EmriGjuhes: '',
+          NiveliGjuhesor: ''
+        });
+        // Redirect after 3 seconds (3000 ms)
+        setTimeout(() => {
+          // Navigate to the home page
+          window.location.href = '/home';
+        }, 3000); 
       } else {
-        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
-      }
+      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+  }
     } catch (error) {
       console.error('Error gjatë ndryshimit të gjuhës', error);
       if (error.response) {
@@ -126,7 +134,7 @@ function EditGjuhet() {
       } else if (error.request) {
         setErrorMessage('Ju lutem provoni perseri.');
       } else {
-        setErrorMessage('Error: Could not complete the request.');
+        setErrorMessage('Error:  Nuk mund të përfundojë kërkesa.');
       }
     }
   };
