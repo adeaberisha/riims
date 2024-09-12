@@ -155,8 +155,8 @@ function PersonDetails() {
                                         <p className="mb-0">Emri Institucionit: {aftesia.emriInstitucionit}</p>
                                     </div>
                                     <div>
-                                        <Link to={`/EditAftesia/${aftesia.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
+                                        <Link to={`/EditAftesia/${aftesia.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -188,8 +188,8 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <Link to={`/EditEdukimi/${edukimi.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => requestDelete(edukimi.id)}>Delete</button>
+                                        <Link to={`/EditEdukimi/${edukimi.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => requestDelete(edukimi.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -222,8 +222,8 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
+                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -246,8 +246,8 @@ function PersonDetails() {
                                         <p className="mb-0">Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
                                     </div>
                                     <div>
-                                        <Link to={`/EditGjuhet/${gjuhet.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
+                                        <Link to={`/EditGjuhet/${gjuhet.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete"  onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -273,8 +273,8 @@ function PersonDetails() {
                                         <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
-                                        <button className="btn btn-danger" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                        <button className="btn custom-button custom-button-edit me-2">Edit</button>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -303,8 +303,8 @@ function PersonDetails() {
                                         {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
                                     </div>
                                     <div>
-                                        <Link to={`/EditLicensa/${license.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
+                                        <Link to={`/EditLicensa/${license.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -329,8 +329,8 @@ function PersonDetails() {
                                         <p className="mb-0">Departamenti: {item.emriDepartamentit}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary me-2">Edit</button>
-                                        <button className="btn btn-danger" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
+                                        <button className="btn custom-button custom-button-edit me-2">Edit</button>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -357,8 +357,8 @@ function PersonDetails() {
                                         <p className="mb-0">Asocohet: {projekt.asocohet}</p>
                                     </div>
                                     <div>
-                                        <Link to={`/EditProjekti/${projekt.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
+                                        <Link to={`/EditProjekti/${projekt.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -385,8 +385,8 @@ function PersonDetails() {
                                         {publication.autoriKryesor !== undefined && <p className="mb-0">Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>}
                                     </div>
                                     <div>
-                                        <Link to={`/EditPublikimi/${publication.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
+                                        <Link to={`/EditPublikimi/${publication.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -412,8 +412,8 @@ function PersonDetails() {
                                         {puna.pershkrimi && <p className="mb-0">Pershkrimi: {puna.pershkrimi}</p>}
                                     </div>
                                     <div>
-                                        <Link to={`/EditPunaVullnetare/${puna.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
+                                        <Link to={`/EditPunaVullnetare/${puna.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -442,8 +442,8 @@ function PersonDetails() {
                                         {spec.nrKredive > 0 && <p className="mb-0">Numri i Kredive: {spec.nrKredive}</p>}
                                     </div>
                                     <div>
-                                        <Link to={`/EditSpecializim/${spec.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
+                                        <Link to={`/EditSpecializim/${spec.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}

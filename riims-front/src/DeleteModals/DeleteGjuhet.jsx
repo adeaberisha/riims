@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete UserGjuhet by ID
 async function deleteUserGjuhetById(id) {
@@ -49,15 +50,15 @@ export function useDeleteUserGjuhet(setUserGjuhet) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeleteUserGjuhetLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeleteUserGjuhetLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closeUserGjuhetConfirmModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this language?</p>
+                        <p>Dëshironi të fshini këtë gjuhë?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closeUserGjuhetConfirmModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handleUserGjuhetDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closeUserGjuhetConfirmModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handleUserGjuhetDelete}>Delete</button>
                     </div>
                 </div>
             </div>

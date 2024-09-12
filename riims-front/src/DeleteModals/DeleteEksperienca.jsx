@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete Eksperienca by ID
 async function deleteEksperiencaById(id) {
@@ -49,15 +50,15 @@ export function useDeleteEksperienca(setEksperienca) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeleteEksperiencaLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeleteEksperiencaLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closeEksperiencaConfirmModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this experience?</p>
+                        <p>Dëshironi të fshini këtë eksperiencë?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closeEksperiencaConfirmModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handleEksperiencaDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closeEksperiencaConfirmModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handleEksperiencaDelete}>Delete</button>
                     </div>
                 </div>
             </div>

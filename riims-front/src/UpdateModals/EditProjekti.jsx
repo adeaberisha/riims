@@ -33,7 +33,7 @@ function EditProjekti() {
         });
       } catch (error) {
         console.error('Error fetching projekti:', error);
-        setErrorMessage('Deshtoi marrja e projektit.');
+        setErrorMessage('Dështoi marrja e projektit.');
       }
     };
 
@@ -134,7 +134,7 @@ function EditProjekti() {
         {/* Main Content */}
         <div className="col-md-10 d-flex flex-column align-items-center py-5">
           <div className="col-12 col-md-10 col-lg-8 col-xl-6">
-            <h4 className="text-center text-muted fst-italic mb-4">Edito Projektin</h4>
+            <h4 className="text-center text-muted fst-italic mb-4">Perditso Projektin tuaj</h4>
 
             {errorMessage && (
               <div className="alert alert-danger text-center mb-3" role="alert">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete Edukimi by ID
 async function deleteEdukimiById(id) {
@@ -61,15 +62,15 @@ export function useDeleteEdukimi(setEdukime) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeleteLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeleteLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closeEdukimiDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this education?</p>
+                        <p>Dëshironi të fshini këtë edukim?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closeEdukimiDeleteModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={edukimiDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closeEdukimiDeleteModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={edukimiDelete}>Delete</button>
                     </div>
                 </div>
             </div>

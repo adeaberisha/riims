@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete Licensa by ID
 async function deleteLicensaById(id) {
@@ -49,15 +50,15 @@ export function useDeleteLicensa(setLicensat) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeleteLicensaLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeleteLicensaLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closeLicensaDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this license?</p>
+                        <p>Dëshironi ta fshini këtë licensë?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closeLicensaDeleteModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handleLicensaDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closeLicensaDeleteModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handleLicensaDelete}>Delete</button>
                     </div>
                 </div>
             </div>

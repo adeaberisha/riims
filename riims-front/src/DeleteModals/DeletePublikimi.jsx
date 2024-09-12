@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete Publikimi by ID
 async function deletePublikimiById(id) {
@@ -49,15 +50,15 @@ export function useDeletePublikimi(setPublikimet) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeletePublikimiLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeletePublikimiLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closePublikimiDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this publication?</p>
+                        <p>Dëshironi ta fshini këtë publikim?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closePublikimiDeleteModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handlePublikimiDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closePublikimiDeleteModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handlePublikimiDelete}>Delete</button>
                     </div>
                 </div>
             </div>

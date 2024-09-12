@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete PunaVullnetare by ID
 async function deletePunaVullnetareById(id) {
@@ -60,15 +61,15 @@ export function useDeletePunaVullnetare(setPunaVullnetare) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeletePunaVullnetareLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeletePunaVullnetareLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closePunaVullnetareDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this voluntary work?</p>
+                        <p>Dëshironi ta fshini këtë punë vullnetare?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closePunaVullnetareDeleteModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handlePunaVullnetareDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closePunaVullnetareDeleteModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handlePunaVullnetareDelete}>Delete</button>
                     </div>
                 </div>
             </div>

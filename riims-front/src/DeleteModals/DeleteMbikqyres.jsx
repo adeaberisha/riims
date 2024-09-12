@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/DeleteModals.css';
 
 // Function to delete MbikqyresITemave by ID
 async function deleteMbikqyresById(id) {
@@ -61,15 +62,15 @@ export function useDeleteMbikqyres(setMbikqyresITemave) {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="confirmDeleteMbikqyresLabel">Confirm Deletion</h5>
+                        <h5 className="modal-title" id="confirmDeleteMbikqyresLabel">Konfirmoni Fshirjen</h5>
                         <button type="button" className="btn-close" onClick={closeMbikqyresDeleteModal} aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        <p>Are you sure you want to delete this supervisor?</p>
+                        <p>Dëshironi ta fshini këtë mbikqyrës të temës?</p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={closeMbikqyresDeleteModal}>Cancel</button>
-                        <button type="button" className="btn btn-danger" onClick={handleMbikqyresDelete}>Delete</button>
+                        <button type="button" className="btn modal-button modal-button-cancel" onClick={closeMbikqyresDeleteModal}>Cancel</button>
+                        <button type="button" className="btn modal-button modal-button-delete" onClick={handleMbikqyresDelete}>Delete</button>
                     </div>
                 </div>
             </div>

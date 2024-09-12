@@ -23,7 +23,7 @@ function EditAftesia() {
                 });
             } catch (error) {
                 console.error('Error fetching aftesia:', error);
-                setErrorMessage('Failed to fetch aftesia details.');
+                setErrorMessage('Dështoi marrja e aftësive.');
             }
         };
 
@@ -111,7 +111,7 @@ function EditAftesia() {
                 <div className="col-md-10 d-flex justify-content-center py-5">
                     <div className="col-12 col-md-8 col-lg-6" style={{ marginTop: '3rem' }}>
                         <div className="text-center mb-4">
-                            <h4 className="text-muted fst-italic">Edito aftësitë tuaja</h4>
+                            <h4 className="text-muted fst-italic">Perditso aftësitë tuaja</h4>
                         </div>
                         
                         {errorMessage && (

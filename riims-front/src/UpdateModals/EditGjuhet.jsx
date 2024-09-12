@@ -63,7 +63,7 @@ function EditGjuhet() {
         });
       } catch (error) {
         console.error('Gabim gjate marrjes se gjuheve.', error);
-        setErrorMessage('Gabim gjate marrjes se gjuheve.');
+        setErrorMessage('Dështoi marrja e gjuhës.');
       }
     };
     fetchUserGjuhet();
@@ -157,7 +157,7 @@ function EditGjuhet() {
         {/* Main Content */}
         <div className="col-md-10 d-flex justify-content-center py-5">
           <div className="col-12 col-md-10 col-lg-8 col-xl-6">
-            <h4 className="text-center text-muted fst-italic mb-4">Shtoni gjuhën në të cilën jeni i aftë</h4>
+            <h4 className="text-center text-muted fst-italic mb-4">Perditso gjuhën tuaj</h4>
 
             {errorMessage && (
               <div className="alert alert-danger text-center mb-3" role="alert">
