@@ -28,6 +28,7 @@ import EditProjekti from './UpdateModals/EditProjekti';
 import EditEdukimi from './UpdateModals/EditEdukimi';
 import EditPunaVullnetare from './UpdateModals/EditPunaVullnetare';
 import PersonDetails from './models/PersonDetails';
+import EditPublikimi from './UpdateModals/EditPublikimi';
 
 
 function App() {
@@ -274,6 +275,15 @@ function App() {
                     <LoggedInNavbar handleLogout={handleLogout} />
                     <div className="container mt-4">
                         <EditPunaVullnetare />
+                    </div>
+                    <Footer />
+                </>
+            } />
+            <Route path="/EditPublikimi/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditPublikimi />
                     </div>
                     <Footer />
                 </>
