@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import Sidebar from '../components/Sidebar.jsx'; // Ensure you have this component or adjust import
+import EditSidebar from '../components/EditSidebar.jsx'; // Ensure you have this component or adjust import
 
 function EditGjuhet() {
   const { id } = useParams(); // Extract the ID from URL parameters
@@ -143,7 +143,7 @@ function EditGjuhet() {
       <div className="row h-100">
         {/* Sidebar */}
         <div className="col-md-2 p-0">
-          <Sidebar />
+          <EditSidebar />
         </div>
 
         {/* Main Content */}
