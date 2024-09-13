@@ -33,7 +33,7 @@ function LoggedInNavbar({ handleLogout }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <NavDropdown title="Menu" id="basic-nav-dropdown" className="text-light">
-              <NavDropdown.Item as={Link} to="/cv">CV</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/thecv">CV</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/edit-profile">Edit Profile</NavDropdown.Item>
               {/* <NavDropdown.Item as={Link} to="/eksperienca">Eksperienca</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/aftesite">Aftesite</NavDropdown.Item>

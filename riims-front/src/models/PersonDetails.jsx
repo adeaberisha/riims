@@ -115,6 +115,11 @@ function PersonDetails() {
         fetchUserData();
     }, []);
 
+    //Funksioni per CV
+    const handleViewCV = () => {
+        navigate('/thecv', { state: { education: edukimi } });
+    };
+
     if (loading) {
         return <p>Loading user information...</p>;
     }
@@ -452,6 +457,9 @@ function PersonDetails() {
                     </div>
                 </div>
             </div>
+            <div className="text-center mt-4">
+                    <button className="btn btn-primary" onClick={handleViewCV}>View CV</button>
+                </div>
         </div>
     );
 }
