@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-import Sidebar from '../components/Sidebar.jsx';
+import EditSidebar from '../components/EditSidebar.jsx';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const publikimiTypes = [
@@ -52,7 +52,7 @@ function EditPublikimi() {
                 }));
                 setDepartamentet(options);
             } catch (error) {
-                console.error('Error fetching departments:', error.response ? error.response.data : error.message);
+                console.error('Error gjatë marrjes së departamenteve:', error.response ? error.response.data : error.message);
                 setErrorMessage('Dështoi marrja e departamenteve.');
             }
         };
@@ -80,7 +80,7 @@ function EditPublikimi() {
                     emriDepartamentit: response.data.emriDepartamentit || null,
                 });
             } catch (error) {
-                console.error('Error fetching publikimi:', error.response ? error.response.data : error.message);
+                console.error('Error gjatë marrjes së publikimit:', error.response ? error.response.data : error.message);
                 setErrorMessage('Dështoi marrja e publikimit.');
             }
         };
@@ -188,7 +188,7 @@ function EditPublikimi() {
         <div className="container-fluid h-100 bg-light">
             <div className="row h-100">
                 <div className="col-md-2 p-0">
-                    <Sidebar />
+                    <EditSidebar />
                 </div>
 
                 <div className="col-md-10 d-flex justify-content-center align-items-center py-5">

@@ -39,7 +39,7 @@ function EditEksperienca() {
           EmriInstitucionit: response.data.emriInstitucionit
         });
       } catch (error) {
-        console.error('Error fetching eksperienca:', error);
+        console.error('Error gjatë marrjes së eksperiencës:', error);
         setErrorMessage('Dështoi marrja e eksperiencës.');
       }
     };

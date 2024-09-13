@@ -22,7 +22,7 @@ function EditAftesia() {
                     emriInstitucionit: response.data.emriInstitucionit
                 });
             } catch (error) {
-                console.error('Error fetching aftesia:', error);
+                console.error('Error gjatë marrjes se aftësisë:', error);
                 setErrorMessage('Dështoi marrja e aftësive.');
             }
         };
