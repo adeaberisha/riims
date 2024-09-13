@@ -14,13 +14,12 @@ function Gjuhet() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Fetch languages on mount
   useEffect(() => {
     const fetchGjuhet = async () => {
       try {
         const response = await axios.get('https://localhost:7254/api/Gjuhet');
         const options = response.data.map(gjuha => ({
-          value: gjuha.id,  // Sending ID
+          value: gjuha.id,  
           label: gjuha.emriGjuhes
         }));
         setGjuhet(options);
@@ -32,13 +31,12 @@ function Gjuhet() {
     fetchGjuhet();
   }, []);
 
-  // Fetch language levels on mount
   useEffect(() => {
     const fetchNivelet = async () => {
       try {
         const response = await axios.get('https://localhost:7254/api/NiveliGjuhesor/get-all-NiveletGjuhesore');
         const options = response.data.map(niveli => ({
-          value: niveli.id,  // Sending ID
+          value: niveli.id,  
           label: niveli.niveli
         }));
         setNiveli(options);
@@ -50,27 +48,24 @@ function Gjuhet() {
     fetchNivelet();
   }, []);
 
-  // Handle language selection change
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
-      EmriGjuhes: selectedOption ? selectedOption.label : ''  // Setting ID of language
+      EmriGjuhes: selectedOption ? selectedOption.label : '' 
     });
   };
 
-  // Handle language level selection change
   const handleSelectChangeNiveli = (selectedOption) => {
     setFormData({
       ...formData,
-      NiveliGjuhesor: selectedOption ? selectedOption.label : ''  // Setting ID of level
+      NiveliGjuhesor: selectedOption ? selectedOption.label : ''  
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');  // Reset error message
-    setSuccessMessage('');  // Reset success message
+    setErrorMessage(''); 
+    setSuccessMessage('');  
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
@@ -80,11 +75,11 @@ function Gjuhet() {
 
     try {
       const data = {
-        EmriGjuhes: formData.EmriGjuhes,  // Sending language ID
-        NiveliGjuhesor: formData.NiveliGjuhesor  // Sending level ID
+        EmriGjuhes: formData.EmriGjuhes,  
+        NiveliGjuhesor: formData.NiveliGjuhesor  
       };
 
-      console.log('Submitting data:', data);  // Debug: Log the data being sent
+      console.log('Submitting data:', data);  
 
       const response = await axios.post(
         'https://localhost:7254/api/UserGjuhet/add-userGjuhet',
@@ -97,12 +92,11 @@ function Gjuhet() {
         }
       );
 
-      console.log('Response:', response.data);  // Debug: Log the response
-
-      // Check for success (201 or 200)
+      console.log('Response:', response.data); 
+   
       if (response.status === 201) {
         setSuccessMessage('Gjuha u shtua me sukses!');
-        setFormData(initialFormData); // Reset form data
+        setFormData(initialFormData);
       } else {
         setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
       }
