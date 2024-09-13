@@ -273,8 +273,8 @@ function PersonDetails() {
                                         <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
                                     </div>
                                     <div>
-                                        <button className="btn custom-button custom-button-edit me-2">Edit</button>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                    <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                    <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}

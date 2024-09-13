@@ -30,7 +30,7 @@ import EditPunaVullnetare from './UpdateModals/EditPunaVullnetare';
 import EditMbikqyres from './UpdateModals/EditMbikqyres';
 import PersonDetails from './models/PersonDetails';
 import EditPublikimi from './UpdateModals/EditPublikimi';
-
+import EditHonorsAndAwards from './UpdateModals/EditHonorsAndAwards';
 
 
 function App() {
@@ -299,6 +299,15 @@ function App() {
                     <Footer />
                 </>
             } />
+            <Route path="/EditHonorsAndAwards/:id" element={
+                <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                        <EditHonorsAndAwards />
+                    </div>
+                    <Footer />
+                </>
+            }/>
                 <Route path="/" element={<PersonDetails />} />
               
               {isAdmin && (

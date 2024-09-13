@@ -59,7 +59,7 @@ const EditSidebar = ({ id }) => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/honorsandawards" className="nav-link px-0 align-middle">
+                <Link to={`/EditHonorsAndAwards/${id}`} className="nav-link px-0 align-middle">
                   <i className="bi bi-bookmarks-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Nderime dhe çmime</span>
                 </Link>
               </li>
