@@ -36,6 +36,7 @@ import EditMbikqyres from "./UpdateModals/EditMbikqyres";
 import PersonDetails from "./models/PersonDetails";
 import EditPublikimi from "./UpdateModals/EditPublikimi";
 import EditHonorsAndAwards from "./UpdateModals/EditHonorsAndAwards";
+import TheCV from "./components/TheCV";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -390,6 +391,28 @@ function App() {
                   </>
                 }
               />
+              <Route path="/thecv" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <TheCV />
+                  </div>
+                  <Footer />
+                </>
+              } />
+
+
+
+
+              <Route path="/thecv" element={
+                <>
+                  <LoggedInNavbar handleLogout={handleLogout} />
+                  <div className="container mt-4">
+                    <TheCV />
+                  </div>
+                  <Footer />
+                </>
+              } />
               <Route
                 path="/dashboard"
                 element={
