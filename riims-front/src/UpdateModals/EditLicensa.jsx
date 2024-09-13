@@ -35,7 +35,7 @@ function EditLicensa() {
           CredentialUrl: response.data.credentialUrl || ''
         });
       } catch (error) {
-        console.error('Error fetching licensa:', error);
+        console.error('Error gjatë marrjes së licensës:', error);
         setErrorMessage('Dështoi marrja e licensës.');
       }
     };
@@ -57,7 +57,7 @@ function EditLicensa() {
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
-      setErrorMessage('Token not found. Please log in again.');
+      setErrorMessage('Ju lutemi logohuni përsëri.');
       return;
     }
 

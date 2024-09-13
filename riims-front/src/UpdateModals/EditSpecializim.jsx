@@ -35,7 +35,7 @@ function EditSpecializim() {
           pershkrimi: response.data.pershkrimi || ''
         });
       } catch (error) {
-        console.error('Error fetching specializim:', error);
+        console.error('Error gjatë marrjes së specializimit:', error);
         setErrorMessage('Dështoi marrja e specializimit:');
       }
     };
@@ -105,11 +105,11 @@ function EditSpecializim() {
     setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
        }
     } catch (error) {
-      console.error('Gabim gjate ndryshimit te Specializimit:', error);
+      console.error('Gabim gjatë ndryshimit te Specializimit:', error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('Ju lutem provoni perseri.');
+        setErrorMessage('Ju lutem provoni përsëri.');
       } else {
         setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
       }

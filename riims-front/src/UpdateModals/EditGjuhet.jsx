@@ -27,8 +27,8 @@ function EditGjuhet() {
         }));
         setGjuhet(options);
       } catch (error) {
-        console.error('Error fetching languages:', error);
-        setErrorMessage('Failed to fetch languages.');
+        console.error('Error gjatë marrjes së gjuhëve:', error);
+        setErrorMessage('Deshtoi marrja e gjuhëve!');
       }
     };
     fetchGjuhet();
@@ -45,8 +45,8 @@ function EditGjuhet() {
         }));
         setNiveli(options);
       } catch (error) {
-        console.error('Error fetching levels:', error);
-        setErrorMessage('Deshtoi me i mar gjuhet!');
+        console.error('Error gjatë marrjës se niveleve gjuhësore:', error);
+        setErrorMessage('Dështoi marrja e niveleve gjuhësore!');
       }
     };
     fetchNivelet();
@@ -62,7 +62,7 @@ function EditGjuhet() {
           NiveliGjuhesor: response.data.niveliGjuhesor
         });
       } catch (error) {
-        console.error('Gabim gjate marrjes se gjuheve.', error);
+        console.error('Gabim gjatë marrjes së gjuhëve.', error);
         setErrorMessage('Dështoi marrja e gjuhës.');
       }
     };

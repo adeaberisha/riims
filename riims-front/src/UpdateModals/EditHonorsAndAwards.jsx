@@ -31,7 +31,7 @@ function EditHonorsAndAwards() {
           pershkrimi: response.data.pershkrimi
         });
       } catch (error) {
-        console.error('Error fetching honors and awards:', error);
+        console.error('Error gjatë marrjes së nderimeve dhe çmimeve:', error);
         setErrorMessage('Dështoi marrja e nderimeve dhe çmimeve.');
       }
     };

@@ -32,7 +32,7 @@ function EditProjekti() {
           EmriInstitucionit: response.data.emriInstitucionit
         });
       } catch (error) {
-        console.error('Error fetching projekti:', error);
+        console.error('Error gjatë marrjes së projektit:', error);
         setErrorMessage('Dështoi marrja e projektit.');
       }
     };

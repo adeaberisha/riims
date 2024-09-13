@@ -92,7 +92,7 @@ function EditPunaVullnetare() {
             }
 
         } catch (error) {
-            console.error('Error updating puna vullnetare:', error);
+            console.error('Error gjatë ndryshimit të punës vullnetare:', error);
             if (error.response) {
                 setErrorMessage(`Error: ${error.response.data}`);
             } else if (error.request) {
