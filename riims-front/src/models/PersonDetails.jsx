@@ -247,7 +247,7 @@ function PersonDetails() {
                                     </div>
                                     <div>
                                         <Link to={`/EditGjuhet/${gjuhet.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete"  onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -329,7 +329,7 @@ function PersonDetails() {
                                         <p className="mb-0">Departamenti: {item.emriDepartamentit}</p>
                                     </div>
                                     <div>
-                                        <button className="btn custom-button custom-button-edit me-2">Edit</button>
+                                        <Link to={`/EditMbikqyres/${item.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
                                     </div>
                                 </div>
