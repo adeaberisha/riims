@@ -34,7 +34,7 @@ namespace riims.Controllers
         }
 
 
-        [HttpGet("get-gjuhet")]
+        [HttpGet("get-gjuhet/{id}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var gjuhetDomain = await gjuhetRepository.GetByIdAsync (id);

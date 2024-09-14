@@ -37,6 +37,7 @@ import PersonDetails from "./models/PersonDetails";
 import EditPublikimi from "./UpdateModals/EditPublikimi";
 import EditHonorsAndAwards from "./UpdateModals/EditHonorsAndAwards";
 import TheCV from "./components/TheCV";
+import ManageLanguages from "./components/ManageLanguages";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -425,6 +426,19 @@ function App() {
                   </>
                 }
               />
+              <Route
+                path="/manage-languages"
+                element={
+                  <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                      <ManageLanguages />
+                    </div>
+                    <Footer />
+                  </>
+                }
+              />
+               
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (

@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Table, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Spinner, Pagination, Button } from 'react-bootstrap'; // Added Button import
 import axios from 'axios';
-import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield } from 'react-icons/fa'; 
-import '../css/Dashboard.css'; 
+import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import '../css/Dashboard.css';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('jwtToken'); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(10);
+  const token = localStorage.getItem('jwtToken');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -42,19 +46,20 @@ const AdminDashboard = () => {
     );
   }
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
 
   return (
     <Container fluid>
       <Row className="my-4 text-center">
         <Col>
-          <h1 className="text-center  dashboard-title mt-4">Admin Dashboard</h1>
+          <h1 className="text-center dashboard-title mt-4">Admin Dashboard</h1>
         </Col>
       </Row>
 
-      {/* First row: Welcome Admin card */}
       <Row>
         <Col md={8} className="mx-auto">
           <Card className="text-center shadow-lg welcome-admin-card animated-card">
@@ -68,10 +73,7 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
 
-      {/* Second row: Total Users card */}
-      <Row className="mt-4">
         <Col md={4} className="mx-auto">
           <Card className="text-center shadow-lg total-users-card animated-card">
             <Card.Body className="p-4">
@@ -84,7 +86,6 @@ const AdminDashboard = () => {
         </Col>
       </Row>
 
-      {/* Third row: User list */}
       <Row>
         <Col className="mb-4">
           <h2 className="my-4">User List</h2>
@@ -100,9 +101,9 @@ const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+              {currentUsers.map((user, index) => (
                 <tr key={user.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 + indexOfFirstUser}</td>
                   <td>{`${user.emri} ${user.mbiemri}`}</td>
                   <td>{user.email || 'N/A'}</td>
                   <td>{user.numriTelefonit || 'Not any'}</td>
@@ -120,8 +121,47 @@ const AdminDashboard = () => {
           </Table>
         </Col>
       </Row>
+
+      <Row className="justify-content-center">
+        <Col md="auto">
+          <Pagination>
+            <Pagination.Prev
+              onClick={() => {
+                if (currentPage > 1) {
+                  setCurrentPage(currentPage - 1);
+                }
+              }}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </Pagination.Prev>
+            <Pagination.Item disabled>{currentPage}</Pagination.Item>
+            <Pagination.Next
+              onClick={() => {
+                if (currentPage < totalPages) {
+                  if (currentPage === totalPages - 1) {
+                    navigate('/manage-languages');
+                  } else {
+                    setCurrentPage(currentPage + 1);
+                  }
+                }
+              }}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </Pagination.Next>
+          </Pagination>
+          <Button onClick={() => navigate('/manage-languages')}>
+  Go to Manage Languages
+</Button>
+
+        </Col>
+      </Row>
     </Container>
   );
 };
 
 export default AdminDashboard;
+
+
+
