@@ -1,9 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Table, Spinner, Pagination, Button } from 'react-bootstrap'; // Added Button import
-import axios from 'axios';
-import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import '../css/Dashboard.css';
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Table,
+  Spinner,
+  Pagination,
+  Button,
+} from "react-bootstrap";
+import axios from "axios";
+import {
+  FaUsers,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaUserShield,
+  FaBuilding,
+} from "react-icons/fa"; // Added FaBuilding for Institucionet
+import { useNavigate } from "react-router-dom";
+import "../css/Dashboard.css";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -11,29 +26,32 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       fetchUsers();
     } else {
-      alert('Token not found. Please log in again.');
+      alert("Token not found. Please log in again.");
     }
   }, [token]);
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://localhost:7254/api/UserProfile/get-all-profiles', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://localhost:7254/api/UserProfile/get-all-profiles",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching user profiles:', err);
-      setError('Failed to fetch user profiles. Please try again.');
+      console.error("Error fetching user profiles:", err);
+      setError("Failed to fetch user profiles. Please try again.");
       setLoading(false);
     }
   };
@@ -50,11 +68,9 @@ const AdminDashboard = () => {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
-  const totalPages = Math.ceil(users.length / usersPerPage);
-
   return (
     <Container fluid>
-      <Row className="my-4 text-center">
+      <Row className="my-4 text-center mb-6">
         <Col>
           <h1 className="text-center dashboard-title mt-4">Admin Dashboard</h1>
         </Col>
@@ -64,12 +80,18 @@ const AdminDashboard = () => {
         <Col md={8} className="mx-auto">
           <Card className="text-center shadow-lg welcome-admin-card animated-card">
             <Card.Body className="p-4">
-              <FaUserShield size={60} className="mb-3 text-white icon-background" />
+              <FaUserShield
+                size={60}
+                className="mb-3 text-white icon-background"
+              />
               <Card.Title className="fs-4">Welcome, Admin!</Card.Title>
               <Card.Text className="welcome-admin-text">
-                You can manage users, monitor activities, and ensure everything is running smoothly.
+                You can manage users, monitor activities, and ensure everything
+                is running smoothly.
               </Card.Text>
-              <p className="text-muted">Ensure a seamless experience for all users.</p>
+              <p className="text-muted">
+                Ensure a seamless experience for all users.
+              </p>
             </Card.Body>
           </Card>
         </Col>
@@ -105,9 +127,9 @@ const AdminDashboard = () => {
                 <tr key={user.id}>
                   <td>{index + 1 + indexOfFirstUser}</td>
                   <td>{`${user.emri} ${user.mbiemri}`}</td>
-                  <td>{user.email || 'N/A'}</td>
-                  <td>{user.numriTelefonit || 'Not any'}</td>
-                  <td>{user.niveliAkademik || 'N/A'}</td>
+                  <td>{user.email || "N/A"}</td>
+                  <td>{user.numriTelefonit || "Not any"}</td>
+                  <td>{user.niveliAkademik || "N/A"}</td>
                   <td>
                     {user.isActive ? (
                       <FaCheckCircle className="text-success" />
@@ -122,39 +144,45 @@ const AdminDashboard = () => {
         </Col>
       </Row>
 
+      {/* Manage Institucionet Section */}
       <Row className="justify-content-center">
-        <Col md="auto">
-          <Pagination>
-            <Pagination.Prev
-              onClick={() => {
-                if (currentPage > 1) {
-                  setCurrentPage(currentPage - 1);
-                }
-              }}
-              disabled={currentPage === 1}
-            >
-              &lt;
-            </Pagination.Prev>
-            <Pagination.Item disabled>{currentPage}</Pagination.Item>
-            <Pagination.Next
-              onClick={() => {
-                if (currentPage < totalPages) {
-                  if (currentPage === totalPages - 1) {
-                    navigate('/manage-languages');
-                  } else {
-                    setCurrentPage(currentPage + 1);
-                  }
-                }
-              }}
-              disabled={currentPage === totalPages}
-            >
-              &gt;
-            </Pagination.Next>
-          </Pagination>
-          <Button onClick={() => navigate('/manage-languages')}>
-  Go to Manage Languages
-</Button>
-
+        <Col md={6} className="mb-4">
+          <Card className="text-center shadow-lg manage-languages-card animated-card">
+            <Card.Body className="p-4">
+              <FaUsers size={60} className="mb-3 text-white icon-background" />
+              <Card.Title className="fs-4 manage-languages-title">
+                Manage Languages
+              </Card.Title>
+              <Button
+                variant="primary"
+                className="mt-2 btn-dark-green"
+                onClick={() => navigate("/manage-languages")}
+              >
+                Go to Manage Languages
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        
+        <Col md={6} className="mb-4">
+          <Card className="text-center shadow-lg manage-institucionet-card animated-card">
+            <Card.Body className="p-4">
+              <FaBuilding
+                size={60}
+                className="mb-3 text-white icon-background"
+              />
+              <Card.Title className="fs-4 manage-institucionet-title">
+                Manage Institucionet
+              </Card.Title>
+              <Button
+                variant="primary"
+                className="mt-2 btn-dark-blue"
+                onClick={() => navigate("/ManageInstitucioni")}
+              >
+                Go to Manage Institucionet
+              </Button>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>
@@ -162,6 +190,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-
-

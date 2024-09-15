@@ -38,6 +38,7 @@ import EditPublikimi from "./UpdateModals/EditPublikimi";
 import EditHonorsAndAwards from "./UpdateModals/EditHonorsAndAwards";
 import TheCV from "./components/TheCV";
 import ManageLanguages from "./components/ManageLanguages";
+import ManageInstituconet from "./components/ManageInstitucioni";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -433,6 +434,18 @@ function App() {
                     <LoggedInNavbar handleLogout={handleLogout} />
                     <div className="container mt-4">
                       <ManageLanguages />
+                    </div>
+                    <Footer />
+                  </>
+                }
+              />
+                 <Route
+                path="/ManageInstitucioni"
+                element={
+                  <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                      <ManageInstituconet />
                     </div>
                     <Footer />
                   </>
