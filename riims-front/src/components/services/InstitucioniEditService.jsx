@@ -71,7 +71,7 @@ export function useEditInstitucioniModal(setInstitucioni, token) {
       try {
         const institucioni = await fetchInstitucioniById(id, token);
         if (institucioni) {
-          setCurrentInstitucioni(institucioni.Emri); 
+          setCurrentInstitucioni(institucioni.emri); 
         }
       } catch (error) {
         console.error("Error fetching Institucioni details:", error);
@@ -94,14 +94,14 @@ export function useEditInstitucioniModal(setInstitucioni, token) {
       try {
         const success = await updateInstitucioniById(
           currentId,
-          { Emri: currentInstitucioni },
+          { emri: currentInstitucioni },
           token
         );
         if (success) {
           setInstitucioni((prevInstitucioni) =>
             prevInstitucioni.map((institucioni) =>
               institucioni.id === currentId
-                ? { ...institucioni, Emri: currentInstitucioni }
+                ? { ...institucioni, emri: currentInstitucioni }
                 : institucioni
             )
           );
