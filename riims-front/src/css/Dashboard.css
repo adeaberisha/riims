@@ -53,7 +53,6 @@
   margin-top: 20px;
 }
 
-/* Adjust the width of the "Welcome Admin" card */
 .welcome-admin-card {
   background: linear-gradient(135deg, #4b79a1, #283e51);
   color: white;
@@ -68,3 +67,67 @@
   font-size: 1.2rem;
   margin-bottom: 15px;
 }
+
+.animated-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animated-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.total-users-card {
+  background-color: #007bff; 
+}
+
+.total-users-card .icon-background {
+  background-color: #0056b3;
+}
+
+.manage-institucionet-card {
+  background-color: #276936; 
+}
+
+.manage-institucionet-card .icon-background {
+  background-color: #194445; 
+}
+
+.manage-institucionet-title {
+  color: #ffffff; 
+}
+
+.manage-languages-card {
+  background-color: #698c8d; 
+}
+
+.manage-languages-card .icon-background {
+  background-color: #1f7474; 
+}
+
+.manage-languages-title {
+  color: #ffffff; 
+}
+
+.btn-dark-green {
+  background-color: #2c5b5c; 
+  border-color: #205051; 
+  color: white; 
+}
+
+.btn-dark-green:hover {
+  background-color: #276936; 
+  border-color: #276936;
+}
+
+.btn-dark-blue {
+  background-color: #1b4f39; 
+  border-color: #194528;
+  color: white; 
+}
+
+.btn-dark-blue:hover {
+  background-color: #2a372d;
+  border-color: #276936;
+}
+
