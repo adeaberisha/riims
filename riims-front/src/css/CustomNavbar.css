@@ -3,49 +3,37 @@
     padding: 0.75rem 1rem; 
 }
 
-.navbar-title {
-    font-size: 2.25rem; 
-    font-weight: 700;
-    color: #ffffff;
-}
-
 .navbar-brand img.logo {
     width: 150px; 
     height: auto;
 }
 
-.navbar-brand:hover {
-    text-decoration:#495057;
-}
-
-.nav-link,
 .navbar-nav .nav-link {
-    color: #1c0707 !important;
-    font-weight: 400;
+    color: #244082 !important;
+    font-weight: 700; 
+    font-style: italic; 
+    margin: 0 0.5rem; 
+    text-decoration: none; 
 }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
-    color: #6b6f72 !important;
-    text-decoration:solid; 
+    color: #1919cc !important; 
 }
 
-.navbar-nav .nav-link.active {
-    font-weight: 600;
-    text-decoration: underline;
+.navbar-nav {
+    display: flex; 
+    align-items: center; 
 }
 
-.navbar-nav .dropdown-menu {
-    background-color: #565b60;
-    border: none;
-    
+.navbar-nav .nav-link {
+    display: inline-block; 
 }
 
-.navbar-nav .dropdown-item {
-    color: #f8f9fa !important;
+.navbar-nav .nav-link:not(:last-child) {
+    margin-right: 1rem; 
 }
 
-.navbar-nav .dropdown-item:hover {
-    background-color: #495057;
-    color: #e5d8d8 !important;
+.navbar-nav .nav-link:last-child {
+    margin-right: 0; 
 }
