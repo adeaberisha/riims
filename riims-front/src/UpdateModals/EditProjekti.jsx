@@ -91,11 +91,6 @@ function EditProjekti() {
             asocohet: '',
             EmriInstitucionit: ''
           });
-        // Redirect after 3 seconds (3000 ms)
-        setTimeout(() => {
-          // Navigate to the home page
-          window.location.href = '/home';
-        }, 3000); 
       } else {
       setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
   }

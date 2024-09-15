@@ -39,6 +39,7 @@ import EditHonorsAndAwards from "./UpdateModals/EditHonorsAndAwards";
 import TheCV from "./components/TheCV";
 import ManageLanguages from "./components/ManageLanguages";
 import ManageInstituconet from "./components/ManageInstitucioni";
+import { ProfileProvider } from "./components/ProfileContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -93,6 +94,7 @@ function App() {
   };
 
   return (
+    <ProfileProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -477,6 +479,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </ProfileProvider>
   );
 }
 export default App;

@@ -155,9 +155,6 @@ function EditPublikimi() {
             if (response.status === 200) {
                 setSuccessMessage('Publikimi u përditësua me sukses!');
                 setFormData(initialFormData); // Reset form data
-                setTimeout(() => {
-                    navigate('/home');
-                }, 3000); // Redirect after 3 seconds
             } else {
                 setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
             }

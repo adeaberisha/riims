@@ -59,4 +59,8 @@
 }
 
 
-
+/* Style for the blurred state */
+.blur {
+    filter: blur(4px); /* Adjust the blur amount as needed */
+    opacity: 0.6;      /* Optional: reduce opacity to make the blur more pronounced */
+}

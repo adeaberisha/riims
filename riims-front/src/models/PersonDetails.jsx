@@ -15,8 +15,7 @@ import { useDeletePublikimi } from '../DeleteModals/DeletePublikimi.jsx';
 import { useDeletePunaVullnetare } from '../DeleteModals/DeletePunaVullnetare.jsx';
 import { useDeleteSpecializim } from '../DeleteModals/DeleteSpecializimi.jsx';
 import { useNavigate } from 'react-router-dom';
-
-
+import { useHideEducation, useHideExperience } from '../components/useHideItems'; 
 
 function PersonDetails() {
     const [userData, setUserData] = useState({
@@ -43,6 +42,10 @@ function PersonDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Use the custom hooks for hidden items
+    const [hiddenEducation, toggleHideEducation] = useHideEducation();
+    const [hiddenExperience, toggleHideExperience] = useHideExperience();
+
     const { confirmDelete, DeleteConfirmationModal } = useDeleteAftesia(setAftesite);
     const { requestDelete, EdukimiDeleteModal } = useDeleteEdukimi(setEdukimi);
     const { triggerEksperiencaDelete, EksperiencaConfirmDeleteModal } = useDeleteEksperienca(setEksperienca);
@@ -56,6 +59,7 @@ function PersonDetails() {
     const { triggerSpecializimDelete, SpecializimDeleteModal } = useDeleteSpecializim(setSpecializimi);
 
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -115,9 +119,16 @@ function PersonDetails() {
         fetchUserData();
     }, []);
 
-    //Funksioni per CV
+    // Function to handle viewing CV
     const handleViewCV = () => {
-        navigate('/thecv', { state: { education: edukimi } });
+        navigate('/thecv', {
+            state: {
+                user: userData,
+                education: edukimi.filter(ed => !hiddenEducation.includes(ed.id)),
+                experience: eksperienca.filter(ex => !hiddenExperience.includes(ex.id)),
+                languages: gjuhet
+            }
+        });
     };
 
     if (loading) {
@@ -126,8 +137,12 @@ function PersonDetails() {
     if (error) {
         return <p>{error}</p>;
     }
+
     return (
         <div className="container mt-4 mb-4">
+            <div className="text-center mt-4">
+                <button className="btn btn-primary" onClick={handleViewCV}>View CV</button>
+            </div>
             <div className="accordion" id="accordionDetails">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="personalDetailsHeading">
@@ -177,24 +192,27 @@ function PersonDetails() {
                     </h2>
                     <div id="edukimiCollapse" className="accordion-collapse collapse" aria-labelledby="edukimiHeading" data-bs-parent="#edukimiAccordion">
                         <div className="accordion-body">
-                            {edukimi.map((edukimi, index) => (
+                            {edukimi.map((ed, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
                                     <div className="me-3">
-                                        <p className="mb-0">Emri Institucionit: {edukimi.institucioni}</p>
-                                        <p className="mb-0">Fusha Studimit: {edukimi.fushaStudimit}</p>
-                                        <p className="mb-0">Lokacioni: {edukimi.lokacioni}</p>
-                                        <p className="mb-0">Data Fillimit: {new Date(edukimi.dataFillimit).toLocaleDateString()}</p>
-                                        {edukimi.dataMbarimit && (
-                                            <p className="mb-0">Data Mbarimit: {new Date(edukimi.dataMbarimit).toLocaleDateString()}</p>
+                                        <p className="mb-0">Emri Institucionit: {ed.institucioni}</p>
+                                        <p className="mb-0">Fusha Studimit: {ed.fushaStudimit}</p>
+                                        <p className="mb-0">Lokacioni: {ed.lokacioni}</p>
+                                        <p className="mb-0">Data Fillimit: {new Date(ed.dataFillimit).toLocaleDateString()}</p>
+                                        {ed.dataMbarimit && (
+                                            <p className="mb-0">Data Mbarimit: {new Date(ed.dataMbarimit).toLocaleDateString()}</p>
                                         )}
-                                        <p className="mb-0">Niveli Akademik: {edukimi.niveliAkademik}</p>
-                                        {edukimi.pershkrimi && (
-                                            <p className="mb-0">Pershkrimi: {edukimi.pershkrimi}</p>
+                                        <p className="mb-0">Niveli Akademik: {ed.niveliAkademik}</p>
+                                        {ed.pershkrimi && (
+                                            <p className="mb-0">Pershkrimi: {ed.pershkrimi}</p>
                                         )}
                                     </div>
                                     <div>
-                                        <Link to={`/EditEdukimi/${edukimi.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => requestDelete(edukimi.id)}>Delete</button>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideEducation(ed.id)}>
+                                            <i className={`bi ${hiddenEducation.includes(ed.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
+                                        <Link to={`/EditGjuhet/${ed.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerUserGjuhetDelete(ed.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -202,6 +220,7 @@ function PersonDetails() {
                         <EdukimiDeleteModal />
                     </div>
                 </div>
+
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="eksperiencatHeading">
                         <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#eksperiencatCollapse" aria-expanded="true" aria-controls="eksperiencatCollapse">
@@ -227,8 +246,8 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
+                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
+                                        <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -236,6 +255,7 @@ function PersonDetails() {
                         <EksperiencaConfirmDeleteModal />
                     </div>
                 </div>
+
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="gjuhetHeading">
                         <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#gjuhetCollapse" aria-expanded="true" aria-controls="gjuhetCollapse">
@@ -278,8 +298,8 @@ function PersonDetails() {
                                         <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
                                     </div>
                                     <div>
-                                    <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                    <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                        <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -457,9 +477,7 @@ function PersonDetails() {
                     </div>
                 </div>
             </div>
-            <div className="text-center mt-4">
-                    <button className="btn btn-primary" onClick={handleViewCV}>View CV</button>
-                </div>
+
         </div>
     );
 }
