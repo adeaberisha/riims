@@ -15,5 +15,7 @@
         public string? numriTelefonit { get; set; }
 
         public string NiveliAkademik { get; set; }
+
+        public Guid? ImageId{ get; set; }
     }
 }

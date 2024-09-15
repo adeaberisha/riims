@@ -18,8 +18,13 @@ namespace riims.Models.Domain
 
         //public string? PhotoFileName { get; set; }
 
+        public Guid? ImageId { get; set; }
+
+        // Navigation Property
+        public Image? Image { get; set; }
+
         //Foreign Key
-       public Guid? NiveliAkademikId { get; set; }
+        public Guid? NiveliAkademikId { get; set; }
 
         //Navigation Property
        public NiveliAkademik NiveliAkademik { get; set; }
@@ -57,8 +62,5 @@ namespace riims.Models.Domain
 
         //[InverseProperty("User")]
         public ICollection<Edukimi> Edukimet { get; set; } = new HashSet<Edukimi>();
-
-        //[InverseProperty("User")]
-        public ICollection<Image> Images { get; set; } = new HashSet<Image>();
     }
 }

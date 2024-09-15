@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using riims.Data;
 
@@ -11,9 +12,11 @@ using riims.Data;
 namespace riims.Migrations
 {
     [DbContext(typeof(RiimsDbContext))]
-    partial class RiimsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240915181714_AddImageIdToUser")]
+    partial class AddImageIdToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

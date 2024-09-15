@@ -14,8 +14,8 @@ namespace riims.Models.Domain
         public string FileExtension { get; set; }
         public long FileSizeInBytes { get; set; }
         public string FilePath { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
+
+        public ICollection<User> Users { get; set; } = new HashSet<User>();
 
     }
 }

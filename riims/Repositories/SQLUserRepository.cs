@@ -69,6 +69,11 @@ namespace riims.Repositories
             existingUser.numriTelefonit = user.numriTelefonit;
             existingUser.NiveliAkademik = user.NiveliAkademik;
 
+            if (user.ImageId.HasValue)
+            {
+                existingUser.ImageId = user.ImageId.Value;
+            }
+
             await dbcontext.SaveChangesAsync();
             return existingUser;
         }

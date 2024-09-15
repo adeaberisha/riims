@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using riims.Data;
 
@@ -11,9 +12,11 @@ using riims.Data;
 namespace riims.Migrations
 {
     [DbContext(typeof(RiimsDbContext))]
-    partial class RiimsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240915180818_RemoveUserIdFromImage")]
+    partial class RemoveUserIdFromImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1298,9 +1301,6 @@ namespace riims.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -1358,8 +1358,6 @@ namespace riims.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("NiveliAkademikId");
 
@@ -1659,15 +1657,9 @@ namespace riims.Migrations
 
             modelBuilder.Entity("riims.Models.Domain.User", b =>
                 {
-                    b.HasOne("riims.Models.Domain.Image", "Image")
-                        .WithMany("Users")
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("riims.Models.Domain.NiveliAkademik", "NiveliAkademik")
                         .WithMany("Users")
                         .HasForeignKey("NiveliAkademikId");
-
-                    b.Navigation("Image");
 
                     b.Navigation("NiveliAkademik");
                 });
@@ -1702,11 +1694,6 @@ namespace riims.Migrations
             modelBuilder.Entity("riims.Models.Domain.Gjuhet", b =>
                 {
                     b.Navigation("UserGjuhet");
-                });
-
-            modelBuilder.Entity("riims.Models.Domain.Image", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("riims.Models.Domain.Institucioni", b =>

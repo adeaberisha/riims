@@ -57,6 +57,30 @@ namespace riims.Controllers
             return BadRequest(ModelState);
         }
 
+        // GET: /api/Images/GetImageByUserId/{userId}
+        [HttpGet]
+        [Route("GetImageByUserId")]
+        public async Task<IActionResult> GetImageByUserId()
+        {
+            // Extract the userId from the token
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+
+            // Fetch the image associated with the userId
+            var image = await imageRepository.GetImageByUserId(userId);
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            // Return the URL of the image
+            return Ok(new { url = image.FilePath });
+        }
+
         private void ValidateFileUpload(ImageUploadRequestDto request)
         {
             var allowedExtensions = new string[] { ".jpg", ".jpeg", ".png" };

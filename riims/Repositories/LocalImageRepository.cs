@@ -32,13 +32,33 @@ namespace riims.Repositories
             var urlFilePath = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}{httpContextAccessor.HttpContext.Request.PathBase}/Images/{image.FileName}{image.FileExtension}";
 
             image.FilePath = urlFilePath;
-            image.UserId = userId; // Associate image with the user
 
             // Add image to the database
             await dbContext.Images.AddAsync(image);
             await dbContext.SaveChangesAsync();
 
+            // Retrieve the user and update with the new image Id
+            var user = await dbContext.Users.FindAsync(userId);
+            if (user != null)
+            {
+                user.ImageId = image.Id;
+                await dbContext.SaveChangesAsync();
+            }
+
             return image;
+        }
+
+        public async Task<Image?> GetImageByUserId(string userId)
+        {
+            // Retrieve the user
+            var user = await dbContext.Users.FindAsync(userId);
+            if (user != null && user.ImageId.HasValue)
+            {
+                // Retrieve the image associated with the user
+                return await dbContext.Images.FindAsync(user.ImageId.Value);
+            }
+
+            return null;
         }
     }
 }

@@ -6,5 +6,6 @@ namespace riims.Repositories
     public interface IImageRepository
     {
         Task<Image> Upload(string userId, Image image);
+        Task<Image?> GetImageByUserId(string userId);
     }
 }
