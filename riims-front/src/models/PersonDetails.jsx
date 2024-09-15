@@ -155,7 +155,7 @@ function PersonDetails() {
                             <p>Titulli Akademik: {userData.niveliAkademik}</p>
                             <p>Adresa: {userData.adresa}</p>
                             <p>Gjinia: {userData.gjinia}</p>
-                            <p>Data e Lindjes: {userData.dataELindjes}</p>
+                            <p>Data e Lindjes: {new Date(userData.dataELindjes).toLocaleDateString()}</p>
                             <p>Numri Telefonit: {userData.numriTelefonit}</p>
                         </div>
                     </div>

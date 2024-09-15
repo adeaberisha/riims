@@ -11,7 +11,7 @@ function EditProfile() {
     gjinia: "",
     adresa: "",
     dataELindjes: "",
-    NiveliAkademik: "",
+    niveliAkademik: "",
     numriTelefonit: "",
     foto: defaultImage,
   });
@@ -80,7 +80,7 @@ function EditProfile() {
         dataELindjes: personData.dataELindjes
           ? formatDate(personData.dataELindjes)
           : "",
-        NiveliAkademik: response.data.niveliAkademik || "",
+        niveliAkademik: response.data.niveliAkademik || "",
         numriTelefonit: personData.numriTelefonit || "",
         foto: personData.foto || localStorage.getItem("foto") || defaultImage,
       }));
@@ -145,7 +145,7 @@ function EditProfile() {
   const handleSelectChange = (selectedOption) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      NiveliAkademik: selectedOption ? selectedOption.value : "",
+      niveliAkademik: selectedOption ? selectedOption.label : "",
     }));
   };
 
@@ -168,7 +168,7 @@ function EditProfile() {
       dataELindjes: formData.dataELindjes
         ? formatDate(formData.dataELindjes)
         : null,
-      NiveliAkademik: formData.NiveliAkademik || "",
+      niveliAkademik: formData.niveliAkademik || "",
       numriTelefonit: formData.numriTelefonit || "",
       foto: formData.foto || "",
     };
@@ -315,7 +315,7 @@ function EditProfile() {
               <div className="col-md-6">
                 <div className="form-group">
                   <label
-                    htmlFor="NiveliAkademik"
+                    htmlFor="niveliAkademik"
                     className="form-label"
                   >
                     Niveli akademik*
@@ -324,7 +324,7 @@ function EditProfile() {
                     options={niveletAkademike}
                     value={
                       niveletAkademike.find(
-                        (option) => option.value === formData.NiveliAkademik
+                        (option) => option.label === formData.niveliAkademik
                       ) || null
                     }
                     onChange={handleSelectChange}
