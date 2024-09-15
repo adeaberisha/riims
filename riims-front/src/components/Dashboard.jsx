@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Table,
-  Spinner,
-  Pagination,
-  Button,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Card, Table, Spinner, Button } from "react-bootstrap";
 import axios from "axios";
-import {
-  FaUsers,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaUserShield,
-  FaBuilding,
-} from "react-icons/fa"; // Added FaBuilding for Institucionet
+import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield, FaBuilding } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../css/Dashboard.css";
+import RoleUpdater from "./services/RoleUpdater";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -41,12 +27,9 @@ const AdminDashboard = () => {
     try {
       const response = await axios.get(
         "https://localhost:7254/api/UserProfile/get-all-profiles",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
+      console.log('Fetched Users:', response.data); 
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
@@ -54,6 +37,11 @@ const AdminDashboard = () => {
       setError("Failed to fetch user profiles. Please try again.");
       setLoading(false);
     }
+  };
+  
+  const handleRoleUpdated = () => {
+    console.log('Role updated, fetching users...');
+    fetchUsers();
   };
 
   if (loading) {
@@ -80,18 +68,12 @@ const AdminDashboard = () => {
         <Col md={8} className="mx-auto">
           <Card className="text-center shadow-lg welcome-admin-card animated-card">
             <Card.Body className="p-4">
-              <FaUserShield
-                size={60}
-                className="mb-3 text-white icon-background"
-              />
+              <FaUserShield size={60} className="mb-3 text-white icon-background" />
               <Card.Title className="fs-4">Welcome, Admin!</Card.Title>
               <Card.Text className="welcome-admin-text">
-                You can manage users, monitor activities, and ensure everything
-                is running smoothly.
+                You can manage users, monitor activities, and ensure everything is running smoothly.
               </Card.Text>
-              <p className="text-muted">
-                Ensure a seamless experience for all users.
-              </p>
+              <p className="text-muted">Ensure a seamless experience for all users.</p>
             </Card.Body>
           </Card>
         </Col>
@@ -120,6 +102,7 @@ const AdminDashboard = () => {
                 <th>Phone</th>
                 <th>Academic Level</th>
                 <th>Active</th>
+                <th>Role</th>
               </tr>
             </thead>
             <tbody>
@@ -137,6 +120,9 @@ const AdminDashboard = () => {
                       <FaTimesCircle className="text-danger" />
                     )}
                   </td>
+                  <td>
+                    <RoleUpdater userId={user.id} token={token} onRoleUpdated={handleRoleUpdated} />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -144,7 +130,6 @@ const AdminDashboard = () => {
         </Col>
       </Row>
 
-      {/* Manage Institucionet Section */}
       <Row className="justify-content-center">
         <Col md={6} className="mb-4">
           <Card className="text-center shadow-lg manage-languages-card animated-card">
@@ -163,14 +148,11 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        
+
         <Col md={6} className="mb-4">
           <Card className="text-center shadow-lg manage-institucionet-card animated-card">
             <Card.Body className="p-4">
-              <FaBuilding
-                size={60}
-                className="mb-3 text-white icon-background"
-              />
+              <FaBuilding size={60} className="mb-3 text-white icon-background" />
               <Card.Title className="fs-4 manage-institucionet-title">
                 Manage Institucionet
               </Card.Title>

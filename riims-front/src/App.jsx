@@ -44,9 +44,21 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; 
+      return decodedToken.exp < currentTime; // Compare expiration time
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; // If decoding fails, treat as expired
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
-    if (token) {
+    if (token && !isTokenExpired(token)) {
       try {
         const decodedToken = jwtDecode(token);
         setIsAdmin(
@@ -60,9 +72,13 @@ function App() {
         localStorage.removeItem("isLoggedIn");
       }
     } else {
+      // If the token is expired or doesn't exist, log the user out
       setIsLoggedIn(false);
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("isLoggedIn");
     }
   }, []);
+
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -402,9 +418,6 @@ function App() {
                   <Footer />
                 </>
               } />
-
-
-
 
               <Route path="/thecv" element={
                 <>
