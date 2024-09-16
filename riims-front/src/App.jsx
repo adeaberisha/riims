@@ -39,6 +39,7 @@ import EditHonorsAndAwards from "./UpdateModals/EditHonorsAndAwards";
 import TheCV from "./components/TheCV";
 import ManageLanguages from "./components/ManageLanguages";
 import ManageInstituconet from "./components/ManageInstitucioni";
+import ManageDepartamentet from "./components/ManageDepartamenti";
 import { ProfileProvider } from "./components/ProfileContext";
 
 function App() {
@@ -467,6 +468,18 @@ function App() {
                 }
               />
                
+               <Route
+                path="/ManageDepartamenti"
+                element={
+                  <>
+                    <LoggedInNavbar handleLogout={handleLogout} />
+                    <div className="container mt-4">
+                      <ManageDepartamentet />
+                    </div>
+                    <Footer />
+                  </>
+                }
+              />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           ) : (

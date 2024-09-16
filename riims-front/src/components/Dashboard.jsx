@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Table, Spinner, Button } from "react-bootstrap";
 import axios from "axios";
-import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield, FaBuilding } from "react-icons/fa";
+import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield, FaBuilding, FaUniversity } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../css/Dashboard.css";
 import RoleUpdater from "./services/RoleUpdater";
@@ -166,6 +166,25 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
+
+        <Col md={6} className="mb-4">
+          <Card className="text-center shadow-lg manage-departamentet-card animated-card">
+            <Card.Body className="p-4">
+              <FaUniversity size={60} className="mb-3 text-white icon-background" />
+              <Card.Title className="fs-4 manage-departamentet-title">
+                Manage Departamentet
+              </Card.Title>
+              <Button
+                variant="primary"
+                className="mt-2 btn-dark-blue"
+                onClick={() => navigate("/ManageDepartamenti")}
+              >
+                Go to Manage Departamentet
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
       </Row>
     </Container>
   );
