@@ -1,5 +1,3 @@
-// src/hooks/useHideItems.js
-
 import { useState, useEffect } from 'react';
 
 const getFromLocalStorage = (key) => {
@@ -30,5 +28,15 @@ export const useHideItems = (storageKey) => {
 };
 
 // Create custom hooks for specific entities
+export const useHideAftesite = () => useHideItems ('hiddenAftesia');
 export const useHideEducation = () => useHideItems('hiddenEducation');
 export const useHideExperience = () => useHideItems('hiddenExperience');
+export const useHideUserGjuhet = () => useHideItems('hiddenUserGjuhet');
+export const useHideHonors = () => useHideItems('hiddenHonors');
+export const useHideLicensat = () => useHideItems('hiddenLicensat');
+export const useHideMbikqyres = () => useHideItems('hiddenMbikqyres');
+export const useHideProjekti = () => useHideItems('hiddenProjekti');
+export const useHidePublikimi = () => useHideItems('hiddenPublikimi');
+export const useHidePuna = () => useHideItems('hiddenPuna');
+export const useHideSpecializimi = () => useHideItems('hiddenSpecializimi');
+

@@ -15,7 +15,7 @@ import { useDeletePublikimi } from '../DeleteModals/DeletePublikimi.jsx';
 import { useDeletePunaVullnetare } from '../DeleteModals/DeletePunaVullnetare.jsx';
 import { useDeleteSpecializim } from '../DeleteModals/DeleteSpecializimi.jsx';
 import { useNavigate } from 'react-router-dom';
-import { useHideEducation, useHideExperience } from '../components/useHideItems'; 
+import { useHideAftesite, useHideEducation, useHideExperience, useHideUserGjuhet, useHideHonors, useHideLicensat, useHideMbikqyres, useHideProjekti, useHidePublikimi, useHidePuna, useHideSpecializimi } from '../components/useHideItems.jsx';
 
 function PersonDetails() {
     const [userData, setUserData] = useState({
@@ -43,8 +43,17 @@ function PersonDetails() {
     const [error, setError] = useState(null);
 
     // Use the custom hooks for hidden items
+    const [hiddenAftesia, toggleHideAftesia] = useHideAftesite();
     const [hiddenEducation, toggleHideEducation] = useHideEducation();
     const [hiddenExperience, toggleHideExperience] = useHideExperience();
+    const [hiddenUserGjuhet, toggleHideUserGjuhet] = useHideUserGjuhet();
+    const [hiddenHonors, toggleHideHonors] = useHideHonors();
+    const [hiddenLicensat, toggleHideLicensat] = useHideLicensat();
+    const [hiddenMbikqyres, toggleHideMbikqyres] = useHideMbikqyres();
+    const [hiddenProjekti, toggleHideProjekti] = useHideProjekti();
+    const [hiddenPublikimi, toggleHidePublikimi] = useHidePublikimi();
+    const [hiddenPuna, toggleHidePuna] = useHidePuna();
+    const [hiddenSpecializimi, toggleHideSpecializimi] = useHideSpecializimi();
 
     const { confirmDelete, DeleteConfirmationModal } = useDeleteAftesia(setAftesite);
     const { requestDelete, EdukimiDeleteModal } = useDeleteEdukimi(setEdukimi);
@@ -170,20 +179,25 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {aftesite.map((aftesia, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenAftesia.includes(aftesia.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Aftesia: {aftesia.emri}</p>
                                         <p className="mb-0">Emri Institucionit: {aftesia.emriInstitucionit}</p>
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideAftesia(aftesia.id)}>
+                                            <i className={`bi ${hiddenAftesia.includes(aftesia.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditAftesia/${aftesia.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => confirmDelete(aftesia.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <DeleteConfirmationModal />
                     </div>
                 </div>
+
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="edukimiHeading">
                         <button className="accordion-button custom-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#edukimiCollapse" aria-expanded="true" aria-controls="edukimiCollapse">
@@ -194,7 +208,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {edukimi.map((ed, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenEducation.includes(ed.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Emri Institucionit: {ed.institucioni}</p>
                                         <p className="mb-0">Fusha Studimit: {ed.fushaStudimit}</p>
                                         <p className="mb-0">Lokacioni: {ed.lokacioni}</p>
@@ -211,12 +225,13 @@ function PersonDetails() {
                                         <button className="btn btn-secondary me-2" onClick={() => toggleHideEducation(ed.id)}>
                                             <i className={`bi ${hiddenEducation.includes(ed.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                                         </button>
-                                        <Link to={`/EditGjuhet/${ed.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerUserGjuhetDelete(ed.id)}>Delete</button>
+                                        <Link to={`/EditEdukimi/${ed.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => requestDelete(ed.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <EdukimiDeleteModal />
                     </div>
                 </div>
@@ -231,7 +246,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {eksperienca.map((exp, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenExperience.includes(exp.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Titulli: {exp.titulli}</p>
                                         <p className="mb-0">Lloji Punesimit: {exp.llojiPunesimit}</p>
                                         <p className="mb-0">Emri Kompanise: {exp.emriInstitucionit}</p>
@@ -246,12 +261,16 @@ function PersonDetails() {
                                         )}
                                     </div>
                                     <div>
-                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn btn-primary me-2">Edit</Link>
-                                        <button className="btn btn-danger" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideExperience(exp.id)}>
+                                            <i className={`bi ${hiddenExperience.includes(exp.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
+                                        <Link to={`/EditEksperienca/${exp.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerEksperiencaDelete(exp.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <EksperiencaConfirmDeleteModal />
                     </div>
                 </div>
@@ -264,19 +283,23 @@ function PersonDetails() {
                     </h2>
                     <div id="gjuhetCollapse" className="accordion-collapse collapse" aria-labelledby="gjuhetHeading" data-bs-parent="#gjuhetAccordion">
                         <div className="accordion-body">
-                            {gjuhet.map((gjuhet, index) => (
+                            {gjuhet.map((gjuhe, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
-                                        <p className="mb-0">Emri Gjuhes: {gjuhet.emriGjuhes}</p>
-                                        <p className="mb-0">Niveli Gjuhesor: {gjuhet.niveliGjuhesor}</p>
+                                    <div className={`me-3 ${hiddenUserGjuhet.includes(gjuhe.id) ? 'blurred' : ''}`}>
+                                        <p className="mb-0">Emri Gjuhes: {gjuhe.emriGjuhes}</p>
+                                        <p className="mb-0">Niveli Gjuhesor: {gjuhe.niveliGjuhesor}</p>
                                     </div>
                                     <div>
-                                        <Link to={`/EditGjuhet/${gjuhet.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerUserGjuhetDelete(gjuhet.id)}>Delete</button>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideUserGjuhet(gjuhe.id)}>
+                                            <i className={`bi ${hiddenUserGjuhet.includes(gjuhe.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
+                                        <Link to={`/EditGjuhet/${gjuhe.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerUserGjuhetDelete(gjuhe.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <UserGjuhetConfirmDeleteModal />
                     </div>
                 </div>
@@ -288,22 +311,29 @@ function PersonDetails() {
                     </h2>
                     <div id="honorsAndAwardsCollapse" className="accordion-collapse collapse" aria-labelledby="honorsAndAwardsHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
-                            {honorsAndAwards.map((award, index) => (
+                            {licensat.map((license, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
-                                        <p className="mb-0">Titulli: {award.titulli}</p>
-                                        <p className="mb-0">Issuer: {award.issuer}</p>
-                                        <p className="mb-0">Institucioni: {award.emriInstitucionit}</p>
-                                        <p className="mb-0">Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
-                                        <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
+                                    <div className={`me-3 ${hiddenLicensat.includes(license.id) ? 'blurred' : ''}`}>
+                                        <p className="mb-0">Emri: {license.emri}</p>
+                                        <p className="mb-0">Emri Institucionit: {license.emriInstitucionit}</p>
+                                        <p className="mb-0">Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
+                                        {license.dataSkadimit && (
+                                            <p className="mb-0">Data Skadimit: {new Date(license.dataSkadimit).toLocaleDateString()}</p>
+                                        )}
+                                        {license.credentialId && <p className="mb-0">Credential ID: {license.credentialId}</p>}
+                                        {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
                                     </div>
                                     <div>
-                                        <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideLicensat(license.id)}>
+                                            <i className={`bi ${hiddenLicensat.includes(license.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
+                                        <Link to={`/EditLicensa/${license.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <HonorDeleteConfirmationModal />
                     </div>
                 </div>
@@ -317,7 +347,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {licensat.map((license, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenLicensat.includes(license.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Emri: {license.emri}</p>
                                         <p className="mb-0">Emri Institucionit: {license.emriInstitucionit}</p>
                                         <p className="mb-0">Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
@@ -328,12 +358,16 @@ function PersonDetails() {
                                         {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideLicensat(license.id)}>
+                                            <i className={`bi ${hiddenLicensat.includes(license.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditLicensa/${license.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <LicensaDeleteModal />
                     </div>
                 </div>
@@ -347,19 +381,23 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {mbikqyresITemave.map((item, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenMbikqyres.includes(item.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Titulli Temes: {item.titulliTemes}</p>
                                         <p className="mb-0">Studenti: {item.studenti}</p>
                                         <p className="mb-0">Data: {new Date(item.data).toLocaleDateString()}</p>
                                         <p className="mb-0">Departamenti: {item.emriDepartamentit}</p>
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideMbikqyres(item.id)}>
+                                            <i className={`bi ${hiddenMbikqyres.includes(item.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditMbikqyres/${item.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerMbikqyresDelete(item.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <MbikqyresDeleteModal />
                     </div>
                 </div>
@@ -373,7 +411,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {projekti.map((projekt, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenProjekti.includes(projekt.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Emri Projektit: {projekt.emriProjektit}</p>
                                         <p className="mb-0">Institucioni: {projekt.emriInstitucionit}</p>
                                         <p className="mb-0">Data e Fillimit: {new Date(projekt.startDate).toLocaleDateString()}</p>
@@ -382,12 +420,16 @@ function PersonDetails() {
                                         <p className="mb-0">Asocohet: {projekt.asocohet}</p>
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideProjekti(projekt.id)}>
+                                            <i className={`bi ${hiddenProjekti.includes(projekt.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditProjekti/${projekt.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerProjektiDelete(projekt.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <ProjektiDeleteModal />
                     </div>
                 </div>
@@ -401,7 +443,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {publikimi.map((publication, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenPublikimi.includes(publication.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Titulli: {publication.titulli}</p>
                                         <p className="mb-0">Lloji Publikimit: {publication.llojiPublikimit}</p>
                                         <p className="mb-0">Data Publikimit: {new Date(publication.dataPublikimi).toLocaleDateString()}</p>
@@ -410,12 +452,16 @@ function PersonDetails() {
                                         {publication.autoriKryesor !== undefined && <p className="mb-0">Autori Kryesor: {publication.autoriKryesor ? "Yes" : "No"}</p>}
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHidePublikimi(publication.id)}>
+                                            <i className={`bi ${hiddenPublikimi.includes(publication.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditPublikimi/${publication.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerPublikimiDelete(publication.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <PublikimiDeleteModal />
                     </div>
                 </div>
@@ -429,7 +475,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {punaVullnetare.map((puna, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenPuna.includes(puna.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Emri i Institucionit: {puna.emriInstitucionit}</p>
                                         <p className="mb-0">Roli: {puna.roli}</p>
                                         <p className="mb-0">Data Fillimit: {new Date(puna.dataFillimit).toLocaleDateString()}</p>
@@ -437,12 +483,16 @@ function PersonDetails() {
                                         {puna.pershkrimi && <p className="mb-0">Pershkrimi: {puna.pershkrimi}</p>}
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHidePuna(puna.id)}>
+                                            <i className={`bi ${hiddenPuna.includes(puna.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditPunaVullnetare/${puna.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerPunaVullnetareDelete(puna.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <PunaVullnetareDeleteModal />
                     </div>
                 </div>
@@ -456,7 +506,7 @@ function PersonDetails() {
                         <div className="accordion-body">
                             {specializimi.map((spec, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="me-3">
+                                    <div className={`me-3 ${hiddenSpecializimi.includes(spec.id) ? 'blurred' : ''}`}>
                                         <p className="mb-0">Emri i Institucionit: {spec.emriInstitucionit}</p>
                                         <p className="mb-0">Lloji i Specializimit: {spec.llojiIspecializimit}</p>
                                         {spec.lokacionit && <p className="mb-0">Lokacioni: {spec.lokacionit}</p>}
@@ -467,12 +517,16 @@ function PersonDetails() {
                                         {spec.nrKredive > 0 && <p className="mb-0">Numri i Kredive: {spec.nrKredive}</p>}
                                     </div>
                                     <div>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideSpecializimi(spec.id)}>
+                                            <i className={`bi ${hiddenSpecializimi.includes(spec.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
                                         <Link to={`/EditSpecializim/${spec.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
                                         <button className="btn custom-button custom-button-delete" onClick={() => triggerSpecializimDelete(spec.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+
                         <SpecializimDeleteModal />
                     </div>
                 </div>
