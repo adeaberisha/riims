@@ -110,10 +110,10 @@ function Licensat() {
         </div>
 
         {/* Main Content */}
-        <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+        <div className="col-md-10 d-flex justify-content-center py-5">
           <div className="col-12 col-md-10 col-lg-8 col-xl-6">
             <h4 className="text-center text-muted fst-italic mb-4">
-              Shtoni licensat tuaja
+              Shtoni licensën tuaj
             </h4>
 
             {errorMessage && (

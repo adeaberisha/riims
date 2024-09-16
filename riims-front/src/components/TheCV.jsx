@@ -429,7 +429,7 @@ const CVForm = () => {
                 {honors.length > 0 && (
                   <div className="mb-3">
                     <div className="circle-bg mb-2">
-                      <h4 className="text-white">Nderime dhe Çmime</h4> {/* Albanian for "Honors and Awards" */}
+                      <h4 className="text-white">Honors and Awards</h4> 
                     </div>
                     {honors.map((hr, index) => (
                       <div key={index} className="mb-3">

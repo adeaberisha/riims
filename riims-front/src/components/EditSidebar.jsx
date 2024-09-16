@@ -14,57 +14,57 @@ const EditSidebar = ({ id }) => {
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
               <li className="nav-item">
-                <Link to={`/EditAftesia/${id}`} className="nav-link align-middle px-0">
-                  <i className="bi bi-lightning text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Aftësitë</span>
+                <Link to="/persondetails" className="nav-link align-middle px-0 fs-6">
+                  <i className="bi bi-lightning text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Aftësia</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditEdukimi/${id}`} className="nav-link px-0 align-middle">
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
                   <i className="bi bi-book-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Edukimi</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditEksperienca/${id}`} className="nav-link px-0 align-middle">
-                  <i className="bi bi-briefcase-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Eksperiencen</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="bi bi-briefcase-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Eksperienca</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditGjuhet/${id}`} className="nav-link px-0 align-middle">
-                  <i className="bi bi-translate text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Gjuhët</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="bi bi-translate text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Gjuha</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditLicensa/${id}`} className="nav-link px-0 align-middle">
-                  <i className="fa fa-certificate text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Licensat</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="fa fa-certificate text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Licensa</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditPunavullnetare/${id}`} className="nav-link px-0 align-middle">
-                  <i className="fa fa-hand-holding-heart text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Puna vullnetare</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="fa fa-hand-holding-heart text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Puna Vullnetare</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditSpecializim/${id}`} className="nav-link px-0 align-middle">
-                  <i className="bi bi-star-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Specializimet</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="bi bi-star-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Specializimi</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditMbikqyresiITemave/${id}`} className="nav-link px-0 align-middle">
-                  <i className="fas fa-user-tie text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Mbikqyrës i temave</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="fas fa-user-tie text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Mbikqyrës i Temave</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditProjekti/${id}`} className="nav-link px-0 align-middle">
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
                   <i className="bi bi-folder-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Projekti</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditHonorsAndAwards/${id}`} className="nav-link px-0 align-middle">
-                  <i className="bi bi-bookmarks-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Nderime dhe çmime</span>
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
+                  <i className="bi bi-bookmarks-fill text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Nderimi/Çmimi</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={`/EditPublikimi/${id}`} className="nav-link px-0 align-middle">
+                <Link to="/persondetails" className="nav-link px-0 align-middle fs-6">
                   <i className="bi bi-bar-chart text-white"></i> <span className="ms-2 d-none d-sm-inline text-white fst-italic">Edit Publikimi</span>
                 </Link>
               </li>

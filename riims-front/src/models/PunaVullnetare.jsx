@@ -88,10 +88,10 @@ function PunaVullnetare() {
         </div>
 
         {/* Main Content */}
-        <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+        <div className="col-md-10 d-flex justify-content-center py-5" style={{ marginTop: '-1.5rem' }}>
           <div className="col-12 col-md-10 col-lg-8 col-xl-6">
             <h4 className="text-center text-muted fst-italic mb-3">
-              Shtoni punën vullnetare
+              Shtoni punën tuaj vullnetare
             </h4>
 
             {message && (

@@ -106,7 +106,7 @@ function EditAftesia() {
                 <div className="col-md-10 d-flex justify-content-center py-5">
                     <div className="col-12 col-md-8 col-lg-6" style={{ marginTop: '3rem' }}>
                         <div className="text-center mb-4">
-                            <h4 className="text-muted fst-italic">Perditso aftësitë tuaja</h4>
+                            <h4 className="text-muted fst-italic">Përditësoni aftësitë tuaja</h4>
                         </div>
                         
                         {errorMessage && (

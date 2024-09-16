@@ -253,6 +253,7 @@ function App() {
                     <div className="container mt-4">
                       <MbikqyresITemave />
                     </div>
+                    <Footer />
                   </>
                 }
               />
@@ -264,6 +265,7 @@ function App() {
                     <div className="container mt-4">
                       <Publikimi />
                     </div>
+                    <Footer />
                   </>
                 }
               />

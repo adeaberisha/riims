@@ -85,7 +85,7 @@ function Aftesite() {
                 </div>
 
                 {/* Main Content */}
-                <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+                <div className="col-md-10 d-flex justify-content-center py-5" style={{ marginTop: '5rem' }}>
                     <div className="col-12 col-md-8 col-lg-6">
                         <div className="text-center mb-4">
                             <h4 className="text-muted fst-italic">Shtoni aftësitë tuaja</h4>
