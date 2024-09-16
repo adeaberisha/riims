@@ -108,7 +108,17 @@
 .manage-languages-title {
   color: #ffffff; 
 }
+.manage-departamentet-card {
+  background-color: #0a2b2c; 
+}
 
+.manage-departamentet-card .icon-background {
+  background-color: #1f7474; 
+}
+
+.manage-departamentet-title {
+  color: #ffffff; 
+}
 .btn-dark-green {
   background-color: #2c5b5c; 
   border-color: #205051; 
