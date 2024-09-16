@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImage from '../photos/person.png';
 import '../css/PersonDetails.css';
+import { jwtDecode } from "jwt-decode";
 import { Link } from 'react-router-dom';
 import { useDeleteAftesia } from '../DeleteModals/DeleteAftesia.jsx';
 import { useDeleteEdukimi } from '../DeleteModals/DeleteEdukimi.jsx';
@@ -41,6 +42,7 @@ function PersonDetails() {
     const [specializimi, setSpecializimi] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [email, setEmail] = useState(null);
 
     // Use the custom hooks for hidden items
     const [hiddenAftesia, toggleHideAftesia] = useHideAftesite();
@@ -78,6 +80,10 @@ function PersonDetails() {
                     setError("Token not found. Please log in again.");
                     return;
                 }
+
+                const decodedToken = jwtDecode(token);
+                const emailFromToken = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+                setEmail(emailFromToken);
 
                 const response = await axios.get(`https://localhost:7254/api/UserProfile/get-profile-by-id`, {
                     headers: {
@@ -133,9 +139,17 @@ function PersonDetails() {
         navigate('/thecv', {
             state: {
                 user: userData,
+                email: email,
                 education: edukimi.filter(ed => !hiddenEducation.includes(ed.id)),
                 experience: eksperienca.filter(ex => !hiddenExperience.includes(ex.id)),
-                languages: gjuhet
+                languages: gjuhet,
+                licenses: licensat,
+                specialization: specializimi,
+                project: projekti,
+                skills: aftesite,
+                works: punaVullnetare,
+                publication: publikimi,
+                honors: honorsAndAwards
             }
         });
     };

@@ -141,11 +141,11 @@ function Home() {
                                 </div>
                                 <div className="col-lg-8 px-0">
                                     <div className="d-flex flex-column"> {/* Flex column to stack elements */}
-                                        <h1 className="fw-bold fst-italic mb-2 ms-3">{`${formData.emri} ${formData.mbiemri}`}</h1>
-                                        <p className="fw-bold fst-italic mb-2 ms-3">{new Date(formData.dataELindjes).toLocaleDateString()}</p>
-                                        <p className="fw-bold fst-italic mb-2 ms-3">{`${formData.numriTelefonit}`}</p>
-                                        <p className="fw-bold fst-italic mb-2 ms-3">{`${formData.adresa}`}</p>
-                                        <div className="mt-2 ms-3"> {/* Add margin-top and margin-left to space out from text */}
+                                        <h1 className="fw-bold fst-italic mb-2 ms-5">{`${formData.emri} ${formData.mbiemri}`}</h1>
+                                        <p className="fw-bold fst-italic mb-2 ms-5">{new Date(formData.dataELindjes).toLocaleDateString()}</p>
+                                        <p className="fw-bold fst-italic mb-2 ms-5">{`${formData.numriTelefonit}`}</p>
+                                        <p className="fw-bold fst-italic mb-2 ms-5">{`${formData.adresa}`}</p>
+                                        <div className="mt-2 ms-5"> {/* Add margin-top and margin-left to space out from text */}
                                             <Link to="/edit-profile" className="btn btn-primary">Edit Profile</Link>
                                         </div>
                                     </div>
