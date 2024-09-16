@@ -62,10 +62,11 @@
 }
 
 .welcome-admin-text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  /* font-family: 'Roboto', sans-serif; */
+  font-weight: 600;
   font-size: 1.2rem;
-  margin-bottom: 15px;
+  margin-bottom: 43px;
+  margin-top: 20px;
 }
 
 .animated-card {

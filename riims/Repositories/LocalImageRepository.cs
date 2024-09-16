@@ -60,5 +60,40 @@ namespace riims.Repositories
 
             return null;
         }
+
+        public async Task<bool> DeleteImageByUserId(string userId)
+        {
+            // Retrieve the user
+            var user = await dbContext.Users.FindAsync(userId);
+            if (user == null || !user.ImageId.HasValue)
+            {
+                return false;
+            }
+
+            // Retrieve the image associated with the user
+            var image = await dbContext.Images.FindAsync(user.ImageId.Value);
+            if (image == null)
+            {
+                return false;
+            }
+
+            // Delete the local image file
+            var localFilePath = Path.Combine(webHostEnvironment.ContentRootPath, "Images",
+                $"{image.FileName}{image.FileExtension}");
+
+            if (System.IO.File.Exists(localFilePath))
+            {
+                System.IO.File.Delete(localFilePath);
+            }
+
+            // Remove the image from the database
+            dbContext.Images.Remove(image);
+
+            // Update the user's ImageId to null
+            user.ImageId = null;
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

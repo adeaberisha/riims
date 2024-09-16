@@ -84,7 +84,7 @@ const AdminDashboard = () => {
               <FaUsers size={60} className="mb-3 text-white icon-background" />
               <Card.Title className="fs-4">Total Users</Card.Title>
               <Card.Text className="display-4">{users.length}</Card.Text>
-              <p className="text-muted">Number of registered users</p>
+              <p className="text-">Number of registered users</p>
             </Card.Body>
           </Card>
         </Col>

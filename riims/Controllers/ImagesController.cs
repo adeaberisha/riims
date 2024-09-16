@@ -23,6 +23,7 @@ namespace riims.Controllers
         //POST: /api/Images/Upload
         [HttpPost]
         [Route("Upload")]
+
         public async Task<IActionResult> Upload([FromForm] ImageUploadRequestDto request)
         {
             ValidateFileUpload(request);
@@ -80,6 +81,29 @@ namespace riims.Controllers
             // Return the URL of the image
             return Ok(new { url = image.FilePath });
         }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> DeleteImageByUserId()
+        {
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found in the token.");
+            }
+
+            var result = await imageRepository.DeleteImageByUserId(userId);
+
+            if (!result)
+            {
+                return NotFound("Image not found or could not be deleted.");
+            }
+
+            return Ok("Image deleted successfully.");
+        }
+
+
 
         private void ValidateFileUpload(ImageUploadRequestDto request)
         {
