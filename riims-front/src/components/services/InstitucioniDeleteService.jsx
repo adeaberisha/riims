@@ -1,145 +1,85 @@
-import React, { useState, useCallback } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import '../../css/CustomModal.css'; // Ensure your CSS file includes styles for modals
 
-// Function to delete Institucioni by ID with token
-async function deleteInstitucioniById(id, token) {
-    try {
-        const response = await fetch(`https://localhost:7254/api/Institucioni/delete-Institucionin-by-id/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        });
+function AddInstitucioniModal({ show, onClose, onSave, token }) {
+    const [institucioni, setInstitucioni] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
-        if (response.ok) {
-            console.log(`Institucioni me ID ${id} fshihet me sukses.`);
-        } else {
-            console.error(`Dështoi fshirja e Institucionit me ID ${id}. Status: ${response.status}`);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (institucioni.trim() === '') {
+            setError('Institucioni name cannot be empty.');
+            return;
         }
-    } catch (error) {
-        console.error(`Gabim gjatë fshirjes së Institucionit: ${error}`);
-    }
-}
+        setIsLoading(true);
+        setError('');
+        try {
+            const response = await fetch('https://localhost:7254/api/Institucioni/add-Institucionin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ Emri: institucioni }) // Adjust property name to match API
+            });
 
-// Function to add Institucioni with token
-// Function to add Institucioni with token
-async function addInstitucioni(institucioni, token) {
-    try {
-        const response = await fetch('https://localhost:7254/api/Institucioni/add-Institucionin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(institucioni)
-        });
+            if (!response.ok) {
+                throw new Error(`Failed to add Institucioni. Status: ${response.status}`);
+            }
 
-        if (response.ok) {
-            console.log('Institucioni u shtua me sukses.');
             const newInstitucioni = await response.json();
-            return newInstitucioni;
-        } else {
-            console.error(`Dështoi shtimi i Institucionit. Status: ${response.status}`);
+            onSave(newInstitucioni);
+            onClose();
+        } catch (error) {
+            setError('Error adding the Institucioni. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
-    } catch (error) {
-        console.error(`Gabim gjatë shtimit të Institucionit: ${error}`);
-    }
-}
-
-
-// Hook for delete and add Institucioni modals
-export function useManageInstitucioni(setInstitucionet, token) {
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showAddInstitucioniModal, setShowAddInstitucioniModal] = useState(false);
-    const [currentId, setCurrentId] = useState(null);
-    const [newInstitucioni, setNewInstitucioni] = useState('');
-
-    // Delete logic
-    const handleDeleteClick = useCallback(async () => {
-        if (currentId !== null) {
-            try {
-                await deleteInstitucioniById(currentId, token);
-                setInstitucionet(prevInstitucionet => prevInstitucionet.filter(institucioni => institucioni.id !== currentId));
-                setShowDeleteModal(false);
-            } catch (error) {
-                console.error(`Error handling delete: ${error}`);
-            }
-        }
-    }, [currentId, token, setInstitucionet]);
-
-    const confirmDelete = useCallback((id) => {
-        setCurrentId(id);
-        setShowDeleteModal(true);
-    }, []);
-
-    const cancelDelete = useCallback(() => {
-        setShowDeleteModal(false);
-    }, []);
-
-    // Add logic
-    const handleAddInstitucioni = useCallback(async () => {
-        if (newInstitucioni.trim()) {
-            try {
-                const newInstitucioniAdded = await addInstitucioni({ Emri: newInstitucioni }, token); // Updated property name
-                if (newInstitucioniAdded) {
-                    setInstitucionet(prevInstitucionet => [newInstitucioniAdded, ...prevInstitucionet]);
-                    setNewInstitucioni('');
-                    setShowAddInstitucioniModal(false);
-                }
-            } catch (error) {
-                console.error(`Gabim gjatë shtimit të Institucionit: ${error}`);
-            }
-        }
-    }, [newInstitucioni, token, setInstitucionet]);
-    
-    const AddInstitucioniModal = () => (
-        <Modal show={showAddInstitucioniModal} onHide={() => setShowAddInstitucioniModal(false)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Shto Institucionin</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Institucioni</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={newInstitucioni}
-                            onChange={(e) => setNewInstitucioni(e.target.value)}
-                            placeholder="Shkruani emrin e Institucionit"
-                        />
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShowAddInstitucioniModal(false)}>
-                    Mbyll
-                </Button>
-                <Button variant="primary" onClick={handleAddInstitucioni}>
-                    Ruaj
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-
-    const DeleteConfirmationModal = () => (
-        <Modal show={showDeleteModal} onHide={cancelDelete}>
-            <Modal.Header closeButton>
-                <Modal.Title>Konfirmo Fshirjen</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p>Dëshironi ta fshini këtë institucion?</p>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={cancelDelete}>Mbyll</Button>
-                <Button variant="danger" onClick={handleDeleteClick}>Fshij</Button>
-            </Modal.Footer>
-        </Modal>
-    );
-
-    return {
-        confirmDelete,
-        AddInstitucioniModal,
-        DeleteConfirmationModal,
-        setShowAddInstitucioniModal
     };
+
+    return (
+        <div className={`custom-modal ${show ? 'show' : ''}`}>
+            <div className="custom-modal-content">
+                <div className="custom-modal-header">
+                    <h5>Add Institucioni</h5>
+                    <button className="close-button" onClick={() => {
+                        onClose();
+                        setInstitucioni('');
+                        setError('');
+                    }}>&times;</button>
+                </div>
+                <div className="custom-modal-body">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="institucioni">Institucioni</label>
+                            <input
+                                id="institucioni"
+                                type="text"
+                                value={institucioni}
+                                onChange={(e) => setInstitucioni(e.target.value)}
+                                placeholder="Enter Institucioni name"
+                                className={`form-control ${error ? 'is-invalid' : ''}`}
+                            />
+                            {error && <div className="invalid-feedback">{error}</div>}
+                        </div>
+                        <div className="custom-modal-footer">
+                            <button type="button" onClick={() => {
+                                onClose();
+                                setInstitucioni('');
+                                setError('');
+                            }} disabled={isLoading} className="btn btn-secondary">
+                                Close
+                            </button>
+                            <button type="submit" disabled={isLoading} className="btn btn-primary">
+                                {isLoading ? <span className="spinner-border spinner-border-sm" /> : 'Save'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
 }
+
+export default AddInstitucioniModal;

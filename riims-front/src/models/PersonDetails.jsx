@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultImage from '../photos/person.png';
+import { Col, Card } from 'react-bootstrap';
+import { FaFileAlt } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa';
+
 import '../css/PersonDetails.css';
 import { jwtDecode } from "jwt-decode";
 import { Link } from 'react-router-dom';
@@ -134,6 +138,8 @@ function PersonDetails() {
         fetchUserData();
     }, []);
 
+    
+
     // Function to handle viewing CV
     const handleViewCV = () => {
         navigate('/thecv', {
@@ -160,12 +166,22 @@ function PersonDetails() {
     if (error) {
         return <p>{error}</p>;
     }
+    
 
     return (
         <div className="container mt-4 mb-4">
-            <div className="text-center mt-4">
-                <button className="btn btn-primary" onClick={handleViewCV}>View CV</button>
-            </div>
+         <Col md={3} className="mx-auto mb-3">
+            <Card className="text-center shadow-lg animated-card view-cv-card mb-3 align-items-center">
+                <Card.Body className="p-4">
+                    <FaFileAlt size={60} className="mb-3 text-white icon-background " />
+                    {/* <Card.Title className="fs-4">Download your CV</Card.Title> */}
+                    <button className="btn btn-view-cv mt-3" onClick={handleViewCV}>
+                        <FaEye size={20} /> Generate your CV
+                    </button>
+                </Card.Body>
+            </Card>
+        </Col>
+
             <div className="accordion" id="accordionDetails">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="personalDetailsHeading">
@@ -325,21 +341,24 @@ function PersonDetails() {
                     </h2>
                     <div id="honorsAndAwardsCollapse" className="accordion-collapse collapse" aria-labelledby="honorsAndAwardsHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
-                            {honorsAndAwards.map((award, index) => (
+                            {licensat.map((license, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className={`me-3 ${hiddenHonors.includes(award.id) ? 'blurred' : ''}`}>
-                                        <p className="mb-0">Titulli: {award.titulli}</p>
-                                        <p className="mb-0">Issuer: {award.issuer}</p>
-                                        <p className="mb-0">Institucioni: {award.emriInstitucionit}</p>
-                                        <p className="mb-0">Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
-                                        <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
+                                    <div className={`me-3 ${hiddenLicensat.includes(license.id) ? 'blurred' : ''}`}>
+                                        <p className="mb-0">Emri: {license.emri}</p>
+                                        <p className="mb-0">Emri Institucionit: {license.emriInstitucionit}</p>
+                                        <p className="mb-0">Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
+                                        {license.dataSkadimit && (
+                                            <p className="mb-0">Data Skadimit: {new Date(license.dataSkadimit).toLocaleDateString()}</p>
+                                        )}
+                                        {license.credentialId && <p className="mb-0">Credential ID: {license.credentialId}</p>}
+                                        {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
                                     </div>
                                     <div>
-                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideHonors(award.id)}>
-                                            <i className={`bi ${hiddenHonors.includes(award.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideLicensat(license.id)}>
+                                            <i className={`bi ${hiddenLicensat.includes(license.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                                         </button>
-                                        <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
+                                        <Link to={`/EditLicensa/${license.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}

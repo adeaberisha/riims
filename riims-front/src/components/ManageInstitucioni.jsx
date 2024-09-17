@@ -1,24 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import axios from "axios";
-import { useManageInstitucioni } from "./services/InstitucioniDeleteService.jsx"; // Import the hook
-import { useEditInstitucioniModal } from "./services/InstitucioniEditService.jsx"; // Import the useEditInstitucioniModal hook
+import AddInstitucioniModal from "./services/InstitucioniDeleteService"; // Import the AddInstitucioniModal
+import EditInstitucioniModal from "./services/InstitucioniEditService"; // Import the EditInstitucioniModal
 import "../css/ManageInstitucioni.css"; // Import your custom CSS
 
 const ManageLanguages = () => {
   const [institutions, setInstitutions] = useState([]);
+  const [showAddInstitucioniModal, setShowAddInstitucioniModal] = useState(false);
+  const [showEditInstitucioniModal, setShowEditInstitucioniModal] = useState(false);
+  const [currentInstitution, setCurrentInstitution] = useState(null);
   const token = localStorage.getItem("jwtToken");
-
-  // Institucioni hooks
-  const {
-    confirmDelete: confirmDeleteInstitution,
-    AddInstitucioniModal,
-    DeleteConfirmationModal: DeleteInstitutionConfirmationModal,
-    setShowAddInstitucioniModal,
-  } = useManageInstitucioni(setInstitutions, token);
-
-  const { openEditModal: openEditInstitutionModal, EditInstitucioniModal } =
-    useEditInstitucioniModal(setInstitutions, token);
 
   const fetchInstitutions = useCallback(async () => {
     try {
@@ -28,7 +20,7 @@ const ManageLanguages = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Fetched data:", response.data); // Log the fetched data
+      console.log("Fetched data:", response.data); // Debug log
       setInstitutions(response.data);
     } catch (error) {
       console.error("Error fetching institutions:", error);
@@ -36,14 +28,26 @@ const ManageLanguages = () => {
   }, [token]);
 
   useEffect(() => {
-    console.log("Fetching institutions");
     fetchInstitutions();
   }, [fetchInstitutions]);
 
-  // After setting institutions
-  useEffect(() => {
-    console.log("Institutions updated:", institutions);
-  }, [institutions]);
+  const handleAddInstitucioni = (newInstitucioni) => {
+    setInstitutions((prevInstitutions) => [newInstitucioni, ...prevInstitutions]);
+  };
+
+  const handleEditInstitucioni = (updatedInstitucioni) => {
+    setInstitutions((prevInstitutions) =>
+      prevInstitutions.map((institution) =>
+        institution.id === updatedInstitucioni.id ? updatedInstitucioni : institution
+      )
+    );
+  };
+
+  const handleEditClick = (institution) => {
+    setCurrentInstitution(institution);
+    setShowEditInstitucioniModal(true);
+  };
+
 
   return (
     <Container fluid className="mt-4">
@@ -58,12 +62,11 @@ const ManageLanguages = () => {
               <i className="bi bi-plus-lg"></i> Shto
             </Button>
           </div>
-          <Table striped bordered hover>
+          <Table striped bordered hover className="custom-table">
             <thead>
               <tr>
                 <th className="institution-column">Institucioni</th>
                 <th className="table-actions">Edit</th>
-                <th className="table-actions">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -75,25 +78,16 @@ const ManageLanguages = () => {
                       <Button
                         variant="primary"
                         className="btn btn-custom btn-sm custom-primary-btn"
-                        onClick={() => openEditInstitutionModal(institution.id)}
+                        onClick={() => handleEditClick(institution)}
                       >
                         <i className="bi bi-pencil-fill me-2"></i> Edit
-                      </Button>
-                    </td>
-                    <td>
-                      <Button
-                        variant="danger"
-                        className="btn btn-custom btn-sm custom-danger-btn"
-                        onClick={() => confirmDeleteInstitution(institution.id)}
-                      >
-                        <i className="bi bi-trash-fill me-2"></i> Delete
                       </Button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="3">No institutions found</td>
+                  <td colSpan="3" className="text-center">No institutions found</td>
                 </tr>
               )}
             </tbody>
@@ -102,9 +96,22 @@ const ManageLanguages = () => {
       </Row>
 
       {/* Modals */}
-      <AddInstitucioniModal />
-      <DeleteInstitutionConfirmationModal />
-      <EditInstitucioniModal />
+      <AddInstitucioniModal
+        show={showAddInstitucioniModal}
+        onClose={() => setShowAddInstitucioniModal(false)}
+        onSave={handleAddInstitucioni}
+        token={token}
+      />
+
+      {currentInstitution && (
+        <EditInstitucioniModal
+          show={showEditInstitucioniModal}
+          onClose={() => setShowEditInstitucioniModal(false)}
+          onSave={handleEditInstitucioni}
+          token={token}
+          institution={currentInstitution}
+        />
+      )}
     </Container>
   );
 };
