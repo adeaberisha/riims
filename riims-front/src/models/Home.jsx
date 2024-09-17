@@ -18,7 +18,7 @@ import heart from '../photos/heart.png';
 import star from '../photos/star.png';
 
 
-function Home() {
+function Home() { 
     const [formData, setFormData] = useState({
         emri: '',
         mbiemri: '',
@@ -38,14 +38,6 @@ function Home() {
         } else {
             alert('Token not found. Please log in again.');
         }
-
-        const savedFoto = localStorage.getItem("foto");
-        if (savedFoto) {
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                foto: savedFoto
-            }));
-        }
     }, [token]);
 
     const formatDate = (isoDateString) => {
@@ -55,78 +47,50 @@ function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://localhost:7254/api/UserProfile/get-profile-by-id', {
+            // Fetch user profile data
+            const profileResponse = await axios.get('https://localhost:7254/api/UserProfile/get-profile-by-id', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const personData = response.data;
+            const personData = profileResponse.data;
             setFormData(prevFormData => ({
                 ...prevFormData,
                 ...personData,
-                dataELindjes: personData.dataELindjes ? formatDate(personData.dataELindjes) : '',
-                foto: personData.foto || localStorage.getItem("foto") || defaultImage
+                dataELindjes: personData.dataELindjes ? formatDate(personData.dataELindjes) : ''
             }));
+
+            try {
+                // Fetch photo URL
+                const photoResponse = await axios.get('https://localhost:7254/api/Images/GetImageByUserId', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                // Assuming photoResponse.data.url contains the image URL or is undefined/null
+                const photoUrl = photoResponse.data.url || defaultImage;
+
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    foto: photoUrl
+                }));
+            } catch (photoError) {
+                if (photoError.response && photoError.response.status === 404) {
+                    // Handle the case where no image is found
+                    console.log('No image found for the user. Using default image.');
+                    setFormData(prevFormData => ({
+                        ...prevFormData,
+                        foto: defaultImage
+                    }));
+                } else {
+                    // Handle other errors
+                    console.error('Error fetching photo data:', photoError);
+                    alert('Error fetching photo data. Please try again.');
+                }
+            }
+
         } catch (error) {
-            console.error('Error fetching person data:', error);
+            console.error('Error fetching profile data:', error);
             alert('Error fetching profile data. Please try again.');
         }
     };
-
-    const handleImageUpload = async (file) => {
-        const formData = new FormData();
-        formData.append('File', file);
-        formData.append('FileName', file.name);
-
-        try {
-            const response = await axios.post('https://localhost:7254/api/Images/Upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            alert('Error uploading image. Please try again.');
-        }
-    };
-
-    const handleChange = async (e) => {
-        if (e.target.name === "foto") {
-            const file = e.target.files[0];
-            if (file) {
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select a valid image file.');
-                    return;
-                }
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('File size exceeds 5MB.');
-                    return;
-                }
-
-                const imageData = await handleImageUpload(file);
-                if (imageData && imageData.url) {
-                    setFormData(prevFormData => ({
-                        ...prevFormData,
-                        foto: imageData.url
-                    }));
-                    localStorage.setItem("foto", imageData.url);
-                }
-            }
-        } else {
-            setFormData({
-                ...formData,
-                [e.target.name]: e.target.value
-            });
-        }
-    };
-
-    const handleRemovePhoto = () => {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            foto: defaultImage
-        }));
-        localStorage.removeItem("foto");
-    };
+    
 
     return (
         <main>
