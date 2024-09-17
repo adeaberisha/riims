@@ -19,7 +19,7 @@ const AdminDashboard = () => {
     if (token) {
       fetchUsers();
     } else {
-      alert("Token not found. Please log in again.");
+      alert("Ju lutem, kyçuni përsëri.");
     }
   }, [token]);
 
@@ -33,14 +33,14 @@ const AdminDashboard = () => {
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
-      console.error("Error fetching user profiles:", err);
-      setError("Failed to fetch user profiles. Please try again.");
+      console.error("Gabim gjatë marrjes së profileve të përdoruesve", err);
+      setError("Dështoi të merreshin profilet e përdoruesve. Ju lutem, provoni përsëri.");
       setLoading(false);
     }
   };
   
   const handleRoleUpdated = () => {
-    console.log('Role updated, fetching users...');
+    console.log('Roli u përditësua, duke marrë përdoruesit...');
     fetchUsers();
   };
 

@@ -12,12 +12,12 @@ async function deleteInstitucioniById(id, token) {
         });
 
         if (response.ok) {
-            console.log(`Institucioni with ID ${id} deleted successfully.`);
+            console.log(`Institucioni me ID ${id} fshihet me sukses.`);
         } else {
-            console.error(`Failed to delete Institucioni with ID ${id}. Status: ${response.status}`);
+            console.error(`Dështoi fshirja e Institucionit me ID ${id}. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error deleting Institucioni: ${error}`);
+        console.error(`Gabim gjatë fshirjes së Institucionit: ${error}`);
     }
 }
 
@@ -35,14 +35,14 @@ async function addInstitucioni(institucioni, token) {
         });
 
         if (response.ok) {
-            console.log('Institucioni added successfully.');
+            console.log('Institucioni u shtua me sukses.');
             const newInstitucioni = await response.json();
             return newInstitucioni;
         } else {
-            console.error(`Failed to add Institucioni. Status: ${response.status}`);
+            console.error(`Dështoi shtimi i Institucionit. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error adding Institucioni: ${error}`);
+        console.error(`Gabim gjatë shtimit të Institucionit: ${error}`);
     }
 }
 
@@ -87,7 +87,7 @@ export function useManageInstitucioni(setInstitucionet, token) {
                     setShowAddInstitucioniModal(false);
                 }
             } catch (error) {
-                console.error(`Error adding Institucioni: ${error}`);
+                console.error(`Gabim gjatë shtimit të Institucionit: ${error}`);
             }
         }
     }, [newInstitucioni, token, setInstitucionet]);

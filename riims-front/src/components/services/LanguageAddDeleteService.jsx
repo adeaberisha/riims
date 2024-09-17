@@ -13,12 +13,12 @@ async function deleteGjuhaById(id, token) {
         });
 
         if (response.ok) {
-            console.log(`Gjuha with ID ${id} deleted successfully.`);
+            console.log(`Gjuha me ID ${id} fshihet me sukses.`);
         } else {
-            console.error(`Failed to delete Gjuha with ID ${id}. Status: ${response.status}`);
+            console.error(`Dështoi fshirja e Gjuhes me ID ${id}. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error deleting Gjuha: ${error}`);
+        console.error(`Gabim gjatë fshirjes së Gjuhës: ${error}`);
     }
 }
 
@@ -35,14 +35,14 @@ async function addGjuha(gjuha, token) {
         });
 
         if (response.ok) {
-            console.log('Gjuha added successfully.');
+            console.log('Gjuha u shtua me sukses.');
             const newGjuha = await response.json(); // Ensure we get the newly added Gjuha
             return newGjuha;
         } else {
-            console.error(`Failed to add Gjuha. Status: ${response.status}`);
+            console.error(`Dështoi shtimi i Gjuhes. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error adding Gjuha: ${error}`);
+        console.error(`Gabim gjatë shtimit të Gjuhes: ${error}`);
     }
 }
 
@@ -86,7 +86,7 @@ export function useManageGjuha(setGjuhet, token) {
                     setShowAddLanguageModal(false); // Close modal
                 }
             } catch (error) {
-                console.error(`Error adding language: ${error}`);
+                console.error(`Gabim gjatë shtimit të Gjuhes: ${error}`);
             }
         }
     }, [newLanguage, token, setGjuhet]);

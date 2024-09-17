@@ -17,16 +17,16 @@ async function fetchInstitucioniById(id, token) {
 
     if (response.ok) {
       const institucioni = await response.json();
-      console.log("Fetched Institucioni:", institucioni);
+      console.log("Institucioni u mor me sukses:", institucioni);
       return institucioni;
     } else {
       const errorMessage = await response.text();
       console.error(
-        `Failed to fetch Institucioni with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`
+        `Dështoi të merret Institucioni me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`
       );
     }
   } catch (error) {
-    console.error(`Error fetching Institucioni: ${error}`);
+    console.error(`Gabim gjatë marrjes së Institucionit: ${error}`);
   }
 }
 
@@ -45,17 +45,17 @@ async function updateInstitucioniById(id, updatedInstitucioni, token) {
     );
 
     if (response.ok) {
-      console.log(`Institucioni with ID ${id} updated successfully.`);
+      console.log(`Institucioni me ID ${id} u përditsua me sukses.`);
       return true; 
     } else {
       const errorMessage = await response.text();
       console.error(
-        `Failed to update Institucioni with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`
+        `Dështoi të përditësohet Institucioni me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`
       );
       return false; 
     }
   } catch (error) {
-    console.error(`Error updating Institucioni: ${error}`);
+    console.error(`Gabim gjatë përditësimit të Institucionit: ${error}`);
     return false; 
   }
 }
@@ -74,7 +74,7 @@ export function useEditInstitucioniModal(setInstitucioni, token) {
           setCurrentInstitucioni(institucioni.emri); 
         }
       } catch (error) {
-        console.error("Error fetching Institucioni details:", error);
+        console.error("Gabim gjatë marrjes së detajeve të Institucionit:", error);
       }
     },
     [token]
@@ -107,10 +107,10 @@ export function useEditInstitucioniModal(setInstitucioni, token) {
           );
           setShowEditModal(false); 
         } else {
-          console.error("Failed to update Institucioni.");
+          console.error("Dështoi përditsimi i Institucionit.");
         }
       } catch (error) {
-        console.error("Error updating Institucioni:", error);
+        console.error("Gabim gjatë përditësimit të Institucionit:", error);
       }
     }
   }, [currentInstitucioni, currentId, token, setInstitucioni]);

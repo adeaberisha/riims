@@ -14,14 +14,14 @@ async function fetchNiveliGjuhesorById(id, token) {
 
         if (response.ok) {
             const niveli = await response.json();
-            console.log('Fetched NiveliGjuhesor:', niveli); // Log the full response
+            console.log('NiveliGjuhesor u mor me sukses:', niveli); // Log the full response
             return niveli;
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to fetch NiveliGjuhesor with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të merret NiveliGjuhesor me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error fetching NiveliGjuhesor: ${error}`);
+        console.error(`Gabim gjatë marrjes së NivelitGjuhesor: ${error}`);
     }
 }
 
@@ -38,13 +38,13 @@ async function updateNiveliGjuhesorById(id, updatedNiveli, token) {
         });
 
         if (response.ok) {
-            console.log(`NiveliGjuhesor with ID ${id} updated successfully.`);
+            console.log(`NiveliGjuhesor me ID ${id} u përditësua me sukses.`);
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to update NiveliGjuhesor with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të përditësohet NiveliGjuhesor me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error updating NiveliGjuhesor: ${error}`);
+        console.error(`Gabim gjatë përditësimit të NivelitGjuhesor: ${error}`);
     }
 }
 
@@ -62,7 +62,7 @@ export function useEditNiveliGjuhesorModal(setNiveliGjuhesore, token) {
                 setCurrentNiveli(niveli.niveli); // Ensure the field name is correct
             }
         } catch (error) {
-            console.error('Error fetching NiveliGjuhesor details:', error);
+            console.error('Gabim gjatë marrjes së detajeve të NivelitGjuhesor  :', error);
         }
     }, [token]);
 
@@ -81,7 +81,7 @@ export function useEditNiveliGjuhesorModal(setNiveliGjuhesore, token) {
                 setNiveliGjuhesore(prevNiveli => prevNiveli.map(niveli => niveli.id === currentId ? { ...niveli, niveli: currentNiveli } : niveli));
                 setShowEditModal(false);
             } catch (error) {
-                console.error('Error updating NiveliGjuhesor:', error);
+                console.error('Gabim gjatë përditësimit të NivelitGjuhesor:', error);
             }
         }
     }, [currentNiveli, currentId, token, setNiveliGjuhesore]);
