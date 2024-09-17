@@ -185,6 +185,24 @@ const AdminDashboard = () => {
           </Card>
         </Col>
 
+        <Col md={6} className="mb-4">
+          <Card className="text-center shadow-lg manage-departamentet-card animated-card">
+            <Card.Body className="p-4">
+              <FaUniversity size={60} className="mb-3 text-white icon-background" />
+              <Card.Title className="fs-4 manage-departamentet-title">
+                Manage Nivelet Akademike
+              </Card.Title>
+              <Button
+                variant="primary"
+                className="mt-2 btn-dark-blue"
+                onClick={() => navigate("/manageniveliakademik")}
+              >
+                Go to Manage Nivelet Akademike
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
       </Row>
     </Container>
   );
