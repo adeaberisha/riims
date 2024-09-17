@@ -14,14 +14,14 @@ async function fetchDepartamentiById(id, token) {
 
         if (response.ok) {
             const departamenti = await response.json();
-            console.log('Fetched Departamenti:', departamenti); // Log the full response
+            console.log('Departamenti u mor me sukses:', departamenti); // Log the full response
             return departamenti;
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to fetch Departamenti with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të merret Departamenti me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error fetching Departamenti: ${error}`);
+        console.error(`Gabim gjatë marrjes së Departamentit: ${error}`);
     }
 }
 
@@ -38,13 +38,13 @@ async function updateDepartamentiById(id, updatedDepartamenti, token) {
         });
 
         if (response.ok) {
-            console.log(`Departamenti with ID ${id} updated successfully.`);
+            console.log(`Departamenti me ID ${id} u përditësua me sukses.`);
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to update Departamenti with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të përditësohet Departamenti me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error updating Departamenti: ${error}`);
+        console.error(`Gabim gjatë përditësimit të Departamentit: ${error}`);
     }
 }
 
@@ -64,7 +64,7 @@ export function useEditDepartamentiModal(setDepartamente, token) {
                 setCurrentInstitucioni(departamenti.emriInstitucionit); // EmriInstitucionit nga DTO
             }
         } catch (error) {
-            console.error('Error fetching Departamenti details:', error);
+            console.error('Gabim gjatë marrjes së detajeve të Departamentit:', error);
         }
     }, [token]);
 
@@ -90,7 +90,7 @@ export function useEditDepartamentiModal(setDepartamente, token) {
                 ));
                 setShowEditModal(false);
             } catch (error) {
-                console.error('Error updating Departamenti:', error);
+                console.error('Gabim gjatë përditësimit të Departamentit:', error);
             }
         }
     }, [currentDepartamenti, currentInstitucioni, currentId, token, setDepartamente]);

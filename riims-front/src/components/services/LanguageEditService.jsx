@@ -14,14 +14,14 @@ async function fetchGjuhaById(id, token) {
 
         if (response.ok) {
             const gjuha = await response.json();
-            console.log('Fetched Gjuha:', gjuha); // Log the full response
+            console.log('Gjuha u mor me sukses:', gjuha); // Log the full response
             return gjuha;
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to fetch Gjuha with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të merret Gjuha me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error fetching Gjuha: ${error}`);
+        console.error(`Gabim gjatë marrjes së Gjuhës: ${error}`);
     }
 }
 
@@ -38,13 +38,13 @@ async function updateGjuhaById(id, updatedGjuha, token) {
         });
 
         if (response.ok) {
-            console.log(`Gjuha with ID ${id} updated successfully.`);
+            console.log(`Gjuha me ID ${id} u përditësua me sukses.`);
         } else {
             const errorMessage = await response.text();
-            console.error(`Failed to update Gjuha with ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
+            console.error(`Dështoi të përditësohet Gjuha me ID ${id}. Status: ${response.status}, Message: ${errorMessage}`);
         }
     } catch (error) {
-        console.error(`Error updating Gjuha: ${error}`);
+        console.error(`Gabim gjatë përditësimit të Gjuhës: ${error}`);
     }
 }
 
@@ -62,7 +62,7 @@ export function useEditGjuhaModal(setGjuhet, token) {
                 setCurrentLanguage(gjuha.emriGjuhes); // Ensure the field name is correct
             }
         } catch (error) {
-            console.error('Error fetching Gjuha details:', error);
+            console.error('Gabim gjatë marrjes së detajeve të Gjuhës:', error);
         }
     }, [token]);
 
@@ -81,7 +81,7 @@ export function useEditGjuhaModal(setGjuhet, token) {
                 setGjuhet(prevGjuhet => prevGjuhet.map(gjuha => gjuha.id === currentId ? { ...gjuha, emriGjuhes: currentLanguage } : gjuha));
                 setShowEditModal(false);
             } catch (error) {
-                console.error('Error updating language:', error);
+                console.error('Gabim gjatë përditësimit të Gjuhës:', error);
             }
         }
     }, [currentLanguage, currentId, token, setGjuhet]);

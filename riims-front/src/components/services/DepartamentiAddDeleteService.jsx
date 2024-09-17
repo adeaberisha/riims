@@ -13,12 +13,12 @@ async function deleteDepartamentiById(id, token) {
         });
 
         if (response.ok) {
-            console.log(`Departamenti with ID ${id} deleted successfully.`);
+            console.log(`Departamenti me ID ${id} fshihet me sukses.`);
         } else {
-            console.error(`Failed to delete Departamenti with ID ${id}. Status: ${response.status}`);
+            console.error(`Dështoi fshirja e Departamentit me ID ${id}. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error deleting Departamenti: ${error}`);
+        console.error(`Gabim gjatë fshirjes së Departamentit: ${error}`);
     }
 }
 
@@ -35,14 +35,14 @@ async function addDepartamenti(departamenti, token) {
         });
 
         if (response.ok) {
-            console.log('Departamenti added successfully.');
+            console.log('Departamenti u shtua me sukses.');
             const newDepartamenti = await response.json(); // Ensure we get the newly added Departamenti
             return newDepartamenti;
         } else {
-            console.error(`Failed to add Departamenti. Status: ${response.status}`);
+            console.error(`Dështoi shtimi i Departamentit. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error adding Departamenti: ${error}`);
+        console.error(`Gabim gjatë shtimit të Departamentit: ${error}`);
     }
 }
 
@@ -92,7 +92,7 @@ export function useManageDepartamenti(setDepartamente, token) {
                     setShowAddDepartamentiModal(false); // Close modal
                 }
             } catch (error) {
-                console.error(`Error adding Departamenti: ${error}`);
+                console.error(`Gabim gjatë shtimit të Departamentit: ${error}`);
             }
         }
     }, [newEmri, newEmriInstitucionit, token, setDepartamente]);

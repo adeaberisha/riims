@@ -8,7 +8,7 @@ const RoleUpdater = ({ userId, token, onRoleUpdated }) => {
 
   const updateRole = async () => {
     if (!newRole) {
-      setStatusMessage("Please select a role.");
+      setStatusMessage("Ju lutem zgjidhni një rol.");
       return;
     }
   
@@ -20,16 +20,16 @@ const RoleUpdater = ({ userId, token, onRoleUpdated }) => {
       );
   
       if (response.status === 200) {
-        setStatusMessage(`Role updated successfully to ${newRole}`);
+        setStatusMessage(`Roli u përditësua me sukses në ${newRole}`);
         if (onRoleUpdated) {
           onRoleUpdated(); // Call the callback to refresh the user list
         }
       } else {
-        setStatusMessage("Failed to update role");
+        setStatusMessage("Dështoi të përditësohet roli");
       }
     } catch (error) {
-      console.error("Error updating role:", error);
-      setStatusMessage("Failed to update role");
+      console.error("Gabim gjatë përditësimit të rolit:", error);
+      setStatusMessage("Dështoi të përditësohet roli");
     }
   };
   

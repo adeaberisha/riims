@@ -325,24 +325,21 @@ function PersonDetails() {
                     </h2>
                     <div id="honorsAndAwardsCollapse" className="accordion-collapse collapse" aria-labelledby="honorsAndAwardsHeading" data-bs-parent="#accordion">
                         <div className="accordion-body">
-                            {licensat.map((license, index) => (
+                            {honorsAndAwards.map((award, index) => (
                                 <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className={`me-3 ${hiddenLicensat.includes(license.id) ? 'blurred' : ''}`}>
-                                        <p className="mb-0">Emri: {license.emri}</p>
-                                        <p className="mb-0">Emri Institucionit: {license.emriInstitucionit}</p>
-                                        <p className="mb-0">Data Leshimit: {new Date(license.dataLeshimit).toLocaleDateString()}</p>
-                                        {license.dataSkadimit && (
-                                            <p className="mb-0">Data Skadimit: {new Date(license.dataSkadimit).toLocaleDateString()}</p>
-                                        )}
-                                        {license.credentialId && <p className="mb-0">Credential ID: {license.credentialId}</p>}
-                                        {license.credentialUrl && <p className="mb-0">Credential URL: {license.credentialUrl}</p>}
+                                    <div className={`me-3 ${hiddenHonors.includes(award.id) ? 'blurred' : ''}`}>
+                                        <p className="mb-0">Titulli: {award.titulli}</p>
+                                        <p className="mb-0">Issuer: {award.issuer}</p>
+                                        <p className="mb-0">Institucioni: {award.emriInstitucionit}</p>
+                                        <p className="mb-0">Data Eleshimit: {new Date(award.dataEleshimit).toLocaleDateString()}</p>
+                                        <p className="mb-0">Pershkrimi: {award.pershkrimi}</p>
                                     </div>
                                     <div>
-                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideLicensat(license.id)}>
-                                            <i className={`bi ${hiddenLicensat.includes(license.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        <button className="btn btn-secondary me-2" onClick={() => toggleHideHonors(award.id)}>
+                                            <i className={`bi ${hiddenHonors.includes(award.id) ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                                         </button>
-                                        <Link to={`/EditLicensa/${license.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
-                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerLicensaDelete(license.id)}>Delete</button>
+                                        <Link to={`/EditHonorsAndAwards/${award.id}`} className="btn custom-button custom-button-edit me-2">Edit</Link>
+                                        <button className="btn custom-button custom-button-delete" onClick={() => triggerHonorDelete(award.id)}>Delete</button>
                                     </div>
                                 </div>
                             ))}

@@ -13,12 +13,12 @@ async function deleteNiveliGjuhesorById(id, token) {
         });
 
         if (response.ok) {
-            console.log(`NiveliGjuhesor with ID ${id} deleted successfully.`);
+            console.log(`NiveliGjuhesor me ID ${id} fshihet me sukses.`);
         } else {
-            console.error(`Failed to delete NiveliGjuhesor with ID ${id}. Status: ${response.status}`);
+            console.error(`Dështoi fshirja e NivelitGjuhesor me ID ${id}. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error deleting NiveliGjuhesor: ${error}`);
+        console.error(`Gabim gjatë fshirjes së NivelitGjuhesor: ${error}`);
     }
 }
 
@@ -35,14 +35,14 @@ async function addNiveliGjuhesor(niveli, token) {
         });
 
         if (response.ok) {
-            console.log('NiveliGjuhesor added successfully.');
+            console.log('NiveliGjuhesor u shtua me sukses.');
             const newNiveli = await response.json(); // Ensure we get the newly added NiveliGjuhesor
             return newNiveli;
         } else {
-            console.error(`Failed to add NiveliGjuhesor. Status: ${response.status}`);
+            console.error(`Dështoi shtimi i NivelitGjuhesor. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error(`Error adding NiveliGjuhesor: ${error}`);
+        console.error(`Gabim gjatë shtimit të NivelitGjuhesor: ${error}`);
     }
 }
 
@@ -86,7 +86,7 @@ export function useManageNiveliGjuhesor(setNiveliGjuhesore, token) {
                     setShowAddNiveliModal(false); // Close modal
                 }
             } catch (error) {
-                console.error(`Error adding NiveliGjuhesor: ${error}`);
+                console.error(`Gabim gjatë shtimit të NivelitGjuhesor: ${error}`);
             }
         }
     }, [newNiveli, token, setNiveliGjuhesore]);
