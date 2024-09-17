@@ -1,64 +1,128 @@
-/* Center text in the accordion button and apply a custom font */
+
 .custom-accordion-button {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem; /* Adjust as needed */
-    text-align: center; /* Center text horizontally */
+    font-size: 1.25rem; 
+    text-align: center;
     display: flex;
-    align-items: center; /* Center text vertically */
-    justify-content: center; /* Center text horizontally */
-    padding: 0.75rem 1.25rem; /* Adjust padding to suit your design */
-    color: #ffffff !important; /* Text color */
-    background-color: #02095e !important; /* Background color */
-    border: none !important; /* Remove default border */
-    box-shadow: none !important; /* Remove default box-shadow */
+    align-items: center;
+    justify-content: center; 
+    padding: 0.75rem 1.25rem; 
+    color: #ffffff !important; 
+    background-color: #02095e !important; 
+    border: none !important; 
+    box-shadow: none !important; 
 }
 
-/* Button hover effect */
 .custom-accordion-button:hover {
     color: #ffffff !important;
-    background-color: #041a8b !important; /* A slightly darker shade */
+    background-color: #041a8b !important; 
 }
 
-/* Button focus state */
 .custom-accordion-button:focus {
-    box-shadow: none !important; /* Remove default focus box-shadow */
+    box-shadow: none !important; 
 }
 
-/* Invert the color of the arrow (if applicable) */
 .custom-accordion-button::after {
-    filter: invert(1); /* Invert the color to make the arrow white */
+    filter: invert(1); 
 }
 .custom-button {
-    display: inline-block; /* Ensure buttons are inline */
-    width: 150px; /* Adjust width as needed */
-    padding: 0.5rem; /* Adjust padding to make buttons slimmer */
-    text-align: center; /* Center text horizontally */
-    font-size: 1rem; /* Font size adjustment */
-    border-radius: 0.25rem; /* Rounded corners */
-    border: none; /* Remove default border */
+    display: inline-block; 
+    width: 150px; 
+    padding: 0.5rem; 
+    text-align: center; 
+    font-size: 1rem; 
+    border-radius: 0.25rem; 
+    border: none;
 }
 
-/* Edit button styling */
 .custom-button-edit {
-    background-color: #007bff; /* Blue color for edit button */
-    color: #ffffff; /* Text color */
+    background-color: #007bff; 
+    color: #ffffff; 
 }
 
 .custom-button-edit:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
 }
 
-/* Delete button styling */
+
 .custom-button-delete {
-    background-color: #6c757d; /* Gray color for delete button */
-    color: #ffffff; /* Text color */
+    background-color: #6c757d; 
+    color: #ffffff; 
 }
 
 .custom-button-delete:hover {
-    background-color: #5a6268; /* Darker gray on hover */
+    background-color: #5a6268; 
 }
 .blurred {
     filter: blur(5px);
-    pointer-events: none; /* Prevent interaction with blurred content */
+    pointer-events: none;
 }
 
+.btn-view-cv {
+    background: linear-gradient(135deg, #94a1ad, #003366); 
+    color: #fff;
+    border: 2px solid transparent; 
+    border-radius: 8px;
+    padding: 12px 24px; 
+    font-size: 18px; 
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+}
+
+.btn-view-cv:hover {
+    background: linear-gradient(135deg, #889fb5, #9ea6ae); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+    transform: scale(1.05); 
+    animation: gradientAnimation 2s infinite; 
+}
+
+.btn-view-cv svg {
+    transition: transform 0.3s ease;
+}
+
+.btn-view-cv:hover svg {
+    transform: rotate(15deg);
+}
+
+.btn-view-cv:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.5);
+    border-color: #8196ab; 
+}
+
+@keyframes gradientAnimation {
+    0% { background: linear-gradient(135deg, #6798c8, #6182a4); }
+    50% { background: linear-gradient(135deg, #003366, #00274d); }
+    100% { background: linear-gradient(135deg, #004080, #003366); }
+}
+
+.view-cv-card {
+    border-radius: 12px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    animation: fadeIn 1s ease-out;
+    background-color: #0a3b6d;
+}
+
+.view-cv-card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); 
+    border: 2px solid #004080; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.icon-background {
+    background: rgba(0, 0, 0, 0.2); 
+    border-radius: 50%; 
+    padding: 10px;
+}
