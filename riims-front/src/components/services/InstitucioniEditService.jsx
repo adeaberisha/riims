@@ -63,12 +63,12 @@ function EditInstitucioniModal({ show, onClose, onSave, token, institution }) {
             setEmri(initialValue);
         }}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit Institution</Modal.Title>
+                <Modal.Title>Përditëso Institucionin</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
-                        <Form.Label>Institution</Form.Label>
+                        <Form.Label>Institucioni</Form.Label>
                         <Form.Control
                             type="text"
                             value={emri}

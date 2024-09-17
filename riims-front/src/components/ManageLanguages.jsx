@@ -4,14 +4,20 @@ import axios from 'axios';
 import AddGjuhaModal from './services/AddGjuhaModal'; 
 import EditGjuhaModal from './services/EditGjuhaModal'; 
 import DeleteGjuhaModal from './services/DeleteGjuhaModal';
+import AddNiveliGjuhesModal from './services/AddNiveliGjuhesorModal'; 
+import EditNiveliGjuhesModal from './services/EditNiveliGjuhesorModal'; 
 import '../css/ManageLanguages.css';
 
 const ManageLanguages = () => {
     const [languages, setLanguages] = useState([]);
+    const [niveliGjuhes, setNiveliGjuhes] = useState([]); 
     const [showAddGjuhaModal, setShowAddGjuhaModal] = useState(false);
     const [showEditGjuhaModal, setShowEditGjuhaModal] = useState(false);
     const [showDeleteGjuhaModal, setShowDeleteGjuhaModal] = useState(false);
+    const [showAddNiveliGjuhesModal, setShowAddNiveliGjuhesModal] = useState(false);
+    const [showEditNiveliGjuhesModal, setShowEditNiveliGjuhesModal] = useState(false);
     const [currentGjuhe, setCurrentGjuhe] = useState(null);
+    const [currentNiveliGjuhes, setCurrentNiveliGjuhes] = useState(null); 
     const token = localStorage.getItem('jwtToken');
 
     const fetchLanguages = useCallback(async () => {
@@ -19,7 +25,6 @@ const ManageLanguages = () => {
             const response = await axios.get('https://localhost:7254/api/Gjuhet/get-all-gjuhet', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            console.log('Fetched data:', response.data); 
             if (Array.isArray(response.data)) {
                 setLanguages(response.data);
             } else {
@@ -30,9 +35,25 @@ const ManageLanguages = () => {
         }
     }, [token]);
 
+    const fetchNiveliGjuhes = useCallback(async () => {
+        try {
+            const response = await axios.get('https://localhost:7254/api/NiveliGjuhesor/get-all-NiveletGjuhesore', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (Array.isArray(response.data)) {
+                setNiveliGjuhes(response.data);
+            } else {
+                console.error('Unexpected response data format:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching niveli gjuhes:', error);
+        }
+    }, [token]);
+
     useEffect(() => {
         fetchLanguages();
-    }, [fetchLanguages]);
+        fetchNiveliGjuhes();
+    }, [fetchLanguages, fetchNiveliGjuhes]);
 
     const handleAddGjuhe = (newGjuhe) => {
         setLanguages((prevLanguages) => [newGjuhe, ...prevLanguages]);
@@ -52,20 +73,37 @@ const ManageLanguages = () => {
         );
     };
 
-    const handleEditClick = (gjuhe) => {
+    const handleAddNiveliGjuhes = (newNiveliGjuhes) => {
+        setNiveliGjuhes((prevNiveliGjuhes) => [newNiveliGjuhes, ...prevNiveliGjuhes]);
+    };
+
+    const handleEditNiveliGjuhes = (updatedNiveliGjuhes) => {
+        setNiveliGjuhes((prevNiveliGjuhes) =>
+            prevNiveliGjuhes.map((niveli) =>
+                niveli.id === updatedNiveliGjuhes.id ? updatedNiveliGjuhes : niveli
+            )
+        );
+    };
+
+    const handleEditGjuheClick = (gjuhe) => {
         setCurrentGjuhe(gjuhe);
         setShowEditGjuhaModal(true);
     };
 
-    const handleDeleteClick = (gjuhe) => {
+    const handleDeleteGjuheClick = (gjuhe) => {
         setCurrentGjuhe(gjuhe);
         setShowDeleteGjuhaModal(true);
+    };
+
+    const handleEditNiveliGjuhesClick = (niveli) => {
+        setCurrentNiveliGjuhes(niveli);
+        setShowEditNiveliGjuhesModal(true);
     };
 
     return (
         <Container fluid className="mt-4">
             <Row>
-                <Col md={12}>
+                <Col md={6}>
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <h4>Gjuhët</h4>
                         <Button variant="outline-success" onClick={() => setShowAddGjuhaModal(true)}>
@@ -89,7 +127,7 @@ const ManageLanguages = () => {
                                             <Button
                                                 variant="primary"
                                                 className="btn btn-custom btn-sm custom-primary-btn"
-                                                onClick={() => handleEditClick(gjuhe)}
+                                                onClick={() => handleEditGjuheClick(gjuhe)}
                                             >
                                                 <i className="bi bi-pencil-fill me-2"></i> Edit
                                             </Button>
@@ -98,7 +136,7 @@ const ManageLanguages = () => {
                                             <Button
                                                 variant="danger"
                                                 className="btn btn-custom btn-sm"
-                                                onClick={() => handleDeleteClick(gjuhe)}
+                                                onClick={() => handleDeleteGjuheClick(gjuhe)}
                                             >
                                                 <i className="bi bi-trash-fill me-2"></i> Delete
                                             </Button>
@@ -108,6 +146,45 @@ const ManageLanguages = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="3" className="text-center">No Data Available</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                </Col>
+
+                <Col md={6}>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Niveli Gjuhesor</h4>
+                        <Button variant="outline-success" onClick={() => setShowAddNiveliGjuhesModal(true)}>
+                            <i className="bi bi-plus-lg"></i> Add
+                        </Button>
+                    </div>
+                    <Table striped bordered hover className="custom-table">
+                        <thead>
+                            <tr>
+                                <th className="language-column">Niveli</th>
+                                <th className="table-actions">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {niveliGjuhes.length > 0 ? (
+                                niveliGjuhes.map((niveli) => (
+                                    <tr key={niveli.id}>
+                                        <td>{niveli.niveli || 'No Level'}</td>
+                                        <td>
+                                            <Button
+                                                variant="primary"
+                                                className="btn btn-custom btn-sm custom-primary-btn"
+                                                onClick={() => handleEditNiveliGjuhesClick(niveli)}
+                                            >
+                                                <i className="bi bi-pencil-fill me-2"></i> Edit
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="2" className="text-center">No Data Available</td>
                                 </tr>
                             )}
                         </tbody>
@@ -142,6 +219,25 @@ const ManageLanguages = () => {
                     onDelete={handleDeleteGjuhe}
                     token={token}
                     gjuhe={currentGjuhe}
+                />
+            )}
+
+            {/* Add Niveli Gjuhes Modal */}
+            <AddNiveliGjuhesModal
+                show={showAddNiveliGjuhesModal}
+                onClose={() => setShowAddNiveliGjuhesModal(false)}
+                onSave={handleAddNiveliGjuhes}
+                token={token}
+            />
+
+            {/* Edit Niveli Gjuhes Modal */}
+            {currentNiveliGjuhes && (
+                <EditNiveliGjuhesModal
+                    show={showEditNiveliGjuhesModal}
+                    onClose={() => setShowEditNiveliGjuhesModal(false)}
+                    onSave={handleEditNiveliGjuhes}
+                    token={token}
+                    niveli={currentNiveliGjuhes}
                 />
             )}
         </Container>

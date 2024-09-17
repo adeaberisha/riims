@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import axios from "axios";
-import AddInstitucioniModal from "./services/InstitucioniDeleteService"; // Import the AddInstitucioniModal
+import AddInstitucioniModal from "./services/InstitucioniAddService"; // Import the AddInstitucioniModal
 import EditInstitucioniModal from "./services/InstitucioniEditService"; // Import the EditInstitucioniModal
 import "../css/ManageInstitucioni.css"; // Import your custom CSS
 
@@ -20,7 +20,7 @@ const ManageLanguages = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Fetched data:", response.data); // Debug log
+      console.log("Fetched data:", response.data); 
       setInstitutions(response.data);
     } catch (error) {
       console.error("Error fetching institutions:", error);

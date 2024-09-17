@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../css/CustomModal.css'; // Ensure your CSS file includes styles for modals
+import '../../css/CustomModal.css'; 
 
 function AddInstitucioniModal({ show, onClose, onSave, token }) {
     const [institucioni, setInstitucioni] = useState('');
@@ -21,7 +21,7 @@ function AddInstitucioniModal({ show, onClose, onSave, token }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ Emri: institucioni }) // Adjust property name to match API
+                body: JSON.stringify({ Emri: institucioni }) 
             });
 
             if (!response.ok) {
@@ -42,7 +42,7 @@ function AddInstitucioniModal({ show, onClose, onSave, token }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Add Institucioni</h5>
+                    <h5>Shto institucion</h5>
                     <button className="close-button" onClick={() => {
                         onClose();
                         setInstitucioni('');
