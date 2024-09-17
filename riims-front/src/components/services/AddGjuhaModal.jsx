@@ -1,53 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/CustomModal.css';
 
-function EditNiveliAkademikModal({ show, onClose, onSave, token, level }) {
-    const [initialValue, setInitialValue] = useState('');
-    const [niveli, setNiveli] = useState('');
+function AddGjuhetModal({ show, onClose, onSave, token }) {
+    const [gjuhe, setGjuhe] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (level) {
-            setInitialValue(level.lvl); 
-            setNiveli(level.lvl); 
-        }
-    }, [level]);
-
-    useEffect(() => {
         if (!show) {
-            setNiveli(initialValue); 
+            setGjuhe('');
             setError('');
         }
-    }, [show, initialValue]);
+    }, [show]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (niveli.trim() === '') {
-            setError('Academic level cannot be empty.');
+        if (gjuhe.trim() === '') {
+            setError('Language cannot be empty.');
             return;
         }
         setIsLoading(true);
         setError('');
         try {
-            const response = await fetch(`https://localhost:7254/api/NiveliAkademik/update-niveliAkademik-by-id/${level.id}`, {
-                method: 'PUT',
+            const response = await fetch('https://localhost:7254/api/Gjuhet/add-gjuha', { 
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ lvl: niveli })
+                body: JSON.stringify({ emriGjuhes: gjuhe })
             });
-
             if (!response.ok) {
-                throw new Error(`Failed to update academic level. Status: ${response.status}`);
+                throw new Error(`Failed to add language. Status: ${response.status}`);
             }
-
-            const updatedLevel = await response.json();
-            onSave(updatedLevel);
+            const newGjuhe = await response.json();
+            onSave(newGjuhe);
             onClose();
         } catch (error) {
-            setError('Error updating the academic level. Please try again.');
+            setError('Error adding the language. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -57,30 +47,32 @@ function EditNiveliAkademikModal({ show, onClose, onSave, token, level }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Përditëso nivelin akademik</h5>
+                    <h5>Shto gjuhë</h5>
                     <button className="close-button" onClick={() => {
                         onClose();
-                        setNiveli(initialValue);
+                        setGjuhe('');
+                        setError('');
                     }}>&times;</button>
                 </div>
                 <div className="custom-modal-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="niveli">Niveli Akademik</label>
+                            <label htmlFor="gjuhe">Gjuha</label>
                             <input
-                                id="niveli"
+                                id="gjuhe"
                                 type="text"
-                                value={niveli}
-                                onChange={(e) => setNiveli(e.target.value)}
-                                placeholder="Enter academic level"
+                                value={gjuhe}
+                                onChange={(e) => setGjuhe(e.target.value)}
+                                placeholder="Enter language"
                                 className={`form-control ${error ? 'is-invalid' : ''}`}
                             />
-                            {error && <div className="invalid-feedback">{error}</div>}
+                            {error && <div className="invalid-feedback">{error}</div>} 
                         </div>
                         <div className="custom-modal-footer">
                             <button type="button" onClick={() => {
-                                onClose();
-                                setNiveli(initialValue);
+                                onClose(); 
+                                setGjuhe('');
+                                setError('');
                             }} disabled={isLoading} className="btn btn-secondary">
                                 Close
                             </button>
@@ -95,4 +87,4 @@ function EditNiveliAkademikModal({ show, onClose, onSave, token, level }) {
     );
 }
 
-export default EditNiveliAkademikModal;
+export default AddGjuhetModal;

@@ -25,7 +25,7 @@ namespace riims.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("get-all-gjuhet")]
         public async Task<IActionResult> GetAll() 
         {
             var gjuhetDomain = await gjuhetRepository.GetAllAsync();

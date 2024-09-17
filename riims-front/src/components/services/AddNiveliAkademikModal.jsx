@@ -47,7 +47,7 @@ function AddNiveliAkademikModal({ show, onClose, onSave, token }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Add Academic Level</h5>
+                    <h5>Shto nivel akademik</h5>
                     <button className="close-button" onClick={() => {
                         onClose();
                         setNiveli(''); 
@@ -57,7 +57,7 @@ function AddNiveliAkademikModal({ show, onClose, onSave, token }) {
                 <div className="custom-modal-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="niveli">Academic Level</label>
+                            <label htmlFor="niveli">Niveli Akademik</label>
                             <input
                                 id="niveli"
                                 type="text"
