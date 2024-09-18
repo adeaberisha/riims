@@ -76,7 +76,7 @@ function EditPublikimi() {
                     llojiPublikimit: response.data.llojiPublikimit,
                     linkuPublikimit: response.data.linkuPublikimit || '',
                     autoriKryesor: response.data.autoriKryesor,
-                    dataPublikimi: response.data.dataPublikimi,
+                    dataPublikimi: response.data.dataPublikimi ? response.data.dataPublikimi.split('T')[0]: '',
                     emriDepartamentit: response.data.emriDepartamentit || null,
                 });
             } catch (error) {
