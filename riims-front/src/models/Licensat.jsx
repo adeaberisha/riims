@@ -123,7 +123,10 @@ function Licensat() {
             )}
 
             {successMessage && (
-              <div className="alert alert-success text-center mb-3" role="alert">
+              <div
+                className="alert alert-success text-center mb-3"
+                role="alert"
+              >
                 {successMessage}
               </div>
             )}

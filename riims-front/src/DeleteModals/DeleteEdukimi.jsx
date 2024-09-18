@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete Edukimi by ID
 async function deleteEdukimiById(id) {
-    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from local storage
+    const token = localStorage.getItem("jwtToken"); 
 
     if (!token) {
         console.error('No authentication token found.');
@@ -15,13 +14,13 @@ async function deleteEdukimiById(id) {
         const response = await fetch(`https://localhost:7254/api/Edukimi/delete-edukimi-by-id/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the request headers
+                'Authorization': `Bearer ${token}`, 
                 'Content-Type': 'application/json'
             }
         });
 
         if (response.ok) {
-            console.log(`Edukimi with ID ${id} deleted successfully.`);
+            console.log(`Edukimi me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete Edukimi with ID ${id}. Status: ${response.status}`);
         }
@@ -31,7 +30,7 @@ async function deleteEdukimiById(id) {
 }
 
 
-// Function to handle delete
+
 export function useDeleteEdukimi(setEdukime) {
     const [showEdukimiDeleteModal, setShowEdukimiDeleteModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);

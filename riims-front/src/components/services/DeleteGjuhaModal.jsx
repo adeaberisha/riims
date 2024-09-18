@@ -25,7 +25,7 @@ function DeleteGjuhaModal({ show, onClose, onDelete, token, gjuhe }) {
                 throw new Error(`Failed to delete language. Status: ${response.status}`);
             }
 
-            onDelete(gjuhe.id); // Pass the ID to the onDelete handler
+            onDelete(gjuhe.id); 
             onClose();
         } catch (error) {
             setError('Error deleting the language. Please try again.');
@@ -38,19 +38,19 @@ function DeleteGjuhaModal({ show, onClose, onDelete, token, gjuhe }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Confirm Deletion</h5>
+                    <h5>Konfirmo Fshirjen</h5>
                     <button 
                         className="close-button" 
                         onClick={() => {
                             onClose();
-                            setError(''); // Reset error when closing
+                            setError(''); 
                         }}
                     >
                         &times;
                     </button>
                 </div>
                 <div className="custom-modal-body">
-                    <p>Are you sure you want to delete the language "{gjuhe?.emriGjuhes}"?</p>
+                    <p>A je i sigurt qe deshiron ta fshish "{gjuhe?.emriGjuhes}"?</p>
                     {error && <div className="alert alert-danger">{error}</div>}
                 </div>
                 <div className="custom-modal-footer">

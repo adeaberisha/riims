@@ -1,32 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import EditSidebar from '../components/EditSidebar.jsx';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import EditSidebar from "../components/EditSidebar.jsx";
 
 function EditEksperienca() {
-  const { id } = useParams(); // Extract the ID from URL parameters
+  const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    Titulli: '',
-    LlojiPunesimit: '',
-    Lokacioni: '',
-    LlojiLokacionit: '',
-    DataFillimit: '',
-    DataMbarimit: '',
-    Pershkrimi: '',
-    EmriInstitucionit: ''
+    Titulli: "",
+    LlojiPunesimit: "",
+    Lokacioni: "",
+    LlojiLokacionit: "",
+    DataFillimit: "",
+    DataMbarimit: "",
+    Pershkrimi: "",
+    EmriInstitucionit: "",
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const fetchEksperienca = async () => {
       try {
-        const response = await axios.get(`https://localhost:7254/api/Eksperienca/get-eksperienca-by-id/${id}`);
+        const response = await axios.get(
+          `https://localhost:7254/api/Eksperienca/get-eksperienca-by-id/${id}`
+        );
         const formatDate = (isoDate) => {
-          if (!isoDate) return '';
+          if (!isoDate) return "";
           const date = new Date(isoDate);
-          return date.toISOString().split('T')[0]; // YYYY-MM-DD
+          return date.toISOString().split("T")[0];
         };
         setFormData({
           Titulli: response.data.titulli,
@@ -34,13 +36,13 @@ function EditEksperienca() {
           Lokacioni: response.data.lokacioni,
           LlojiLokacionit: response.data.llojiLokacionit,
           DataFillimit: formatDate(response.data.dataFillimit),
-          DataMbarimit: formatDate(response.data.dataMbarimit) || '',
-          Pershkrimi: response.data.pershkrimi || '',
-          EmriInstitucionit: response.data.emriInstitucionit
+          DataMbarimit: formatDate(response.data.dataMbarimit) || "",
+          Pershkrimi: response.data.pershkrimi || "",
+          EmriInstitucionit: response.data.emriInstitucionit,
         });
       } catch (error) {
-        console.error('Error gjatë marrjes së eksperiencës:', error);
-        setErrorMessage('Dështoi marrja e eksperiencës.');
+        console.error("Error gjatë marrjes së eksperiencës:", error);
+        setErrorMessage("Dështoi marrja e eksperiencës.");
       }
     };
 
@@ -50,18 +52,18 @@ function EditEksperienca() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
+    setErrorMessage("");
+    setSuccessMessage("");
     const token = localStorage.getItem("jwtToken");
 
     if (!token) {
-      setErrorMessage('Ju lutem logohuni përsëri.');
+      setErrorMessage("Ju lutem logohuni përsëri.");
       return;
     }
 
@@ -74,7 +76,7 @@ function EditEksperienca() {
         DataFillimit: formData.DataFillimit,
         DataMbarimit: formData.DataMbarimit || null,
         Pershkrimi: formData.Pershkrimi || null,
-        EmriInstitucionit: formData.EmriInstitucionit
+        EmriInstitucionit: formData.EmriInstitucionit,
       };
 
       const response = await axios.put(
@@ -82,53 +84,50 @@ function EditEksperienca() {
         data,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
       if (response.status === 200) {
-        setSuccessMessage('Eksperienca u ndryshua me sukses!');
+        setSuccessMessage("Eksperienca u ndryshua me sukses!");
         setFormData({
-          Titulli: '',
-          LlojiPunesimit: '',
-          Lokacioni: '',
-          LlojiLokacionit: '',
-          DataFillimit: '',
-          DataMbarimit: '',
-          Pershkrimi: '',
-          EmriInstitucionit: ''
+          Titulli: "",
+          LlojiPunesimit: "",
+          Lokacioni: "",
+          LlojiLokacionit: "",
+          DataFillimit: "",
+          DataMbarimit: "",
+          Pershkrimi: "",
+          EmriInstitucionit: "",
         });
-        // Redirect after 3 seconds (3000 ms)
-        setTimeout(() => {
-          // Navigate to the home page
-        }, 3000); 
+        setTimeout(() => {}, 3000);
       } else {
-      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
-  }
+        setErrorMessage("Diçka shkoi keq. Ju lutem provoni përsëri.");
+      }
     } catch (error) {
-      console.error('Gabim gjate ndryshimit te eksperiences:', error);
+      console.error("Gabim gjate ndryshimit te eksperiences:", error);
       if (error.response) {
         setErrorMessage(`Error: ${error.response.data}`);
       } else if (error.request) {
-        setErrorMessage('Ju lutem provoni perseri!');
+        setErrorMessage("Ju lutem provoni perseri!");
       } else {
-        setErrorMessage('Error: Nuk mund të përfundojë kërkesa.');
+        setErrorMessage("Error: Nuk mund të përfundojë kërkesa.");
       }
     }
   };
 
   const handleReset = () => {
     setFormData({
-      Titulli: '',
-      LlojiPunesimit: '',
-      Lokacioni: '',
-      LlojiLokacionit: '',
-      DataFillimit: '',
-      DataMbarimit: '',
-      Pershkrimi: '',
-      EmriInstitucionit: ''
+      Titulli: "",
+      LlojiPunesimit: "",
+      Lokacioni: "",
+      LlojiLokacionit: "",
+      DataFillimit: "",
+      DataMbarimit: "",
+      Pershkrimi: "",
+      EmriInstitucionit: "",
     });
   };
 
@@ -144,24 +143,37 @@ function EditEksperienca() {
         <div className="col-md-9">
           <div className="row justify-content-center py-4">
             <div className="col-md-8 col-lg-6">
-              <h4 className="text-center text-muted fst-italic mb-4">Perditso Eksperiencën tuaj</h4>
+              <h4 className="text-center text-muted fst-italic mb-4">
+                Perditso Eksperiencën tuaj
+              </h4>
 
               {errorMessage && (
-                <div className="alert alert-danger text-center mb-3" role="alert">
+                <div
+                  className="alert alert-danger text-center mb-3"
+                  role="alert"
+                >
                   {errorMessage}
                 </div>
               )}
 
               {successMessage && (
-                <div className="alert alert-success text-center mb-3" role="alert">
+                <div
+                  className="alert alert-success text-center mb-3"
+                  role="alert"
+                >
                   {successMessage}
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
+              <form
+                onSubmit={handleSubmit}
+                className="p-4 border rounded shadow bg-white"
+              >
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="Titulli" className="form-label fw-bold">Titulli*</label>
+                    <label htmlFor="Titulli" className="form-label fw-bold">
+                      Titulli*
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -175,7 +187,12 @@ function EditEksperienca() {
                   </div>
 
                   <div className="col-md-6">
-                    <label htmlFor="LlojiPunesimit" className="form-label fw-bold">Lloji i punësimit*</label>
+                    <label
+                      htmlFor="LlojiPunesimit"
+                      className="form-label fw-bold"
+                    >
+                      Lloji i punësimit*
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -191,7 +208,9 @@ function EditEksperienca() {
 
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="Lokacioni" className="form-label fw-bold">Lokacioni*</label>
+                    <label htmlFor="Lokacioni" className="form-label fw-bold">
+                      Lokacioni*
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -204,7 +223,12 @@ function EditEksperienca() {
                   </div>
 
                   <div className="col-md-6">
-                    <label htmlFor="LlojiLokacionit" className="form-label fw-bold">Lloji i lokacionit*</label>
+                    <label
+                      htmlFor="LlojiLokacionit"
+                      className="form-label fw-bold"
+                    >
+                      Lloji i lokacionit*
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -219,7 +243,12 @@ function EditEksperienca() {
 
                 <div className="row mb-3">
                   <div className="col-md-6">
-                    <label htmlFor="DataFillimit" className="form-label fw-bold">Data e fillimit*</label>
+                    <label
+                      htmlFor="DataFillimit"
+                      className="form-label fw-bold"
+                    >
+                      Data e fillimit*
+                    </label>
                     <input
                       type="date"
                       className="form-control"
@@ -232,7 +261,12 @@ function EditEksperienca() {
                   </div>
 
                   <div className="col-md-6">
-                    <label htmlFor="DataMbarimit" className="form-label fw-bold">Data e mbarimit</label>
+                    <label
+                      htmlFor="DataMbarimit"
+                      className="form-label fw-bold"
+                    >
+                      Data e mbarimit
+                    </label>
                     <input
                       type="date"
                       className="form-control"
@@ -246,7 +280,9 @@ function EditEksperienca() {
 
                 <div className="row mb-3">
                   <div className="col-md-12">
-                    <label htmlFor="Pershkrimi" className="form-label fw-bold">Përshkrimi</label>
+                    <label htmlFor="Pershkrimi" className="form-label fw-bold">
+                      Përshkrimi
+                    </label>
                     <textarea
                       className="form-control"
                       id="Pershkrimi"
@@ -260,7 +296,12 @@ function EditEksperienca() {
 
                 <div className="row mb-3">
                   <div className="col-md-12">
-                    <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
+                    <label
+                      htmlFor="EmriInstitucionit"
+                      className="form-label fw-bold"
+                    >
+                      Emri i institucionit*
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -274,8 +315,21 @@ function EditEksperienca() {
                 </div>
 
                 <div className="d-flex justify-content-between">
-                <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
-                <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj Ndryshimet</button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleReset}
+                    style={{ width: "calc(50% - 0.7rem)" }}
+                  >
+                    Anulo
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ width: "calc(50% - 0.7rem)" }}
+                  >
+                    Ruaj Ndryshimet
+                  </button>
                 </div>
               </form>
             </div>

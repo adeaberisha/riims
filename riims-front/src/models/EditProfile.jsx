@@ -314,10 +314,7 @@ function EditProfile() {
               </div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <label
-                    htmlFor="niveliAkademik"
-                    className="form-label"
-                  >
+                  <label htmlFor="niveliAkademik" className="form-label">
                     Niveli akademik*
                   </label>
                   <Select

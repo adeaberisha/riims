@@ -13,7 +13,7 @@ function PunaVullnetare() {
 
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // 'success' or 'danger'
+  const [messageType, setMessageType] = useState(""); 
 
   const handleChange = (e) => {
     setFormData({
@@ -56,7 +56,7 @@ function PunaVullnetare() {
       if (postResponse.status === 201) {
         setMessage("Puna vullnetare u shtua me sukses!");
         setMessageType("success");
-        setFormData(initialFormData); // Reset form data
+        setFormData(initialFormData); 
       } else {
         setMessage("Diçka shkoi keq. Ju lutemi provoni përsëri.");
         setMessageType("danger");
@@ -74,7 +74,7 @@ function PunaVullnetare() {
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(""), 6000); // Clear message after 6 seconds
+      const timer = setTimeout(() => setMessage(""), 6000); 
       return () => clearTimeout(timer);
     }
   }, [message]);

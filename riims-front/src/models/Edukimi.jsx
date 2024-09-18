@@ -87,7 +87,7 @@ function Edukimi() {
 
       if (response.status === 201) {
         setSuccessMessage("Edukimi u shtua me sukses!");
-        setFormData(initialFormData); // Reset form data
+        setFormData(initialFormData);
       } else {
         setErrorMessage("Diçka shkoi keq. Ju lutem provoni përsëri.");
       }
@@ -178,9 +178,11 @@ function Edukimi() {
                     </label>
                     <Select
                       options={niveletAkademike}
-                      value={niveletAkademike.find(
-                        (option) => option.label === formData.NiveliAkademik
-                      ) || null}
+                      value={
+                        niveletAkademike.find(
+                          (option) => option.label === formData.NiveliAkademik
+                        ) || null
+                      }
                       onChange={handleSelectChange}
                       placeholder="Zgjedhni nivelin"
                       required

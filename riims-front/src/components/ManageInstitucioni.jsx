@@ -5,7 +5,7 @@ import AddInstitucioniModal from "./services/InstitucioniAddService"; // Import 
 import EditInstitucioniModal from "./services/InstitucioniEditService"; // Import the EditInstitucioniModal
 import AddDepartamentiModal from "./services/AddDepartamentiModal"; // Import the AddDepartamentiModal
 import EditDepartamentiModal from "./services/EditDepartamentiModal"; // Import the EditDepartamentiModal
-import "../css/ManageInstitucioni.css"; // Import your custom CSS
+import "../css/ManageInstitucioni.css"; 
 
 const ManageInstitucioni = () => {
   const [institutions, setInstitutions] = useState([]);
@@ -18,7 +18,6 @@ const ManageInstitucioni = () => {
   const [currentDepartment, setCurrentDepartment] = useState(null);
   const token = localStorage.getItem("jwtToken");
 
-  // Fetch institutions and departments
   const fetchData = useCallback(async () => {
     try {
       const [institutionsResponse, departmentsResponse] = await Promise.all([
@@ -41,7 +40,6 @@ const ManageInstitucioni = () => {
     fetchData();
   }, [fetchData]);
 
-  // Handle institution add/edit operations
   const handleAddInstitucioni = (newInstitution) => {
     setInstitutions((prevInstitutions) => [newInstitution, ...prevInstitutions]);
   };
@@ -59,7 +57,6 @@ const ManageInstitucioni = () => {
     setShowEditInstitucioniModal(true);
   };
 
-  // Handle department add/edit operations
   const handleAddDepartamenti = (newDepartment) => {
     setDepartments((prevDepartments) => [newDepartment, ...prevDepartments]);
   };

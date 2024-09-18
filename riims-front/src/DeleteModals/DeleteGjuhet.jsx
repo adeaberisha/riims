@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete UserGjuhet by ID
 async function deleteUserGjuhetById(id) {
     try {
         const response = await fetch(`https://localhost:7254/api/UserGjuhet/delete-userGjuhet-by-id/${id}`, {
@@ -10,7 +9,7 @@ async function deleteUserGjuhetById(id) {
         });
 
         if (response.ok) {
-            console.log(`UserGjuhet with ID ${id} deleted successfully.`);
+            console.log(`UserGjuhet me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete UserGjuhet with ID ${id}. Status: ${response.status}`);
         }
@@ -19,7 +18,6 @@ async function deleteUserGjuhetById(id) {
     }
 }
 
-// Function to handle delete
 export function useDeleteUserGjuhet(setUserGjuhet) {
     const [showUserGjuhetConfirmModal, setShowUserGjuhetConfirmModal] = useState(false);
     const [currentUserGjuhetId, setCurrentUserGjuhetId] = useState(null);

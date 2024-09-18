@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import EditSidebar from '../components/EditSidebar.jsx';
 
 function EditLicensa() {
-  const { id } = useParams(); // Extract the ID from URL parameters
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Emri: '',
@@ -24,7 +24,7 @@ function EditLicensa() {
         const formatDate = (isoDate) => {
           if (!isoDate) return '';
           const date = new Date(isoDate);
-          return date.toISOString().split('T')[0]; // YYYY-MM-DD
+          return date.toISOString().split('T')[0]; 
         };
         setFormData({
           Emri: response.data.emri,
@@ -72,7 +72,7 @@ function EditLicensa() {
       };
 
       const response = await axios.put(
-        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`, // Use the ID for updating the license
+        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`, 
         data,
         {
           headers: {

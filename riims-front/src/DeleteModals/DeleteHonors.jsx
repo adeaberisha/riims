@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete HonorsAndAwards by ID
+
 async function deleteHonorById(id) {
     try {
         const response = await fetch(`https://localhost:7254/api/HonorsAndAwards/delete-honor-by-id/${id}`, {
@@ -10,7 +10,7 @@ async function deleteHonorById(id) {
         });
 
         if (response.ok) {
-            console.log(`Honor with ID ${id} deleted successfully.`);
+            console.log(`Honor me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete honor with ID ${id}. Status: ${response.status}`);
         }
@@ -19,7 +19,7 @@ async function deleteHonorById(id) {
     }
 }
 
-// Function to handle delete
+
 export function useDeleteHonor(setHonors) {
     const [showHonorDeleteModal, setShowHonorDeleteModal] = useState(false);
     const [currentHonorId, setCurrentHonorId] = useState(null);

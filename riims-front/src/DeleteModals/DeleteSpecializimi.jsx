@@ -10,7 +10,7 @@ async function deleteSpecializimById(id) {
         });
 
         if (response.ok) {
-            console.log(`Specializim with ID ${id} deleted successfully.`);
+            console.log(`Specializimi me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete Specializim with ID ${id}. Status: ${response.status}`);
         }

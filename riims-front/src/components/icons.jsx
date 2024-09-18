@@ -1,5 +1,3 @@
-//Contains custom icons which are not in font-awesome-icons
-//These are from open source project https://github.com/konpa/devicon
 const CPlusPlus = {
     prefix: 'fab',
     iconName: 'cplusplus',

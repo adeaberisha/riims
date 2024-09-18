@@ -10,7 +10,7 @@ async function deleteAftesiaById(id) {
         });
 
         if (response.ok) {
-            console.log(`Aftesia with ID ${id} deleted successfully.`);
+            console.log(`Aftesia me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete Aftesia with ID ${id}. Status: ${response.status}`);
         }

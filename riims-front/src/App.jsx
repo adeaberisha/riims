@@ -51,10 +51,10 @@ function App() {
     try {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000; 
-      return decodedToken.exp < currentTime; // Compare expiration time
+      return decodedToken.exp < currentTime; 
     } catch (error) {
       console.error("Error decoding token:", error);
-      return true; // If decoding fails, treat as expired
+      return true;
     }
   };
 
@@ -74,7 +74,6 @@ function App() {
         localStorage.removeItem("isLoggedIn");
       }
     } else {
-      // If the token is expired or doesn't exist, log the user out
       setIsLoggedIn(false);
       localStorage.removeItem("jwtToken");
       localStorage.removeItem("isLoggedIn");

@@ -99,7 +99,6 @@ function PersonDetails() {
                 console.log('User data fetched:', response.data);
                 setUserData(response.data);
 
-                // Fetch other data with the same token
                 const fetchData = async (url, setter) => {
                     try {
                         const res = await axios.get(url, {
@@ -138,9 +137,6 @@ function PersonDetails() {
         fetchUserData();
     }, []);
 
-    
-
-    // Function to handle viewing CV
     const handleViewCV = () => {
         navigate('/thecv', {
             state: {
@@ -174,7 +170,6 @@ function PersonDetails() {
             <Card className="text-center shadow-lg animated-card view-cv-card mb-3 align-items-center">
                 <Card.Body className="p-4">
                     <FaFileAlt size={60} className="mb-3 text-white icon-background " />
-                    {/* <Card.Title className="fs-4">Download your CV</Card.Title> */}
                     <button className="btn btn-view-cv mt-3" onClick={handleViewCV}>
                         <FaEye size={20} /> Generate your CV
                     </button>
@@ -300,7 +295,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <EksperiencaConfirmDeleteModal />
                     </div>
                 </div>
@@ -329,7 +323,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <UserGjuhetConfirmDeleteModal />
                     </div>
                 </div>
@@ -363,7 +356,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <HonorDeleteConfirmationModal />
                     </div>
                 </div>
@@ -397,7 +389,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <LicensaDeleteModal />
                     </div>
                 </div>
@@ -427,7 +418,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <MbikqyresDeleteModal />
                     </div>
                 </div>
@@ -459,7 +449,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <ProjektiDeleteModal />
                     </div>
                 </div>
@@ -491,7 +480,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <PublikimiDeleteModal />
                     </div>
                 </div>
@@ -522,7 +510,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <PunaVullnetareDeleteModal />
                     </div>
                 </div>
@@ -556,7 +543,6 @@ function PersonDetails() {
                                 </div>
                             ))}
                         </div>
-
                         <SpecializimDeleteModal />
                     </div>
                 </div>

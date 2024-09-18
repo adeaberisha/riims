@@ -21,7 +21,7 @@ async function deleteMbikqyresById(id) {
         });
 
         if (response.ok) {
-            console.log(`MbikqyresITemave with ID ${id} deleted successfully.`);
+            console.log(`MbikqyresITemave me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete MbikqyresITemave with ID ${id}. Status: ${response.status}`);
         }

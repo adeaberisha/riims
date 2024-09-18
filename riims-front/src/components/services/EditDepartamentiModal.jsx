@@ -1,34 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../css/CustomModal.css';
 
-function EditDepartamentModal({ show, onClose, onSave, token, departament, institutions }) {
-    const [initialEmri, setInitialEmri] = useState('');
-    const [initialEmriInstitucionit, setInitialEmriInstitucionit] = useState('');
+function EditDepartamentModal({ show, onClose, onSave, token, department, institutions }) {
     const [emri, setEmri] = useState('');
     const [emriInstitucionit, setEmriInstitucionit] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Initialize state with the department's current data
     useEffect(() => {
-        if (departament) {
-            setInitialEmri(departament.emri);
-            setInitialEmriInstitucionit(departament.emriInstitucionit); // Assuming `emriInstitucionit` is the name of the institution
-            setEmri(departament.emri);
-            setEmriInstitucionit(departament.emriInstitucionit);
+        if (department && show) {
+            setEmri(department.emri);
+            setEmriInstitucionit(department.emriInstitucionit);
         }
-    }, [departament]);
+    }, [department, show]);
 
-    // Reset fields when modal is closed
     useEffect(() => {
         if (!show) {
-            setEmri(initialEmri);
-            setEmriInstitucionit(initialEmriInstitucionit);
+            setEmri('');
+            setEmriInstitucionit('');
             setError('');
         }
-    }, [show, initialEmri, initialEmriInstitucionit]);
+    }, [show]);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = useCallback(async (event) => {
         event.preventDefault();
         if (emri.trim() === '' || !emriInstitucionit) {
             setError('All fields are required.');
@@ -37,51 +31,48 @@ function EditDepartamentModal({ show, onClose, onSave, token, departament, insti
         setIsLoading(true);
         setError('');
         try {
-            // Prepare the updated department data
             const updatedDepartamenti = {
                 emri,
-                emriInstitucionit // Correctly use `emriInstitucionit` here
+                emriInstitucionit
             };
 
-            // Update the department in the backend
-            const response = await fetch(`https://localhost:7254/api/Departamenti/update-departamenti/${departament.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(updatedDepartamenti)
-            });
+            const response = await fetch(
+                `https://localhost:7254/api/Departamenti/update-departamenti/${department.id}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(updatedDepartamenti)
+                }
+            );
 
             if (!response.ok) {
                 throw new Error(`Failed to update department. Status: ${response.status}`);
             }
 
             const updatedDepartament = await response.json();
-            onSave(updatedDepartament); // Notify parent component of the update
-            onClose(); // Close the modal
+            onSave(updatedDepartament);
+            onClose();
         } catch (error) {
             setError('Error updating the department. Please try again.');
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [emri, emriInstitucionit, department, token, onSave, onClose]);
 
     return (
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Edit Department</h5>
-                    <button className="close-button" onClick={() => {
-                        onClose();
-                        setEmri(initialEmri);
-                        setEmriInstitucionit(initialEmriInstitucionit);
-                    }}>&times;</button>
+                    <h5>Përditëso Departmentin</h5>
+                    <button className="close-button" onClick={onClose}>&times;</button>
                 </div>
                 <div className="custom-modal-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="emri">Department Name</label>
+                            <label htmlFor="emri">Emri i Departmentit</label>
                             <input
                                 id="emri"
                                 type="text"
@@ -92,7 +83,7 @@ function EditDepartamentModal({ show, onClose, onSave, token, departament, insti
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="institucioni">Institution</label>
+                            <label htmlFor="institucioni">Institucioni</label>
                             <select
                                 id="institucioni"
                                 value={emriInstitucionit}
@@ -109,11 +100,7 @@ function EditDepartamentModal({ show, onClose, onSave, token, departament, insti
                         </div>
                         {error && <div className="invalid-feedback">{error}</div>}
                         <div className="custom-modal-footer">
-                            <button type="button" onClick={() => {
-                                onClose();
-                                setEmri(initialEmri);
-                                setEmriInstitucionit(initialEmriInstitucionit);
-                            }} disabled={isLoading} className="btn btn-secondary">
+                            <button type="button" onClick={onClose} disabled={isLoading} className="btn btn-secondary">
                                 Close
                             </button>
                             <button type="submit" disabled={isLoading} className="btn btn-primary">

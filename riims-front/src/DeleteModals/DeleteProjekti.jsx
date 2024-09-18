@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete Projekti by ID
 async function deleteProjektiById(id) {
     try {
         const response = await fetch(`https://localhost:7254/api/Projekti/delete-projekti-by-id/${id}`, {
@@ -10,7 +9,7 @@ async function deleteProjektiById(id) {
         });
 
         if (response.ok) {
-            console.log(`Projekti with ID ${id} deleted successfully.`);
+            console.log(`Projekti me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete Projekti with ID ${id}. Status: ${response.status}`);
         }
@@ -19,7 +18,6 @@ async function deleteProjektiById(id) {
     }
 }
 
-// Function to handle delete
 export function useDeleteProjekti(setProjektet) {
     const [showProjektiDeleteModal, setShowProjektiDeleteModal] = useState(false);
     const [currentProjektiId, setCurrentProjektiId] = useState(null);

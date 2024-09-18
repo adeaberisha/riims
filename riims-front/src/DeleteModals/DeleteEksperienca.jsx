@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete Eksperienca by ID
 async function deleteEksperiencaById(id) {
     try {
         const response = await fetch(`https://localhost:7254/api/Eksperienca/delete-eksperienca-by-id/${id}`, {
@@ -19,7 +18,6 @@ async function deleteEksperiencaById(id) {
     }
 }
 
-// Function to handle delete
 export function useDeleteEksperienca(setEksperienca) {
     const [showEksperiencaConfirmModal, setShowEksperiencaConfirmModal] = useState(false);
     const [currentEksperiencaId, setCurrentEksperiencaId] = useState(null);

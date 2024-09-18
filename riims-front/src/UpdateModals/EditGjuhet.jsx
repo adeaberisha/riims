@@ -5,7 +5,7 @@ import Select from 'react-select';
 import EditSidebar from '../components/EditSidebar.jsx'; // Ensure you have this component or adjust import
 
 function EditGjuhet() {
-  const { id } = useParams(); // Extract the ID from URL parameters
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     EmriGjuhes: '',
@@ -16,7 +16,6 @@ function EditGjuhet() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Fetch languages on mount
   useEffect(() => {
     const fetchGjuhet = async () => {
       try {
@@ -34,7 +33,6 @@ function EditGjuhet() {
     fetchGjuhet();
   }, []);
 
-  // Fetch language levels on mount
   useEffect(() => {
     const fetchNivelet = async () => {
       try {
@@ -52,7 +50,6 @@ function EditGjuhet() {
     fetchNivelet();
   }, []);
 
-  // Fetch the current language details on mount
   useEffect(() => {
     const fetchUserGjuhet = async () => {
       try {
@@ -69,7 +66,6 @@ function EditGjuhet() {
     fetchUserGjuhet();
   }, [id]);
 
-  // Handle language selection change
   const handleSelectChange = (selectedOption) => {
     setFormData({
       ...formData,
@@ -77,7 +73,6 @@ function EditGjuhet() {
     });
   };
 
-  // Handle language level selection change
   const handleSelectChangeNiveli = (selectedOption) => {
     setFormData({
       ...formData,
@@ -173,7 +168,7 @@ function EditGjuhet() {
                     <label htmlFor="EmriGjuhes" className='form-label fw-bold'>Emri i gjuhës*</label>
                     <Select
                       options={gjuhet}
-                      value={gjuhet.find(option => option.label === formData.EmriGjuhes) || null}  // Select the right option based on ID
+                      value={gjuhet.find(option => option.label === formData.EmriGjuhes) || null}  
                       onChange={handleSelectChange}
                       placeholder="Zgjedhni një gjuhë"
                       required
@@ -185,7 +180,7 @@ function EditGjuhet() {
                     <label htmlFor="Niveli" className='form-label fw-bold'>Niveli gjuhësor</label>
                     <Select
                       options={niveli}
-                      value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null}  // Select the right option based on ID
+                      value={niveli.find(option => option.label === formData.NiveliGjuhesor) || null}  
                       onChange={handleSelectChangeNiveli}
                       placeholder="Zgjedhni një nivel"
                       required

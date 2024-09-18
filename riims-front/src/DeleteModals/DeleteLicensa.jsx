@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete Licensa by ID
+
 async function deleteLicensaById(id) {
     try {
         const response = await fetch(`https://localhost:7254/api/Licensat/delete-licensa-by-id/${id}`, {
@@ -10,7 +10,7 @@ async function deleteLicensaById(id) {
         });
 
         if (response.ok) {
-            console.log(`Licensa with ID ${id} deleted successfully.`);
+            console.log(`Licensa me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete Licensa with ID ${id}. Status: ${response.status}`);
         }
@@ -19,7 +19,7 @@ async function deleteLicensaById(id) {
     }
 }
 
-// Function to handle delete
+
 export function useDeleteLicensa(setLicensat) {
     const [showLicensaDeleteModal, setShowLicensaDeleteModal] = useState(false);
     const [currentLicensaId, setCurrentLicensaId] = useState(null);

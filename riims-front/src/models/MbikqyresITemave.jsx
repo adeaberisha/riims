@@ -144,7 +144,10 @@ function MbikqyresITemave() {
             )}
 
             {successMessage && (
-              <div className="alert alert-success text-center mb-3" role="alert">
+              <div
+                className="alert alert-success text-center mb-3"
+                role="alert"
+              >
                 {successMessage}
               </div>
             )}
@@ -157,7 +160,10 @@ function MbikqyresITemave() {
               <div className="row">
                 <div className="col-md-12 mb-3">
                   <div className="form-group">
-                    <label htmlFor="titulliTemes" className="form-label fw-bold">
+                    <label
+                      htmlFor="titulliTemes"
+                      className="form-label fw-bold"
+                    >
                       Titulli i temës*
                     </label>
                     <input

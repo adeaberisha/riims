@@ -132,19 +132,16 @@ function EditPunaVullnetare() {
                     <EditSidebar />
                 </div>
 
-                {/* Main Content */}
                 <div className="col-md-10 d-flex flex-column align-items-center py-5">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-6" style={{ marginTop: '-1.4rem' }}>
                         <h4 className="text-center text-muted fst-italic mb-3">Përditësoni punën vullnetare</h4>
 
-                        {/* Success Message */}
                         {successMessage && (
                             <div className="alert alert-success text-center mb-3" role="alert">
                                 {successMessage}
                             </div>
                         )}
 
-                        {/* Error Message */}
                         {errorMessage && (
                             <div className="alert alert-danger text-center mb-3" role="alert">
                                 {errorMessage}

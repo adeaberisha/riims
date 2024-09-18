@@ -27,7 +27,6 @@ export const useHideItems = (storageKey) => {
     return [hiddenItems, toggleHideItem];
 };
 
-// Create custom hooks for specific entities
 export const useHideAftesite = () => useHideItems ('hiddenAftesia');
 export const useHideEducation = () => useHideItems('hiddenEducation');
 export const useHideExperience = () => useHideItems('hiddenExperience');

@@ -177,7 +177,7 @@ const AdminDashboard = () => {
               <Button
                 variant="primary"
                 className="mt-2 btn-dark-blue"
-                onClick={() => navigate("/ManageDepartamenti")}
+                onClick={() => navigate("/ManageInstitucioni")}
               >
                 Go to Manage Departamentet
               </Button>

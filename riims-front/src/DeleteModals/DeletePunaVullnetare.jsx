@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/DeleteModals.css';
 
-// Function to delete PunaVullnetare by ID
 async function deletePunaVullnetareById(id) {
-    const token = localStorage.getItem("jwtToken"); // Retrieve the JWT token from local storage
+    const token = localStorage.getItem("jwtToken");
 
     if (!token) {
         console.error('No authentication token found.');
@@ -15,13 +14,13 @@ async function deletePunaVullnetareById(id) {
         const response = await fetch(`https://localhost:7254/api/PunaVullnetare/delete-puna-vullnetare-by-id/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the request headers
+                'Authorization': `Bearer ${token}`, 
                 'Content-Type': 'application/json'
             }
         });
 
         if (response.ok) {
-            console.log(`PunaVullnetare with ID ${id} deleted successfully.`);
+            console.log(`PunaVullnetare me ID ${id} u fshi me sukses.`);
         } else {
             console.error(`Failed to delete PunaVullnetare with ID ${id}. Status: ${response.status}`);
         }

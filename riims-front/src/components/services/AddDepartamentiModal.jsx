@@ -49,7 +49,7 @@ function AddDepartamentModal({ show, onClose, onSave, token }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Add Department</h5>
+                    <h5>Shto Departmentin</h5>
                     <button className="close-button" onClick={() => {
                         onClose();
                         setEmri(''); 

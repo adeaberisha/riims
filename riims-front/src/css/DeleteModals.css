@@ -1,32 +1,27 @@
-/* index.css */
-
-/* General button styling for modal */
 .modal-button {
-    display: inline-block; /* Ensure buttons are inline */
-    width: 120px; /* Adjust width to make buttons shorter */
-    padding: 0.5rem; /* Adjust padding to make buttons slimmer */
-    text-align: center; /* Center text horizontally */
-    font-size: 0.875rem; /* Slightly smaller font size */
-    border-radius: 0.25rem; /* Rounded corners */
-    border: none; /* Remove default border */
+    display: inline-block; 
+    width: 120px; 
+    padding: 0.5rem; 
+    text-align: center; 
+    font-size: 0.875rem;
+    border-radius: 0.25rem; 
+    border: none; 
 }
 
-/* Cancel button styling */
 .modal-button-cancel {
-    background-color: #007bff; /* Blue color for cancel button */
-    color: #ffffff; /* Text color */
+    background-color: #007bff; 
+    color: #ffffff;
 }
 
 .modal-button-cancel:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
 }
 
-/* Delete button styling */
 .modal-button-delete {
-    background-color: #720909; /* Gray color for delete button */
-    color: #ffffff; /* Text color */
+    background-color: #720909;
+    color: #ffffff; 
 }
 
 .modal-button-delete:hover {
-    background-color: #5a6268; /* Darker gray on hover */
+    background-color: #5a6268; 
 }

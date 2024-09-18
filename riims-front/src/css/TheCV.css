@@ -19,7 +19,7 @@
     margin: 0;
 }
  .sidebar-circle-bg {
-    background: transparent; /* Match the sidebar color */
+    background: transparent; 
     color: white;
     width: 250px;
     height: 40px; 
@@ -31,13 +31,9 @@
     padding: 5px 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin: 20px 0; 
-    border: 2px solid #2565b3; /* Light blue border */
+    border: 2px solid #2565b3; 
 }
 
-/* Ensure text inside languages section is centered */
-
-
-/* Custom CSS to reduce space between columns */
 .no-gutters {
     margin-right: 0;
     margin-left: 0;

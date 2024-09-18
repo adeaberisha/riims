@@ -1,15 +1,15 @@
 .bg-dark-blue {
-    background-color: #003366; /* Darker shade of blue */
+    background-color: #003366; 
   }
   
   .btn-dark-blue {
-    background-color: #003366; /* Darker shade of blue */
-    border-color: #003366; /* Match button border color to background */
-    color: white; /* White text color */
+    background-color: #003366; 
+    border-color: #003366; 
+    color: white; 
   }
   
   .btn-dark-blue:hover {
-    background-color: #002244; /* Slightly darker on hover */
-    border-color: #002244; /* Match button border color on hover */
+    background-color: #002244; 
+    border-color: #002244;
   }
   

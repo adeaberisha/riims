@@ -22,7 +22,7 @@ const RoleUpdater = ({ userId, token, onRoleUpdated }) => {
       if (response.status === 200) {
         setStatusMessage(`Roli u përditësua me sukses në ${newRole}`);
         if (onRoleUpdated) {
-          onRoleUpdated(); // Call the callback to refresh the user list
+          onRoleUpdated();
         }
       } else {
         setStatusMessage("Dështoi të përditësohet roli");
@@ -42,12 +42,10 @@ const RoleUpdater = ({ userId, token, onRoleUpdated }) => {
           className="mb-2 mr-2"
           value={newRole}
           onChange={(e) => setNewRole(e.target.value)}
-
         >
           <option value="">Select Role</option>
           <option value="Admin">Admin</option>
           <option value="User">User</option>
-          {/* Add more roles here as needed */}
         </Form.Control>
       </Form.Group>
       <Button variant="primary" onClick={updateRole} size="sm">

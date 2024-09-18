@@ -20,8 +20,8 @@ const workTypes = [
 function Eksperienca() {
   const initialFormData = {
     titulli: "",
-    llojiPunesimit: "", 
-    emriKompanise: "", 
+    llojiPunesimit: "",
+    emriKompanise: "",
     lokacioni: "",
     llojiLokacionit: "",
     dataFillimit: "",
@@ -32,7 +32,6 @@ function Eksperienca() {
   const [formData, setFormData] = useState(initialFormData);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
 
   const handleChange = (e) => {
     setFormData({
@@ -92,7 +91,7 @@ function Eksperienca() {
 
       if (response.status === 201) {
         setSuccessMessage("Eksperienca u shtua me sukses!");
-        setFormData(initialFormData); // Reset form data
+        setFormData(initialFormData); 
       } else {
         setErrorMessage("Diçka shkoi keq. Ju lutem provoni përsëri.");
       }
@@ -181,9 +180,11 @@ function Eksperienca() {
                     <Select
                       aria-labelledby="llojiPunesimit-label"
                       options={workTypes}
-                      value={workTypes.find(
-                        (option) => option.value === formData.llojiPunesimit
-                      ) || null}
+                      value={
+                        workTypes.find(
+                          (option) => option.value === formData.llojiPunesimit
+                        ) || null
+                      }
                       onChange={handleSelectChange}
                       placeholder="Zgjedhni llojin"
                       required

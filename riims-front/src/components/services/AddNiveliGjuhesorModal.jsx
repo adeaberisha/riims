@@ -47,7 +47,7 @@ function AddNiveliGjuhesorModal({ show, onClose, onSave, token }) {
         <div className={`custom-modal ${show ? 'show' : ''}`}>
             <div className="custom-modal-content">
                 <div className="custom-modal-header">
-                    <h5>Add Language Level</h5>
+                    <h5>Shto nivel gjuhesor</h5>
                     <button 
                         className="close-button" 
                         onClick={() => {
@@ -62,7 +62,7 @@ function AddNiveliGjuhesorModal({ show, onClose, onSave, token }) {
                 <div className="custom-modal-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="niveli">Language Level</label>
+                            <label htmlFor="niveli">Niveli Gjuhesor</label>
                             <input
                                 id="niveli"
                                 type="text"

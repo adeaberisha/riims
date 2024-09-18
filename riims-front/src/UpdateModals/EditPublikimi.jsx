@@ -11,7 +11,7 @@ const publikimiTypes = [
     { value: 'Journal Paper', label: 'Journal Paper' },
 ];
 
-const jwtTokenKey = 'jwtToken';  // Use constant for token key
+const jwtTokenKey = 'jwtToken';  
 
 function EditPublikimi() {
     const { id } = useParams();
@@ -29,7 +29,7 @@ function EditPublikimi() {
     const [departamentet, setDepartamentet] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [loading, setLoading] = useState(false); // Add loading state
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchDepartamentet = async () => {
@@ -121,7 +121,7 @@ function EditPublikimi() {
         e.preventDefault();
         setErrorMessage('');
         setSuccessMessage('');
-        setLoading(true);  // Set loading true on submit
+        setLoading(true);  
 
         const token = localStorage.getItem(jwtTokenKey);
 
@@ -259,7 +259,7 @@ function EditPublikimi() {
                                         name="autoriKryesor"
                                         checked={formData.autoriKryesor}
                                         onChange={handleCheckboxChange}
-                                        style={{ marginTop: '1.25rem' }}  // Add margin to push it lower
+                                        style={{ marginTop: '1.25rem' }}  
                                         />
                                         <label htmlFor="autoriKryesor" className="ms-2">Autori kryesor</label>
                                     </div>
