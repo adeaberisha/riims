@@ -1,4 +1,6 @@
-﻿namespace riims.Models.DTO.UserDTO
+﻿using System.Globalization;
+
+namespace riims.Models.DTO.UserDTO
 {
     public class AddUserRequestDTO
     {
@@ -15,5 +17,7 @@
         public string? numriTelefonit { get; set; }
 
         public string NiveliAkademik { get; set; }
+
+        public string foto { get; set; }
     }
 }

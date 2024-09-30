@@ -24,15 +24,7 @@ function EditProfile() {
     if (token) {
       fetchData();
     } else {
-      alert("Token not found. Please log in again.");
-    }
-
-    const savedFoto = localStorage.getItem("foto");
-    if (savedFoto) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        foto: savedFoto,
-      }));
+      alert("Ju lutemi logohuni përsëri!");
     }
   }, [token]);
 
@@ -63,32 +55,52 @@ function EditProfile() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
+      const profileResponse = await axios.get(
         "https://localhost:7254/api/UserProfile/get-profile-by-id",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      const personData = response.data;
-      console.log("Fetched person data:", personData);
+      const personData = profileResponse.data;
+  
       setFormData((prevFormData) => ({
         ...prevFormData,
         emri: personData.emri || "",
         mbiemri: personData.mbiemri || "",
         gjinia: personData.gjinia || "",
         adresa: personData.adresa || "",
-        dataELindjes: personData.dataELindjes
-          ? formatDate(personData.dataELindjes)
-          : "",
-        niveliAkademik: response.data.niveliAkademik || "",
+        dataELindjes: personData.dataELindjes ? formatDate(personData.dataELindjes) : "",
+        niveliAkademik: personData.niveliAkademik || "",
         numriTelefonit: personData.numriTelefonit || "",
-        foto: personData.foto || localStorage.getItem("foto") || defaultImage,
       }));
+  
+      try {
+        const photoResponse = await axios.get(
+          "https://localhost:7254/api/Images/GetImageByUserId",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
+        const photoUrl = photoResponse.data.url || defaultImage;
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          foto: photoUrl,
+        }));
+      } catch (photoError) {
+        console.error("Error gjatë marrjes së fotos:", photoError);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          foto: defaultImage,
+        }));
+      }
+  
     } catch (error) {
-      console.error("Error fetching person data:", error);
-      alert("Error fetching profile data. Please try again.");
+      console.error("Error gjatë marrjes së të dhënave:", error);
     }
   };
+  
+  
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
@@ -112,7 +124,6 @@ function EditProfile() {
           ...prevFormData,
           foto: imageData.url,
         }));
-        localStorage.setItem("foto", imageData.url);
       }
     } catch (error) {
       console.error("Gabim gjatë ngarkimit të imazhit", error);
@@ -149,12 +160,28 @@ function EditProfile() {
     }));
   };
 
-  const handleRemovePhoto = () => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      foto: defaultImage,
-    }));
-    localStorage.removeItem("foto");
+  const handleRemovePhoto = async () => {
+    try {
+      const response = await axios.delete(
+        "https://localhost:7254/api/Images/Delete",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        foto: defaultImage,
+      }));
+  
+      alert("Photo removed successfully!");
+    } catch (error) {
+      console.error("Error removing photo:", error);
+      alert("Error removing photo. Please try again.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -170,7 +197,7 @@ function EditProfile() {
         : null,
       niveliAkademik: formData.niveliAkademik || "",
       numriTelefonit: formData.numriTelefonit || "",
-      foto: formData.foto || "",
+      foto: formData.foto || defaultImage,
     };
 
     try {

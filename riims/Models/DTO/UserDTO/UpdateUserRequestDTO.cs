@@ -16,6 +16,6 @@
 
         public string NiveliAkademik { get; set; }
 
-        public Guid? ImageId{ get; set; }
+        public string foto { get; set; }
     }
 }

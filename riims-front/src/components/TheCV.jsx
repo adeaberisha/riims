@@ -4,7 +4,6 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import fileDownload from 'js-file-download';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useProfile } from './ProfileContext';
 import '../css/TheCV.css';
 
 const CVForm = () => {
@@ -23,8 +22,6 @@ const CVForm = () => {
     publication = [],
     honors = []
   } = location.state || {};
-
-  const { profileImage } = useProfile();
 
   const downloadPdf = () => {
     const input = document.getElementById("cv-preview");
@@ -146,7 +143,7 @@ const CVForm = () => {
           {/* Left Column */}
           <div className="col-md-4 left-section text-light p-3 bg-dark">
             <div className="text-center mb-3">
-              <div
+              {/* <div
                 className="profile-picture-wrapper"
                 style={{
                   width: '200px',
@@ -170,7 +167,7 @@ const CVForm = () => {
                     objectFit: 'cover'
                   }}
                 />
-              </div>
+              </div> */}
               <h3 className="mt-2 mb-1">{`${user.emri || 'N/A'} ${user.mbiemri || 'N/A'}`}</h3>
               <p className="text-primary">{user.niveliAkademik || 'N/A'}</p>
             </div>
