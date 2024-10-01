@@ -11,7 +11,7 @@ const publikimiTypes = [
     { value: 'Journal Paper', label: 'Journal Paper' },
 ];
 
-const jwtTokenKey = 'jwtToken';  
+const jwtTokenKey = 'jwtToken';  // Use constant for token key
 
 function EditPublikimi() {
     const { id } = useParams();
@@ -29,7 +29,7 @@ function EditPublikimi() {
     const [departamentet, setDepartamentet] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         const fetchDepartamentet = async () => {
@@ -45,7 +45,7 @@ function EditPublikimi() {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-
+                
                 const options = response.data.map(departamenti => ({
                     value: departamenti.id,
                     label: departamenti.emri
@@ -70,13 +70,18 @@ function EditPublikimi() {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
+                const formatDate = (isoDate) => {
+                    if (!isoDate) return "";
+                    const date = new Date(isoDate);
+                    return date.toISOString().split("T")[0]; // YYYY-MM-DD
+                  };
 
                 setFormData({
                     titulli: response.data.titulli,
                     llojiPublikimit: response.data.llojiPublikimit,
                     linkuPublikimit: response.data.linkuPublikimit || '',
                     autoriKryesor: response.data.autoriKryesor,
-                    dataPublikimi: response.data.dataPublikimi ? response.data.dataPublikimi.split('T')[0]: '',
+                    dataPublikimi:  formatDate(response.data.dataPublikimi) || "",
                     emriDepartamentit: response.data.emriDepartamentit || null,
                 });
             } catch (error) {
@@ -121,7 +126,7 @@ function EditPublikimi() {
         e.preventDefault();
         setErrorMessage('');
         setSuccessMessage('');
-        setLoading(true);  
+        setLoading(true);  // Set loading true on submit
 
         const token = localStorage.getItem(jwtTokenKey);
 
@@ -137,7 +142,7 @@ function EditPublikimi() {
                 LlojiPublikimit: formData.llojiPublikimit,
                 LinkuPublikimit: formData.linkuPublikimit || null,
                 AutoriKryesor: formData.autoriKryesor,
-                DataPublikimi: formData.dataPublikimi,
+                DataPublikimi: formData.dataPublikimi ,
                 EmriDepartamentit: formData.emriDepartamentit
             };
 
@@ -154,7 +159,6 @@ function EditPublikimi() {
 
             if (response.status === 200) {
                 setSuccessMessage('Publikimi u përditësua me sukses!');
-                setFormData(initialFormData); // Reset form data
             } else {
                 setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
             }
@@ -164,7 +168,7 @@ function EditPublikimi() {
             setErrorMessage(error.response?.data?.message || 'Ju lutem provoni përsëri.');
         }
 
-        setLoading(false);  // Reset loading after response
+        setLoading(false); 
     };
 
     const handleReset = () => {
@@ -188,7 +192,7 @@ function EditPublikimi() {
                     <EditSidebar />
                 </div>
 
-                <div className="col-md-10 d-flex justify-content-center align-items-center py-5">
+                <div className="col-md-10 d-flex justify-content-center align-items-start py-5">
                     <div className="col-12 col-md-10 col-lg-8 col-xl-6">
                         <h4 className="text-center text-muted fst-italic mb-4">Editoni publikimin tuaj</h4>
 
@@ -206,9 +210,9 @@ function EditPublikimi() {
 
                         <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
                             <div className="row">
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-4">
                                     <div className="form-group">
-                                        <label htmlFor="titulli" className="form-label fw-bold">Titulli*</label>
+                                        <label htmlFor="titulli" className="form-label fw-bold">Titulli</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -217,26 +221,24 @@ function EditPublikimi() {
                                             value={formData.titulli}
                                             onChange={handleChange}
                                             placeholder="Shkruani titullin e publikimit"
-                                            required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-4">
                                     <div className="form-group">
-                                        <label id="llojiPublikimit-label" className="form-label fw-bold">Lloji i publikimit*</label>
+                                        <label id="llojiPublikimit-label" className="form-label fw-bold">Lloji i publikimit</label>
                                         <Select
                                             aria-labelledby="llojiPublikimit-label"
                                             options={publikimiTypes}
                                             value={publikimiTypes.find(option => option.value === formData.llojiPublikimit) || null}
                                             onChange={handleSelectChange}
                                             placeholder="Zgjedhni llojin"
-                                            required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-4">
                                     <div className="form-group">
                                         <label htmlFor="linkuPublikimit" className="form-label fw-bold">Linku i publikimit</label>
                                         <input
@@ -251,7 +253,7 @@ function EditPublikimi() {
                                     </div>
                                 </div>
 
-                                <div className="col-md-6 mb-2 d-flex align-items-center">
+                                <div className="col-md-6 mb-4 d-flex align-items-center">
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
@@ -259,14 +261,14 @@ function EditPublikimi() {
                                         name="autoriKryesor"
                                         checked={formData.autoriKryesor}
                                         onChange={handleCheckboxChange}
-                                        style={{ marginTop: '1.25rem' }}  
+                                        style={{ marginTop: '1.25rem' }}  // Add margin to push it lower
                                         />
                                         <label htmlFor="autoriKryesor" className="ms-2">Autori kryesor</label>
                                     </div>
     
-                                    <div className="col-md-6 mb-2">
+                                    <div className="col-md-6 mb-4">
                                         <div className="form-group">
-                                            <label htmlFor="dataPublikimi" className="form-label fw-bold">Data e publikimit*</label>
+                                            <label htmlFor="dataPublikimi" className="form-label fw-bold">Data e publikimit</label>
                                             <input
                                                 type="date"
                                                 className="form-control"
@@ -274,21 +276,19 @@ function EditPublikimi() {
                                                 name="dataPublikimi"
                                                 value={formData.dataPublikimi}
                                                 onChange={handleChange}
-                                                required
                                             />
                                         </div>
                                     </div>
     
-                                    <div className="col-md-6 mb-2">
+                                    <div className="col-md-6 mb-4">
                                         <div className="form-group">
-                                            <label id="emriDepartamentit-label" className="form-label fw-bold">Departamenti*</label>
+                                            <label id="emriDepartamentit-label" className="form-label fw-bold">Departamenti</label>
                                             <Select
                                                 aria-labelledby="emriDepartamentit-label"
                                                 options={departamentet}
                                                 value={departamentet.find(option => option.label === formData.emriDepartamentit) || null}
                                                 onChange={handleDepartmentChange}
                                                 placeholder="Zgjedhni departamentin"
-                                                required
                                             />
                                         </div>
                                     </div>

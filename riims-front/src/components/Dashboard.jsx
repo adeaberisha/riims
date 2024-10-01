@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Table, Spinner, Button } from "react-bootstrap";
 import axios from "axios";
-import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield, FaBuilding, FaUniversity } from "react-icons/fa";
+import { FaUsers, FaCheckCircle, FaTimesCircle, FaUserShield, FaBuilding, FaUniversity, FaGraduationCap } from "react-icons/fa"; // Added Graduation Cap icon
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";  
 import "../css/Dashboard.css";
 import RoleUpdater from "./services/RoleUpdater";
 
@@ -14,6 +15,7 @@ const AdminDashboard = () => {
   const [usersPerPage] = useState(10);
   const token = localStorage.getItem("jwtToken");
   const navigate = useNavigate();
+  const [email, setEmail] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -24,12 +26,24 @@ const AdminDashboard = () => {
   }, [token]);
 
   const fetchUsers = async () => {
+    const storedEmail = localStorage.getItem("userEmail");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+
     try {
+      if (!token) {
+        console.error("Token not found. Please log in again.");
+        setError("Token not found. Please log in again.");
+        return;
+      }
+
       const response = await axios.get(
         "https://localhost:7254/api/UserProfile/get-all-profiles",
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log('Fetched Users:', response.data); 
+  
+      console.log('Fetched Users:', response.data);
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
@@ -38,7 +52,7 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
-  
+
   const handleRoleUpdated = () => {
     console.log('Roli u përditësua, duke marrë përdoruesit...');
     fetchUsers();
@@ -84,7 +98,7 @@ const AdminDashboard = () => {
               <FaUsers size={60} className="mb-3 text-white icon-background" />
               <Card.Title className="fs-4">Total Users</Card.Title>
               <Card.Text className="display-4">{users.length}</Card.Text>
-              <p className="text-">Number of registered users</p>
+              <p className="text-muted">Number of registered users</p>
             </Card.Body>
           </Card>
         </Col>
@@ -98,7 +112,7 @@ const AdminDashboard = () => {
               <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Address</th>
                 <th>Phone</th>
                 <th>Academic Level</th>
                 <th>Active</th>
@@ -110,7 +124,7 @@ const AdminDashboard = () => {
                 <tr key={user.id}>
                   <td>{index + 1 + indexOfFirstUser}</td>
                   <td>{`${user.emri} ${user.mbiemri}`}</td>
-                  <td>{user.email || "N/A"}</td>
+                  <td>{user.adresa || "N/A"}</td>
                   <td>{user.numriTelefonit || "Not any"}</td>
                   <td>{user.niveliAkademik || "N/A"}</td>
                   <td>
@@ -177,7 +191,7 @@ const AdminDashboard = () => {
               <Button
                 variant="primary"
                 className="mt-2 btn-dark-blue"
-                onClick={() => navigate("/ManageInstitucioni")}
+                onClick={() => navigate("/ManageDepartamentet")}
               >
                 Go to Manage Departamentet
               </Button>
@@ -186,10 +200,10 @@ const AdminDashboard = () => {
         </Col>
 
         <Col md={6} className="mb-4">
-          <Card className="text-center shadow-lg manage-departamentet-card animated-card">
+          <Card className="text-center shadow-lg manage-departamentet-card  animated-card">
             <Card.Body className="p-4">
-              <FaUniversity size={60} className="mb-3 text-white icon-background" />
-              <Card.Title className="fs-4 manage-departamentet-title">
+              <FaGraduationCap size={60} className="mb-3 text-white icon-background" /> 
+              <Card.Title className="fs-4  manage-departamentet-title">
                 Manage Nivelet Akademike
               </Card.Title>
               <Button
@@ -202,7 +216,6 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-
       </Row>
     </Container>
   );

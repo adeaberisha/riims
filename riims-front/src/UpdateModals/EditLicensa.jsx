@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import EditSidebar from '../components/EditSidebar.jsx';
 
 function EditLicensa() {
   const { id } = useParams(); 
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Emri: '',
     EmriInstitucionit: '',
@@ -72,7 +71,7 @@ function EditLicensa() {
       };
 
       const response = await axios.put(
-        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`, 
+        `https://localhost:7254/api/Licensat/update-licensa-by-id/${id}`,
         data,
         {
           headers: {
@@ -84,17 +83,9 @@ function EditLicensa() {
 
       if (response.status === 200) {
         setSuccessMessage('Licensa u ndryshua me sukses!');
-        setFormData({
-          Emri: '',
-          EmriInstitucionit: '',
-          DataLeshimit: '',
-          DataSkadimit: '',
-          CredentialId: '',
-          CredentialUrl: ''
-        });
       } else {
-      setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
-        }
+        setErrorMessage('Diçka shkoi keq. Ju lutem provoni përsëri.');
+      }
     } catch (error) {
       console.error('Error gjatë ndryshimit të licensës:', error);
       if (error.response) {
@@ -118,35 +109,40 @@ function EditLicensa() {
     });
   };
 
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => setErrorMessage(""), 6000);
+      return () => clearTimeout(timer);
+    }
+    if (successMessage) {
+      const timer = setTimeout(() => setSuccessMessage(""), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage, successMessage]);
+
   return (
-    <div className="container-fluid bg-light mb-4">
-      <div className="row">
-        {/* Sidebar */}
+    <div className="container-fluid h-100 bg-light d-flex flex-column">
+      <div className="row flex-grow-1 d-flex justify-content-center align-items-start">
         <div className="col-md-3">
           <EditSidebar />
         </div>
-        
-        {/* Form */}
-        <div className="col-md-9 d-flex justify-content-center align-items-center">
+        <div className="col-md-9 d-flex justify-content-center align-items-start py-4">
           <div className="row justify-content-center w-100">
-            <div className="col-md-12 col-lg-10">
-              <h4 className="text-center text-muted fst-italic mb-4">Perditso Licensën tuaj</h4>
-
+            <div className="col-12 col-md-11 col-lg-9 col-xl-7" style={{ marginTop: '2rem', marginLeft: '1rem' }}>
+              <h4 className="text-center text-muted fst-italic mb-4">Përditësoni licensën tuaj</h4>
               {errorMessage && (
                 <div className="alert alert-danger text-center mb-3" role="alert">
                   {errorMessage}
                 </div>
               )}
-              
               {successMessage && (
                 <div className="alert alert-success text-center mb-3" role="alert">
                   {successMessage}
                 </div>
               )}
-
               <form onSubmit={handleSubmit} className="p-4 border rounded shadow bg-white">
-                <div className="row mb-3">
-                  <div className="col-md-6">
+                <div className="row">
+                  <div className="col-md-12 mb-3">
                     <label htmlFor="Emri" className="form-label fw-bold">Emri*</label>
                     <input 
                       type="text" 
@@ -159,8 +155,7 @@ function EditLicensa() {
                       placeholder="Shkruani emrin e licensës"
                     />
                   </div>
-
-                  <div className="col-md-6">
+                  <div className="col-md-12 mb-3">
                     <label htmlFor="EmriInstitucionit" className="form-label fw-bold">Emri i institucionit*</label>
                     <input
                       type="text"
@@ -174,7 +169,6 @@ function EditLicensa() {
                     />
                   </div>
                 </div>
-
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="DataLeshimit" className="form-label fw-bold">Data e lëshimit*</label>
@@ -185,10 +179,8 @@ function EditLicensa() {
                       name="DataLeshimit" 
                       value={formData.DataLeshimit} 
                       onChange={handleChange} 
-                      required 
                     />
                   </div>
-
                   <div className="col-md-6">
                     <label htmlFor="DataSkadimit" className="form-label fw-bold">Data e skadimit</label>
                     <input 
@@ -201,7 +193,6 @@ function EditLicensa() {
                     />
                   </div>
                 </div>
-
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <label htmlFor="CredentialId" className="form-label fw-bold">Credential ID</label>
@@ -215,7 +206,6 @@ function EditLicensa() {
                       placeholder="Opsionale"
                     />
                   </div>
-
                   <div className="col-md-6">
                     <label htmlFor="CredentialUrl" className="form-label fw-bold">Credential URL</label>
                     <input 
@@ -229,7 +219,6 @@ function EditLicensa() {
                     />
                   </div>
                 </div>
-
                 <div className="row mb-3">
                   <div className="col-md-12 d-flex justify-content-between">
                     <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
