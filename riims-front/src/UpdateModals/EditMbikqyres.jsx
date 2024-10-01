@@ -175,9 +175,9 @@ function EditMbikqyres() {
                         )}
                         <form onSubmit={handleSubmit} className="p-3 border rounded shadow bg-white" style={{ marginTop: '1rem' }}>
                             <div className="row">
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-12 mb-3">
                                     <div className="form-group">
-                                        <label htmlFor="titulliTemes" className="form-label fw-bold">Titulli i temës*</label>
+                                        <label htmlFor="titulliTemes" className="form-label fw-bold">Titulli i temës</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -190,9 +190,9 @@ function EditMbikqyres() {
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-12 mb-3">
                                     <div className="form-group">
-                                        <label htmlFor="studenti" className="form-label fw-bold">Studenti*</label>
+                                        <label htmlFor="studenti" className="form-label fw-bold">Studenti</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -204,9 +204,9 @@ function EditMbikqyres() {
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-4">
                                     <div className="form-group">
-                                        <label htmlFor="data" className="form-label fw-bold">Data*</label>
+                                        <label htmlFor="data" className="form-label fw-bold">Data</label>
                                         <input
                                             type="date"
                                             className="form-control"
@@ -214,23 +214,21 @@ function EditMbikqyres() {
                                             name="data"
                                             value={formData.data}
                                             onChange={handleChange}
-                                            required
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-6 mb-2">
+                                <div className="col-md-6 mb-4">
                                     <div className="form-group">
-                                        <label htmlFor="emriDepartamentit" className="form-label fw-bold">Departamenti*</label>
+                                        <label htmlFor="emriDepartamentit" className="form-label fw-bold">Departamenti</label>
                                         <Select
                                             options={departamentet}
                                             value={departamentet.find(option => option.label === formData.emriDepartamentit) || null}
                                             onChange={handleSelectChange}
                                             placeholder="Zgjedhni departamentin"
-                                            required
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-12 d-flex justify-content-between mb-2">
+                                <div className="col-md-12 d-flex justify-content-between mb-3">
                                     <button type="button" className="btn btn-secondary" onClick={handleReset} style={{ width: 'calc(50% - 0.7rem)' }}>Anulo</button>
                                     <button type="submit" className="btn btn-primary" style={{ width: 'calc(50% - 0.7rem)' }}>Ruaj</button>
                                 </div>

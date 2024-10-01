@@ -99,6 +99,28 @@ function PersonDetails() {
                 console.log('User data fetched:', response.data);
                 setUserData(response.data);
 
+                try {
+                    const photoResponse = await axios.get("https://localhost:7254/api/Images/GetImageByUserId", {
+                      headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const photoUrl = photoResponse.data.url || defaultImage;
+                    setUserData((prevData) => ({
+                      ...prevData,
+                      foto: photoUrl,
+                    }));
+                  } catch (photoError) {
+                    if (photoError.response && photoError.response.status === 404) {
+                      console.log("No image found for the user. Using default image.");
+                      setUserData((prevData) => ({
+                        ...prevData,
+                        foto: defaultImage,
+                      }));
+                    } else {
+                      console.error("Error fetching photo data:", photoError);
+                      alert("Error fetching photo data. Please try again.");
+                    }
+                  }
+
                 const fetchData = async (url, setter) => {
                     try {
                         const res = await axios.get(url, {

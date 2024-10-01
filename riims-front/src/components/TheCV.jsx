@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import fileDownload from 'js-file-download';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/TheCV.css';
+import defaultImage from "../photos/person.png";
 
 const CVForm = () => {
   const location = useLocation();
@@ -25,8 +26,9 @@ const CVForm = () => {
 
   const downloadPdf = () => {
     const input = document.getElementById("cv-preview");
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
+    html2canvas(input, { scale: 2,
+      useCORS: true }).then((canvas) => {
+      const imgData = canvas.toDataURL("image");
       const pdf = new jsPDF({
         orientation: canvas.width > canvas.height ? "landscape" : "portrait",
         unit: "mm",
@@ -36,6 +38,8 @@ const CVForm = () => {
       pdf.save("cv.pdf");
     });
   };
+  
+  
 
   const downloadJson = () => {
     const formData = {
@@ -143,7 +147,7 @@ const CVForm = () => {
           {/* Left Column */}
           <div className="col-md-4 left-section text-light p-3 bg-dark">
             <div className="text-center mb-3">
-              {/* <div
+              <div
                 className="profile-picture-wrapper"
                 style={{
                   width: '200px',
@@ -158,7 +162,7 @@ const CVForm = () => {
                 }}
               >
                 <img
-                  src={profileImage || 'default-profile-image-url'}
+                  src={user.foto || defaultImage}
                   alt="Profile"
                   className="img-fluid"
                   style={{
@@ -167,7 +171,7 @@ const CVForm = () => {
                     objectFit: 'cover'
                   }}
                 />
-              </div> */}
+              </div>
               <h3 className="mt-2 mb-1">{`${user.emri || 'N/A'} ${user.mbiemri || 'N/A'}`}</h3>
               <p className="text-primary">{user.niveliAkademik || 'N/A'}</p>
             </div>
