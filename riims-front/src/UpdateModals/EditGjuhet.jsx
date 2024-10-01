@@ -19,12 +19,17 @@ function EditGjuhet() {
   useEffect(() => {
     const fetchGjuhet = async () => {
       try {
-        const response = await axios.get('https://localhost:7254/api/Gjuhet');
-        const options = response.data.map(gjuha => ({
-          value: gjuha.id,
-          label: gjuha.emriGjuhes
-        }));
-        setGjuhet(options);
+        const response = await axios.get('https://localhost:7254/api/Gjuhet/get-all-gjuhet');
+        if (response.status === 200) { // Check if the response is successful
+          const options = response.data.map(gjuha => ({
+            value: gjuha.id,
+            label: gjuha.emriGjuhes
+          }));
+          setGjuhet(options);
+        } else {
+          console.error('Unexpected response:', response);
+          setErrorMessage('Deshtoi marrja e gjuhëve! Response was not OK.');
+        }
       } catch (error) {
         console.error('Error gjatë marrjes së gjuhëve:', error);
         setErrorMessage('Deshtoi marrja e gjuhëve!');
@@ -32,6 +37,7 @@ function EditGjuhet() {
     };
     fetchGjuhet();
   }, []);
+  
 
   useEffect(() => {
     const fetchNivelet = async () => {
