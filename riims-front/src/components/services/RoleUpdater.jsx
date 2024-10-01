@@ -52,7 +52,7 @@ const RoleUpdater = ({ userId, token, onRoleUpdated }) => {
         Update Role
       </Button>
       {statusMessage && (
-        <div className={`mt-2 text-${statusMessage.includes("successfully") ? "success" : "danger"}`}>
+        <div className={`mt-2 text-${statusMessage.includes("sukses") ? "success" : "danger"}`}>
           {statusMessage}
         </div>
       )}
