@@ -17,7 +17,7 @@ function Gjuhet() {
   useEffect(() => {
     const fetchGjuhet = async () => {
       try {
-        const response = await axios.get("https://localhost:7254/api/Gjuhet");
+        const response = await axios.get("https://localhost:7254/api/Gjuhet/get-all-gjuhet");
         const options = response.data.map((gjuha) => ({
           value: gjuha.id,
           label: gjuha.emriGjuhes,
